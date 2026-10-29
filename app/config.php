@@ -34,8 +34,8 @@ return [
 
     // Kalite bölümü videosu (şişe kontrol videosu). MP4 gelince: '/assets/video/bottle-inspection.mp4'
     // Boşsa quality_image gösterilir.
-    'quality_video'  => '',
-    'quality_poster' => 'https://redexglass.com/wp-content/uploads/2026/01/Ekran-Resmi-2026-01-06-14.02.56-scaled.png',
+    'quality_video'  => '/assets/video/bottle-inspection.mp4',
+    'quality_poster' => '/assets/video/bottle-inspection-poster.jpg',
     'quality_image'  => 'https://redexglass.com/wp-content/uploads/2026/01/Ekran-Resmi-2026-01-06-14.02.56-scaled.png',
 
     // İletişim
