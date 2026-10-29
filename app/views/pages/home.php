@@ -1,23 +1,24 @@
 <?php
-$stats = content_stats();
 $products = array_slice(content_products(), 0, 4);
 $services = content_services();
+$home = content_home();
+$os = $home['onestop'];
+$q = $home['quality'];
 ?>
 <section class="hero">
-  <video class="hero-video" autoplay muted loop playsinline poster="https://redexglass.com/wp-content/uploads/2026/01/Mockup-1--scaled.jpg">
+  <video class="hero-video" autoplay muted loop playsinline>
     <source src="<?= e(cfg('hero_video')) ?>" type="video/mp4">
   </video>
   <div class="container">
-    <h1><?= e(t('home.hero_title')) ?><span><?= e(t('home.hero_accent')) ?></span></h1>
-    <p><?= e(t('home.hero_sub')) ?></p>
+    <h1><?= e(loc($home['hero']['title'])) ?><span><?= e(loc($home['hero']['accent'])) ?></span></h1>
+    <p><?= e(loc($home['hero']['sub'])) ?></p>
     <div class="hero-cta">
       <a class="btn btn-primary" href="<?= e(url('products')) ?>"><?= e(t('home.cta_products')) ?></a>
-      <a class="btn btn-outline" href="<?= e(url('contact')) ?>"><?= e(t('home.cta_contact')) ?></a>
     </div>
   </div>
 </section>
 
-<!-- Intro -->
+<!-- Intro + YouTube video -->
 <section class="section">
   <div class="container split reveal">
     <div>
@@ -26,19 +27,28 @@ $services = content_services();
       <p class="prose"><?= e(t('home.intro_body')) ?></p>
       <p style="margin-top:26px"><a class="btn btn-ghost" href="<?= e(url('about')) ?>"><?= e(t('common.learn_more')) ?></a></p>
     </div>
-    <img src="https://redexglass.com/wp-content/uploads/2026/01/Ekran-Resmi-2026-01-06-14.02.56-scaled.png" alt="Redex Glass production" loading="lazy">
+    <div class="video-box" data-yt="<?= e(cfg('youtube_id')) ?>" role="button" tabindex="0" aria-label="Play video">
+      <img class="video-thumb" src="https://i.ytimg.com/vi/<?= e(cfg('youtube_id')) ?>/maxresdefault.jpg" alt="Redex Glass video" loading="lazy">
+      <span class="video-play" aria-hidden="true"></span>
+    </div>
   </div>
 </section>
 
-<!-- Stats -->
+<!-- One-Stop Shop -->
 <section class="section section-soft">
-  <div class="container center">
-    <p class="eyebrow"><?= e(t('about.stats_title')) ?></p>
-    <div class="stats">
-      <?php foreach ($stats as $s): ?>
-        <div class="stat reveal"><div class="num"><?= e($s['value']) ?></div><div class="lbl"><?= e(loc($s['label'])) ?></div></div>
-      <?php endforeach; ?>
+  <div class="container split">
+    <div>
+      <p class="eyebrow"><?= e(loc($os['eyebrow'])) ?></p>
+      <h2 class="section-title"><?= e(loc($os['title'])) ?></h2>
+      <p class="prose"><?= e(loc($os['body'])) ?></p>
+      <ul class="onestop-list">
+        <?php foreach ($os['items'] as $it): ?>
+          <li><?= e(loc($it)) ?></li>
+        <?php endforeach; ?>
+      </ul>
+      <p style="margin-top:26px"><a class="btn btn-ghost" href="<?= e(url('services')) ?>"><?= e(t('common.our_services')) ?></a></p>
     </div>
+    <img src="https://redexglass.com/wp-content/uploads/2026/01/Mockup-1--scaled.jpg" alt="<?= e(loc($os['title'])) ?>" loading="lazy">
   </div>
 </section>
 
@@ -62,8 +72,29 @@ $services = content_services();
   </div>
 </section>
 
-<!-- Services -->
+<!-- Quality + inspection video -->
 <section class="section section-soft">
+  <div class="container split">
+    <div class="quality-media">
+      <?php if (cfg('quality_video')): ?>
+        <video controls playsinline preload="metadata" poster="<?= e(cfg('quality_poster')) ?>">
+          <source src="<?= e(cfg('quality_video')) ?>" type="video/mp4">
+        </video>
+      <?php else: ?>
+        <img src="<?= e(cfg('quality_image')) ?>" alt="<?= e(loc($q['title'])) ?>" loading="lazy">
+      <?php endif; ?>
+    </div>
+    <div>
+      <p class="eyebrow"><?= e(loc($q['eyebrow'])) ?></p>
+      <h2 class="section-title"><?= e(loc($q['title'])) ?></h2>
+      <p class="prose"><?= e(loc($q['body'])) ?></p>
+      <p style="margin-top:26px"><a class="btn btn-primary" href="<?= e(url('quality')) ?>"><?= e(loc($q['cta'])) ?></a></p>
+    </div>
+  </div>
+</section>
+
+<!-- Services -->
+<section class="section">
   <div class="container">
     <div class="center">
       <p class="eyebrow"><?= e(t('home.services_title')) ?></p>
@@ -77,19 +108,6 @@ $services = content_services();
           <div><h3><?= e(loc($s['title'])) ?></h3><p><?= e(loc($s['excerpt'])) ?></p></div>
         </a>
       <?php endforeach; ?>
-    </div>
-  </div>
-</section>
-
-<!-- YouTube video box -->
-<section class="section">
-  <div class="container center">
-    <p class="eyebrow"><?= e(cfg('site_name')) ?></p>
-    <h2 class="section-title"><?= e(t('home.video_title')) ?></h2>
-    <p class="lead" style="margin-bottom:40px"><?= e(t('home.video_sub')) ?></p>
-    <div class="video-box" data-yt="<?= e(cfg('youtube_id')) ?>" role="button" tabindex="0" aria-label="Play video">
-      <img class="video-thumb" src="https://i.ytimg.com/vi/<?= e(cfg('youtube_id')) ?>/maxresdefault.jpg" alt="Redex Glass video" loading="lazy">
-      <span class="video-play" aria-hidden="true"></span>
     </div>
   </div>
 </section>

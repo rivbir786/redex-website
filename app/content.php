@@ -15,23 +15,96 @@ function loc($field): string
 
 function content_stats(): array
 {
+    // Rakamlar Satış El Kitabı (v5) ile uyumlu: 2 fırın, 9 hat, ~1.7M şişe/gün, ~80 konteyner/ay Avrupa.
     return [
-        ['value' => '25+', 'label' => [
-            'en' => 'Years of Experience', 'zh' => '年行业经验', 'es' => 'Años de Experiencia',
-            'ru' => 'Лет опыта', 'fr' => 'Ans d’expérience', 'pl' => 'Lat doświadczenia',
-            'de' => 'Jahre Erfahrung', 'he' => 'שנות ניסיון']],
-        ['value' => '30+', 'label' => [
-            'en' => 'Countries Served', 'zh' => '服务国家', 'es' => 'Países Atendidos',
-            'ru' => 'Стран', 'fr' => 'Pays desservis', 'pl' => 'Obsługiwanych krajów',
-            'de' => 'Belieferte Länder', 'he' => 'מדינות']],
-        ['value' => '10+', 'label' => [
-            'en' => 'Locations', 'zh' => '生产与办事基地', 'es' => 'Ubicaciones',
-            'ru' => 'Площадок', 'fr' => 'Sites', 'pl' => 'Lokalizacji',
-            'de' => 'Standorte', 'he' => 'מיקומים']],
-        ['value' => '3500+', 'label' => [
-            'en' => 'Production Capacity', 'zh' => '产能', 'es' => 'Capacidad de Producción',
-            'ru' => 'Производственная мощность', 'fr' => 'Capacité de production', 'pl' => 'Moce produkcyjne',
-            'de' => 'Produktionskapazität', 'he' => 'כושר ייצור']],
+        ['value' => '1.7M', 'label' => [
+            'en' => 'Bottles per day', 'zh' => '产能（瓶/天）', 'es' => 'Botellas por día',
+            'ru' => 'Бутылок в день', 'fr' => 'Flacons par jour', 'pl' => 'Butelek dziennie',
+            'de' => 'Flaschen pro Tag', 'he' => 'בקבוקים ביום']],
+        ['value' => '9', 'label' => [
+            'en' => 'Production lines', 'zh' => '生产线', 'es' => 'Líneas de producción',
+            'ru' => 'Производственных линий', 'fr' => 'Lignes de production', 'pl' => 'Linii produkcyjnych',
+            'de' => 'Produktionslinien', 'he' => 'קווי ייצור']],
+        ['value' => '2', 'label' => [
+            'en' => 'Glass furnaces', 'zh' => '玻璃窑炉', 'es' => 'Hornos de vidrio',
+            'ru' => 'Стекловаренные печи', 'fr' => 'Fours verriers', 'pl' => 'Piece szklarskie',
+            'de' => 'Glasschmelzöfen', 'he' => 'כבשני זכוכית']],
+        ['value' => '80+', 'label' => [
+            'en' => 'Containers / month', 'zh' => '集装箱/月', 'es' => 'Contenedores / mes',
+            'ru' => 'Контейнеров в месяц', 'fr' => 'Conteneurs / mois', 'pl' => 'Kontenerów / miesiąc',
+            'de' => 'Container / Monat', 'he' => 'מכולות בחודש']],
+    ];
+}
+
+/** Ana sayfaya özel çok dilli metinler (hero, tek elden tedarik, kalite bölümü). */
+function content_home(): array
+{
+    return [
+        'hero' => [
+            'title' => ['en' => 'Glass That Protects What Matters', 'zh' => '守护每一份珍贵',
+                        'es' => 'Vidrio que protege lo que importa', 'ru' => 'Стекло, которое защищает важное',
+                        'fr' => 'Le verre qui protège l’essentiel', 'pl' => 'Szkło, które chroni to, co ważne',
+                        'de' => 'Glas, das schützt, worauf es ankommt', 'he' => 'זכוכית ששומרת על מה שחשוב'],
+            'accent' => ['en' => 'Pharma & cosmetic packaging, perfected', 'zh' => '医药与化妆品包装，臻于至善',
+                         'es' => 'Envases para farmacia y cosmética, perfeccionados', 'ru' => 'Упаковка для фармацевтики и косметики — безупречно',
+                         'fr' => 'Emballage pharma & cosmétique, perfectionné', 'pl' => 'Opakowania dla farmacji i kosmetyki, dopracowane',
+                         'de' => 'Verpackung für Pharma & Kosmetik, perfektioniert', 'he' => 'אריזות לתרופות וקוסמטיקה, במושלמות'],
+            'sub' => ['en' => 'Amber, flint and black glass bottles — manufactured, inspected and shipped worldwide.',
+                      'zh' => '棕色、透明与黑色玻璃瓶——自主制造、逐瓶检测、全球发运。',
+                      'es' => 'Botellas de vidrio ámbar, transparente y negro — fabricadas, inspeccionadas y enviadas a todo el mundo.',
+                      'ru' => 'Флаконы из янтарного, прозрачного и чёрного стекла — производим, проверяем и отгружаем по всему миру.',
+                      'fr' => 'Flacons en verre ambré, transparent et noir — fabriqués, inspectés et expédiés dans le monde entier.',
+                      'pl' => 'Butelki ze szkła oranżowego, bezbarwnego i czarnego — produkowane, kontrolowane i wysyłane na cały świat.',
+                      'de' => 'Flaschen aus Braun-, Klar- und Schwarzglas — gefertigt, geprüft und weltweit geliefert.',
+                      'he' => 'בקבוקי זכוכית ענבר, שקופה ושחורה — מיוצרים, נבדקים ונשלחים ברחבי העולם.'],
+        ],
+        'onestop' => [
+            'eyebrow' => ['en' => 'One-Stop Shop', 'zh' => '一站式采购', 'es' => 'Todo en un solo proveedor',
+                          'ru' => 'Всё у одного поставщика', 'fr' => 'Guichet unique', 'pl' => 'Wszystko u jednego dostawcy',
+                          'de' => 'Alles aus einer Hand', 'he' => 'ספק אחד לכל הצרכים'],
+            'title' => ['en' => 'One partner for your complete packaging', 'zh' => '一个伙伴，完整的包装方案',
+                        'es' => 'Un solo socio para su envase completo', 'ru' => 'Один партнёр для всей упаковки',
+                        'fr' => 'Un seul partenaire pour tout votre emballage', 'pl' => 'Jeden partner dla kompletnego opakowania',
+                        'de' => 'Ein Partner für Ihre komplette Verpackung', 'he' => 'שותף אחד לכל פתרון האריזה'],
+            'body' => ['en' => 'Bottles, decoration, caps, droppers and accessories — coordinated by Redex, so you deal with one supplier instead of many.',
+                       'zh' => '瓶子、装饰、瓶盖、滴管与配件——由 Redex 统一协调，让您只需对接一个供应商，而非多个。',
+                       'es' => 'Botellas, decoración, tapas, cuentagotas y accesorios — coordinados por Redex, para que trate con un solo proveedor en lugar de muchos.',
+                       'ru' => 'Бутылки, декор, крышки, капельницы и аксессуары — всё координирует Redex, и вы работаете с одним поставщиком вместо нескольких.',
+                       'fr' => 'Flacons, décoration, bouchons, compte-gouttes et accessoires — coordonnés par Redex, pour traiter avec un seul fournisseur au lieu de plusieurs.',
+                       'pl' => 'Butelki, zdobienie, zakrętki, kroplomierze i akcesoria — koordynowane przez Redex, dzięki czemu masz jednego dostawcę zamiast wielu.',
+                       'de' => 'Flaschen, Veredelung, Verschlüsse, Tropfeinsätze und Zubehör — von Redex koordiniert, damit Sie mit einem Lieferanten statt vielen arbeiten.',
+                       'he' => 'בקבוקים, עיטור, פקקים, טפטפות ואביזרים — בתיאום Redex, כך שאתם עובדים מול ספק אחד במקום רבים.'],
+            'items' => [
+                ['en' => 'Glass bottles', 'zh' => '玻璃瓶', 'es' => 'Botellas de vidrio', 'ru' => 'Стеклянные бутылки',
+                 'fr' => 'Flacons en verre', 'pl' => 'Butelki szklane', 'de' => 'Glasflaschen', 'he' => 'בקבוקי זכוכית'],
+                ['en' => 'Decoration & printing', 'zh' => '装饰与印刷', 'es' => 'Decoración e impresión', 'ru' => 'Декор и печать',
+                 'fr' => 'Décoration et impression', 'pl' => 'Zdobienie i nadruk', 'de' => 'Veredelung & Druck', 'he' => 'עיטור והדפסה'],
+                ['en' => 'Caps & closures', 'zh' => '瓶盖与封口', 'es' => 'Tapas y cierres', 'ru' => 'Крышки и укупорка',
+                 'fr' => 'Bouchons et fermetures', 'pl' => 'Zakrętki i zamknięcia', 'de' => 'Verschlüsse & Kappen', 'he' => 'פקקים וסגירה'],
+                ['en' => 'Droppers, sprays & accessories', 'zh' => '滴管、喷头与配件', 'es' => 'Cuentagotas, sprays y accesorios',
+                 'ru' => 'Капельницы, спреи и аксессуары', 'fr' => 'Compte-gouttes, sprays et accessoires',
+                 'pl' => 'Kroplomierze, spraye i akcesoria', 'de' => 'Tropfeinsätze, Sprays & Zubehör', 'he' => 'טפטפות, תרסיסים ואביזרים'],
+            ],
+        ],
+        'quality' => [
+            'eyebrow' => ['en' => 'Quality', 'zh' => '质量', 'es' => 'Calidad', 'ru' => 'Качество',
+                          'fr' => 'Qualité', 'pl' => 'Jakość', 'de' => 'Qualität', 'he' => 'איכות'],
+            'title' => ['en' => 'Every bottle, inspected', 'zh' => '每一只瓶子，逐一检测',
+                        'es' => 'Cada botella, inspeccionada', 'ru' => 'Каждый флакон под контролем',
+                        'fr' => 'Chaque flacon, inspecté', 'pl' => 'Każda butelka skontrolowana',
+                        'de' => 'Jede Flasche, geprüft', 'he' => 'כל בקבוק נבדק'],
+            'body' => ['en' => 'Automatic camera inspection checks each bottle’s dimensions, neck threads, air bubbles and visual defects — one step in a multi-stage quality process from forming to final QC.',
+                       'zh' => '自动相机检测会逐瓶检查外形尺寸、瓶口螺纹、气泡与外观缺陷——这是从成型到最终质检的多道质量控制流程中的一环。',
+                       'es' => 'La inspección automática por cámara comprueba en cada botella las dimensiones, la rosca del cuello, las burbujas de aire y los defectos visuales — una etapa de un proceso de calidad multifase, del moldeo al control final.',
+                       'ru' => 'Автоматический камерный контроль проверяет у каждого флакона размеры, резьбу горловины, воздушные пузырьки и визуальные дефекты — один из этапов многоступенчатого контроля качества: от формования до финальной проверки.',
+                       'fr' => 'L’inspection automatique par caméra vérifie sur chaque flacon les dimensions, le filetage du col, les bulles d’air et les défauts visuels — une étape d’un contrôle qualité en plusieurs phases, du formage au contrôle final.',
+                       'pl' => 'Automatyczna kontrola kamerą sprawdza w każdej butelce wymiary, gwint szyjki, pęcherzyki powietrza i wady wizualne — to jeden z etapów wielostopniowej kontroli jakości, od formowania po kontrolę końcową.',
+                       'de' => 'Die automatische Kamerainspektion prüft bei jeder Flasche Maße, Mündungsgewinde, Luftblasen und optische Defekte — ein Schritt in einem mehrstufigen Qualitätsprozess vom Formen bis zur Endkontrolle.',
+                       'he' => 'בדיקת מצלמה אוטומטית בודקת בכל בקבוק מידות, תבריג צוואר, בועות אוויר ופגמים חזותיים — שלב אחד בתהליך איכות רב-שלבי, מהעיצוב ועד בקרת הגמר.'],
+            'cta' => ['en' => 'Our quality process', 'zh' => '了解我们的质量', 'es' => 'Nuestro proceso de calidad',
+                      'ru' => 'Наш контроль качества', 'fr' => 'Notre démarche qualité', 'pl' => 'Nasz proces jakości',
+                      'de' => 'Unser Qualitätsprozess', 'he' => 'תהליך האיכות שלנו'],
+        ],
     ];
 }
 
@@ -145,22 +218,22 @@ function content_services(): array
                         'pl' => 'Indywidualny projekt butelek', 'de' => 'Individuelle Flaschengestaltung',
                         'he' => 'עיצוב בקבוקים בהתאמה אישית'],
             'img' => 'https://redexglass.com/wp-content/uploads/2025/12/leftproduction.png',
-            'excerpt' => ['en' => 'From concept to finished product — custom glass bottle design and development tailored to your technical and brand requirements.',
-                          'zh' => '从概念到成品——根据您的技术与品牌需求定制玻璃瓶的设计与开发。',
-                          'es' => 'Del concepto al producto final: diseño y desarrollo de botellas de vidrio a medida de sus requisitos técnicos y de marca.',
-                          'ru' => 'От идеи до готового изделия — индивидуальный дизайн и разработка стеклянных флаконов под ваши технические и брендовые требования.',
-                          'fr' => 'Du concept au produit fini — conception et développement de flacons en verre sur mesure selon vos exigences techniques et de marque.',
-                          'pl' => 'Od koncepcji do gotowego produktu — projektowanie i rozwój szklanych butelek dopasowanych do wymagań technicznych i marki.',
-                          'de' => 'Vom Konzept bis zum fertigen Produkt — individuelle Gestaltung und Entwicklung von Glasflaschen nach Ihren technischen und Markenanforderungen.',
-                          'he' => 'מהרעיון ועד המוצר המוגמר — עיצוב ופיתוח בקבוקי זכוכית מותאמים לדרישות הטכניות והמותג שלכם.'],
-            'body' => ['en' => 'Our custom bottle design service turns your idea into a production-ready glass package. We develop new shapes, dimensions, and functional features to match specific technical and branding requirements, supporting the full product-development cycle — from concept sketches and 3D design to custom moulds, prototyping, and series production. Logos, embossing, brand colors, and distinctive design elements can be applied in line with your specifications, with eco-friendly, recyclable material options.',
-                        'zh' => '我们的瓶型定制设计服务将您的创意转化为可量产的玻璃包装。我们根据特定的技术与品牌需求开发新的瓶型、尺寸与功能特征，覆盖从概念草图、三维设计到定制模具、打样和批量生产的完整产品开发流程。可按您的规格应用标识、浮雕、品牌色彩及独特设计元素，并提供环保可回收材料选项。',
-                        'es' => 'Nuestro servicio de diseño de botellas personalizado convierte su idea en un envase de vidrio listo para producción. Desarrollamos nuevas formas, dimensiones y características funcionales según requisitos técnicos y de marca, cubriendo todo el ciclo de desarrollo: del boceto y diseño 3D a moldes a medida, prototipos y producción en serie. Logotipos, relieves, colores de marca y elementos distintivos pueden aplicarse según sus especificaciones, con opciones de material reciclable.',
-                        'ru' => 'Услуга индивидуального дизайна флаконов превращает вашу идею в готовую к производству стеклянную упаковку. Мы разрабатываем новые формы, размеры и функциональные особенности под конкретные технические и брендовые требования, сопровождая весь цикл разработки — от эскизов и 3D-дизайна до индивидуальных форм, прототипов и серийного производства. Логотипы, тиснение, фирменные цвета и отличительные элементы наносятся по вашим спецификациям, доступны перерабатываемые материалы.',
-                        'fr' => 'Notre service de conception de flacons sur mesure transforme votre idée en un emballage en verre prêt à produire. Nous développons de nouvelles formes, dimensions et fonctions selon vos exigences techniques et de marque, en couvrant tout le cycle de développement : du croquis et de la conception 3D aux moules sur mesure, aux prototypes et à la production en série. Logos, gravures, couleurs de marque et éléments distinctifs sont appliqués selon vos spécifications, avec des matériaux recyclables.',
-                        'pl' => 'Nasza usługa indywidualnego projektu butelek zamienia Twój pomysł w gotowe do produkcji opakowanie szklane. Opracowujemy nowe kształty, wymiary i cechy funkcjonalne zgodnie z wymaganiami technicznymi i marki, obejmując cały cykl rozwoju — od szkiców i projektu 3D po dedykowane formy, prototypy i produkcję seryjną. Logo, tłoczenia, kolory marki i wyróżniające elementy nanosimy zgodnie ze specyfikacją, z opcją materiałów nadających się do recyklingu.',
-                        'de' => 'Unser Service für individuelle Flaschengestaltung macht aus Ihrer Idee eine produktionsreife Glasverpackung. Wir entwickeln neue Formen, Abmessungen und Funktionen nach Ihren technischen und Markenanforderungen und begleiten den gesamten Entwicklungszyklus — von Skizze und 3D-Design über individuelle Formen und Prototypen bis zur Serienproduktion. Logos, Prägungen, Markenfarben und besondere Designelemente werden nach Ihren Vorgaben umgesetzt, mit recycelbaren Materialoptionen.',
-                        'he' => 'שירות עיצוב הבקבוקים שלנו הופך את הרעיון שלכם לאריזת זכוכית מוכנה לייצור. אנו מפתחים צורות, מידות ומאפיינים תפקודיים חדשים בהתאם לדרישות טכניות ומיתוג, לאורך כל מחזור הפיתוח — מסקיצות ועיצוב תלת-ממד ועד תבניות ייעודיות, אב-טיפוס וייצור סדרתי. לוגואים, הבלטות, צבעי מותג ואלמנטים ייחודיים מיושמים לפי המפרט, עם אפשרויות חומר ברות-מיחזור.'],
+            'excerpt' => ['en' => 'Your own bottle design, produced to spec — custom moulds, sizes, colours, neck finishes and decoration.',
+                          'zh' => '按您的设计定制生产——专属模具、尺寸、颜色、瓶口与表面装饰。',
+                          'es' => 'Su propio diseño de botella, producido a medida: moldes propios, tamaños, colores, bocas y decoración.',
+                          'ru' => 'Ваш собственный дизайн флакона — производство под заказ: индивидуальные формы, размеры, цвета, горловины и декор.',
+                          'fr' => 'Votre propre dessin de flacon, produit sur mesure : moules dédiés, tailles, couleurs, cols et décoration.',
+                          'pl' => 'Twój własny projekt butelki, wyprodukowany na miarę — dedykowane formy, rozmiary, kolory, szyjki i zdobienie.',
+                          'de' => 'Ihr eigenes Flaschendesign, auftragsgefertigt — eigene Formen, Größen, Farben, Mündungen und Veredelung.',
+                          'he' => 'העיצוב שלכם, מיוצר בהתאמה — תבניות ייעודיות, מידות, צבעים, צווארים ועיטור.'],
+            'body' => ['en' => 'Have your own bottle drawing or a sample? We turn it into production. We prepare custom moulds and manufacture to your dimensions, in amber, flint or black glass, with DIN or GPI neck finishes and optional frosting, painting and printing. New bottle shapes come from your design; we assess manufacturability, build the tooling and produce to a consistent, repeatable standard.',
+                        'zh' => '有自己的瓶型图纸或样品？我们将其转化为量产。我们开制专属模具，按您的尺寸生产，提供棕色、透明或黑色玻璃，配 DIN 或 GPI 瓶口，并可选蒙砂、喷涂与印刷。新瓶型源自您的设计；我们评估可制造性、开模并以稳定、可重复的标准进行生产。',
+                        'es' => '¿Tiene su propio plano de botella o una muestra? La llevamos a producción. Preparamos moldes propios y fabricamos según sus dimensiones, en vidrio ámbar, transparente o negro, con bocas DIN o GPI y, de forma opcional, esmerilado, pintado e impresión. Las nuevas formas parten de su diseño; evaluamos la fabricabilidad, construimos el utillaje y producimos con un estándar constante y repetible.',
+                        'ru' => 'Есть собственный чертёж флакона или образец? Мы доводим его до производства. Изготавливаем индивидуальные формы и выпускаем изделие по вашим размерам — из янтарного, прозрачного или чёрного стекла, с горловинами DIN или GPI и, по желанию, матированием, окраской и печатью. Новые формы создаются по вашему дизайну; мы оцениваем технологичность, изготавливаем оснастку и производим со стабильным, воспроизводимым качеством.',
+                        'fr' => 'Vous avez votre propre plan de flacon ou un échantillon ? Nous le mettons en production. Nous réalisons des moules dédiés et fabriquons à vos dimensions, en verre ambré, transparent ou noir, avec cols DIN ou GPI et, en option, dépolissage, peinture et impression. Les nouvelles formes viennent de votre dessin ; nous évaluons la faisabilité, réalisons l’outillage et produisons selon un standard constant et reproductible.',
+                        'pl' => 'Masz własny rysunek butelki lub próbkę? Przekładamy to na produkcję. Wykonujemy dedykowane formy i produkujemy według Twoich wymiarów, w szkle oranżowym, bezbarwnym lub czarnym, z szyjkami DIN lub GPI oraz opcjonalnie matowieniem, malowaniem i nadrukiem. Nowe kształty powstają z Twojego projektu; oceniamy wykonalność, budujemy oprzyrządowanie i produkujemy w stałym, powtarzalnym standardzie.',
+                        'de' => 'Sie haben eine eigene Flaschenzeichnung oder ein Muster? Wir bringen sie in die Produktion. Wir fertigen eigene Formen und produzieren nach Ihren Maßen, in Braun-, Klar- oder Schwarzglas, mit DIN- oder GPI-Mündungen und optional Mattierung, Lackierung und Druck. Neue Formen entstehen aus Ihrem Design; wir prüfen die Fertigbarkeit, bauen die Werkzeuge und produzieren in gleichbleibendem, reproduzierbarem Standard.',
+                        'he' => 'יש לכם שרטוט בקבוק משלכם או דוגמה? אנחנו הופכים אותו לייצור. אנו מכינים תבניות ייעודיות ומייצרים לפי המידות שלכם, בזכוכית ענבר, שקופה או שחורה, עם צווארי DIN או GPI ואופציונלית מיט, צביעה והדפסה. צורות חדשות מגיעות מהעיצוב שלכם; אנו בוחנים יכולת ייצור, בונים את התבניות ומייצרים בסטנדרט עקבי וחוזר.'],
         ],
         'decoration' => [
             'title' => ['en' => 'Decoration', 'zh' => '表面装饰', 'es' => 'Decoración',

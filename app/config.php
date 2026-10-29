@@ -32,6 +32,12 @@ return [
     'youtube_id'   => 'lSn_ngEGOWI',
     'catalog_pdf'  => '/assets/catalog/Redex_Catalog_v3.1.pdf', // pakete dahil; katalog butonu bunu açar
 
+    // Kalite bölümü videosu (şişe kontrol videosu). MP4 gelince: '/assets/video/bottle-inspection.mp4'
+    // Boşsa quality_image gösterilir.
+    'quality_video'  => '',
+    'quality_poster' => 'https://redexglass.com/wp-content/uploads/2026/01/Ekran-Resmi-2026-01-06-14.02.56-scaled.png',
+    'quality_image'  => 'https://redexglass.com/wp-content/uploads/2026/01/Ekran-Resmi-2026-01-06-14.02.56-scaled.png',
+
     // İletişim
     'email'        => 'info@redexglass.com',
     'socials'      => [
