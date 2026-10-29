@@ -1,0 +1,11 @@
+# Çalışma zamanı / canlı veriler — sunucuda oluşur, git'e girmez
+storage/database.sqlite
+storage/database.sqlite-wal
+storage/database.sqlite-shm
+storage/admin.php
+storage/uploads/*
+!storage/uploads/.gitkeep
+
+# Yerel/OS dosyaları
+.DS_Store
+*.log
