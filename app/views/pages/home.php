@@ -32,8 +32,24 @@ $q = $home['quality'];
   </div>
 </section>
 
-<!-- One-Stop Shop -->
+<!-- Quality + inspection video -->
 <section class="section section-soft">
+  <div class="container split">
+    <div class="video-box">
+      <iframe src="https://www.youtube-nocookie.com/embed/<?= e(cfg('quality_youtube_id')) ?>?rel=0" title="<?= e(loc($q['title'])) ?>"
+              loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+    <div>
+      <p class="eyebrow"><?= e(loc($q['eyebrow'])) ?></p>
+      <h2 class="section-title"><?= e(loc($q['title'])) ?></h2>
+      <p class="prose"><?= e(loc($q['body'])) ?></p>
+      <p style="margin-top:26px"><a class="btn btn-primary" href="<?= e(url('quality')) ?>"><?= e(loc($q['cta'])) ?></a></p>
+    </div>
+  </div>
+</section>
+
+<!-- One-Stop Shop -->
+<section class="section">
   <div class="container split">
     <div>
       <p class="eyebrow"><?= e(loc($os['eyebrow'])) ?></p>
@@ -47,6 +63,25 @@ $q = $home['quality'];
       <p style="margin-top:26px"><a class="btn btn-ghost" href="<?= e(url('services')) ?>"><?= e(t('common.our_services')) ?></a></p>
     </div>
     <img src="<?= e(asset('img/onestop.jpg')) ?>" alt="<?= e(loc($os['title'])) ?>" loading="lazy">
+  </div>
+</section>
+
+<!-- Services -->
+<section class="section section-soft">
+  <div class="container">
+    <div class="center">
+      <p class="eyebrow"><?= e(t('home.services_title')) ?></p>
+      <h2 class="section-title"><?= e(t('common.our_services')) ?></h2>
+      <p class="lead"><?= e(t('home.services_intro')) ?></p>
+    </div>
+    <div class="svc-list" style="margin-top:46px">
+      <?php $i=1; foreach ($services as $k => $s): ?>
+        <a class="svc reveal" href="<?= e(url('services/' . $k)) ?>">
+          <span class="n"><?= $i++ ?></span>
+          <div><h3><?= e(loc($s['title'])) ?></h3><p><?= e(loc($s['excerpt'])) ?></p></div>
+        </a>
+      <?php endforeach; ?>
+    </div>
   </div>
 </section>
 
@@ -67,40 +102,5 @@ $q = $home['quality'];
       <?php endforeach; ?>
     </div>
     <p class="center" style="margin-top:40px"><a class="btn btn-ghost" href="<?= e(url('products')) ?>"><?= e(t('common.all_products')) ?></a></p>
-  </div>
-</section>
-
-<!-- Quality + inspection video -->
-<section class="section section-soft">
-  <div class="container split">
-    <div class="video-box">
-      <iframe src="https://www.youtube-nocookie.com/embed/<?= e(cfg('quality_youtube_id')) ?>?rel=0" title="<?= e(loc($q['title'])) ?>"
-              loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-    </div>
-    <div>
-      <p class="eyebrow"><?= e(loc($q['eyebrow'])) ?></p>
-      <h2 class="section-title"><?= e(loc($q['title'])) ?></h2>
-      <p class="prose"><?= e(loc($q['body'])) ?></p>
-      <p style="margin-top:26px"><a class="btn btn-primary" href="<?= e(url('quality')) ?>"><?= e(loc($q['cta'])) ?></a></p>
-    </div>
-  </div>
-</section>
-
-<!-- Services -->
-<section class="section">
-  <div class="container">
-    <div class="center">
-      <p class="eyebrow"><?= e(t('home.services_title')) ?></p>
-      <h2 class="section-title"><?= e(t('common.our_services')) ?></h2>
-      <p class="lead"><?= e(t('home.services_intro')) ?></p>
-    </div>
-    <div class="svc-list" style="margin-top:46px">
-      <?php $i=1; foreach ($services as $k => $s): ?>
-        <a class="svc reveal" href="<?= e(url('services/' . $k)) ?>">
-          <span class="n"><?= $i++ ?></span>
-          <div><h3><?= e(loc($s['title'])) ?></h3><p><?= e(loc($s['excerpt'])) ?></p></div>
-        </a>
-      <?php endforeach; ?>
-    </div>
   </div>
 </section>

@@ -1,6 +1,5 @@
 <?php
-$offices = content_offices();
-$corporate = ['about'=>t('nav.about'),'mission-vision'=>t('nav.mission'),'sustainability'=>t('nav.sustainability'),'quality'=>t('nav.quality'),'certificates'=>t('nav.certificates')];
+$corporate =['about'=>t('nav.about'),'mission-vision'=>t('nav.mission'),'sustainability'=>t('nav.sustainability'),'quality'=>t('nav.quality'),'certificates'=>t('nav.certificates')];
 $quick = ['products'=>t('nav.products'),'services'=>t('nav.services'),'careers'=>t('nav.careers'),'news'=>t('nav.news'),'contact'=>t('nav.contact')];
 $socialIcons = [
   'linkedin' => 'M4.98 3.5a2.5 2.5 0 11-.02 5 2.5 2.5 0 01.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-1 1.8-2 3.7-2 4 0 4.7 2.6 4.7 6V21h-4v-5.3c0-1.3 0-3-1.8-3s-2.1 1.4-2.1 2.9V21H9z',
@@ -38,18 +37,6 @@ $socialIcons = [
         <?php foreach ($quick as $slug => $label): ?>
           <li><a href="<?= e(url($slug)) ?>"><?= e($label) ?></a></li>
         <?php endforeach; ?>
-      </ul>
-    </div>
-
-    <div class="footer-col">
-      <h4><?= e(t('contact.offices_title')) ?></h4>
-      <ul class="footer-offices">
-        <?php foreach ($offices as $o): ?>
-          <li>
-            <strong><?= e(loc($o['name'])) ?></strong>
-            <?php if (!empty($o['phone'])): ?><br><a href="tel:<?= e(preg_replace('/\s+/', '', $o['phone'])) ?>"><?= e($o['phone']) ?></a><?php endif; ?>
-          </li>
-        <?php endforeach; ?>
         <li><a href="mailto:<?= e(cfg('email')) ?>"><?= e(cfg('email')) ?></a></li>
       </ul>
     </div>
@@ -58,6 +45,9 @@ $socialIcons = [
     <div class="container">
       <span>&copy; <?= date('Y') ?> Redex Glass. <?= e(t('footer.rights')) ?></span>
       <a href="<?= e(url('privacy-policy')) ?>"><?= e(t('privacy.title')) ?></a>
+    </div>
+    <div class="container footer-meta">
+      Last updated <?= e(date('d M Y', strtotime(cfg('updated')) ?: time())) ?> &middot; v<?= e(cfg('version')) ?> &middot; by Redex IT Team
     </div>
   </div>
 </footer>
