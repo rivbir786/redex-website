@@ -25,20 +25,14 @@ $q = $home['quality'];
       <p class="prose"><?= e(t('home.intro_body')) ?></p>
       <p style="margin-top:26px"><a class="btn btn-ghost" href="<?= e(url('about')) ?>"><?= e(t('common.learn_more')) ?></a></p>
     </div>
-    <div class="video-box">
-      <iframe src="https://www.youtube-nocookie.com/embed/<?= e(cfg('youtube_id')) ?>?rel=0" title="Redex Glass"
-              loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-    </div>
+    <div class="video-box" data-yt="<?= e(cfg('youtube_id')) ?>" data-title="Redex Glass"></div>
   </div>
 </section>
 
 <!-- Quality + inspection video -->
 <section class="section section-soft">
   <div class="container split">
-    <div class="video-box">
-      <iframe src="https://www.youtube-nocookie.com/embed/<?= e(cfg('quality_youtube_id')) ?>?rel=0" title="<?= e(loc($q['title'])) ?>"
-              loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-    </div>
+    <div class="video-box" data-yt="<?= e(cfg('quality_youtube_id')) ?>" data-title="<?= e(loc($q['title'])) ?>"></div>
     <div>
       <p class="eyebrow"><?= e(loc($q['eyebrow'])) ?></p>
       <h2 class="section-title"><?= e(loc($q['title'])) ?></h2>

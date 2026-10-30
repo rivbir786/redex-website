@@ -1,11 +1,13 @@
 <?php
 $svcs = content_services();
-$corporate = [
-    'about' => t('nav.about'),
-    'mission-vision' => t('nav.mission'),
-    'sustainability' => t('nav.sustainability'),
-    'quality' => t('nav.quality'),
-    'certificates' => t('nav.certificates'),
+$corp_company = [
+    'about'          => ['label' => t('nav.about'),          'desc' => t('menu.d_about')],
+    'mission-vision' => ['label' => t('nav.mission'),         'desc' => t('menu.d_mission')],
+    'sustainability' => ['label' => t('nav.sustainability'),  'desc' => t('menu.d_sustainability')],
+];
+$corp_trust = [
+    'quality'      => ['label' => t('nav.quality'),      'desc' => t('menu.d_quality')],
+    'certificates' => ['label' => t('nav.certificates'), 'desc' => t('menu.d_certificates')],
 ];
 ?>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -42,21 +44,53 @@ $corporate = [
     <nav class="main-nav" id="mainNav" aria-label="Main">
       <ul class="nav-list">
         <li class="has-sub">
-          <a href="<?= e(url('about')) ?>"><?= e(t('nav.corporate')) ?> <i class="caret"></i></a>
-          <ul class="submenu">
-            <?php foreach ($corporate as $slug => $label): ?>
-              <li><a href="<?= e(url($slug)) ?>"><?= e($label) ?></a></li>
-            <?php endforeach; ?>
-          </ul>
+          <a href="<?= e(url('about')) ?>" aria-haspopup="true"><?= e(t('nav.corporate')) ?> <i class="caret"></i></a>
+          <div class="mega">
+            <div class="mega-wrap">
+              <div class="mega-col">
+                <span class="mega-label"><?= e(t('menu.company')) ?></span>
+                <?php foreach ($corp_company as $slug => $it): ?>
+                  <a class="mega-item" href="<?= e(url($slug)) ?>"><span class="t"><?= e($it['label']) ?></span><span class="d"><?= e($it['desc']) ?></span></a>
+                <?php endforeach; ?>
+              </div>
+              <div class="mega-col">
+                <span class="mega-label"><?= e(t('menu.trust')) ?></span>
+                <?php foreach ($corp_trust as $slug => $it): ?>
+                  <a class="mega-item" href="<?= e(url($slug)) ?>"><span class="t"><?= e($it['label']) ?></span><span class="d"><?= e($it['desc']) ?></span></a>
+                <?php endforeach; ?>
+              </div>
+              <div class="mega-promo">
+                <div>
+                  <h4><?= e(t('menu.promo_corp_title')) ?></h4>
+                  <p><?= e(t('menu.promo_corp_text')) ?></p>
+                </div>
+                <a class="btn" href="<?= e(cfg('catalog_pdf')) ?>" target="_blank" rel="noopener"><?= e(t('menu.download_catalog')) ?></a>
+              </div>
+            </div>
+          </div>
         </li>
         <li><a href="<?= e(url('products')) ?>" <?= is_active('products') ? 'class="active"' : '' ?>><?= e(t('nav.products')) ?></a></li>
         <li class="has-sub">
-          <a href="<?= e(url('services')) ?>"><?= e(t('nav.services')) ?> <i class="caret"></i></a>
-          <ul class="submenu">
-            <?php foreach ($svcs as $k => $s): ?>
-              <li><a href="<?= e(url('services/' . $k)) ?>"><?= e(loc($s['title'])) ?></a></li>
-            <?php endforeach; ?>
-          </ul>
+          <a href="<?= e(url('services')) ?>" aria-haspopup="true"><?= e(t('nav.services')) ?> <i class="caret"></i></a>
+          <div class="mega">
+            <div class="mega-wrap">
+              <div class="mega-col">
+                <span class="mega-label"><?= e(t('menu.what_we_do')) ?></span>
+                <div class="mega-items cols2">
+                  <?php foreach ($svcs as $k => $s): ?>
+                    <a class="mega-item" href="<?= e(url('services/' . $k)) ?>"><span class="t"><?= e(loc($s['title'])) ?></span><span class="d"><?= e(mb_strimwidth(loc($s['excerpt']), 0, 46, '…')) ?></span></a>
+                  <?php endforeach; ?>
+                </div>
+              </div>
+              <div class="mega-promo">
+                <div>
+                  <h4><?= e(t('menu.promo_svc_title')) ?></h4>
+                  <p><?= e(t('menu.promo_svc_text')) ?></p>
+                </div>
+                <a class="btn" href="<?= e(url('contact')) ?>"><?= e(t('menu.contact_us')) ?></a>
+              </div>
+            </div>
+          </div>
         </li>
         <li><a href="<?= e(url('careers')) ?>" <?= is_active('careers') ? 'class="active"' : '' ?>><?= e(t('nav.careers')) ?></a></li>
         <li><a href="<?= e(url('news')) ?>" <?= is_active('news') ? 'class="active"' : '' ?>><?= e(t('nav.news')) ?></a></li>
@@ -65,13 +99,12 @@ $corporate = [
 
       <div class="nav-actions">
         <div class="lang-switch">
-          <button class="lang-current" aria-haspopup="true" aria-expanded="false">
+          <button class="lang-current" type="button" aria-haspopup="true" aria-expanded="false">
             <?= e(strtoupper(lang())) ?> <i class="caret"></i>
           </button>
           <ul class="lang-menu">
             <?php foreach (cfg('languages') as $code => $info): ?>
-              <li><a href="<?= e(url($GLOBALS['__route'] ?? '', $code)) ?>" <?= $code === lang() ? 'aria-current="true"' : '' ?>>
-                <?= e($info['native']) ?></a></li>
+              <li><a href="<?= e(url($GLOBALS['__route'] ?? '', $code)) ?>" <?= $code === lang() ? 'aria-current="true"' : '' ?>><?= e($info['native']) ?></a></li>
             <?php endforeach; ?>
           </ul>
         </div>
@@ -80,3 +113,4 @@ $corporate = [
     </nav>
   </div>
 </header>
+<div class="nav-backdrop" id="navBackdrop"></div>

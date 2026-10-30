@@ -44,7 +44,10 @@ $socialIcons = [
   <div class="footer-bottom">
     <div class="container">
       <span>&copy; <?= date('Y') ?> Redex Glass. <?= e(t('footer.rights')) ?></span>
-      <a href="<?= e(url('privacy-policy')) ?>"><?= e(t('privacy.title')) ?></a>
+      <span class="footer-links">
+        <a href="<?= e(url('privacy-policy')) ?>"><?= e(t('privacy.title')) ?></a>
+        <button type="button" id="ccOpenPrefs" class="footer-cc-btn"><?= e(t('cookie.settings')) ?></button>
+      </span>
     </div>
     <div class="container footer-meta">
       Last updated <?= e(date('d M Y', strtotime(cfg('updated')) ?: time())) ?> &middot; v<?= e(cfg('version')) ?> &middot; by Redex IT Team

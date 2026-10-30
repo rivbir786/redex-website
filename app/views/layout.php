@@ -46,6 +46,8 @@
     <?php require $__view; ?>
 </main>
 <?php require __DIR__ . '/partials/footer.php'; ?>
+<?php require __DIR__ . '/partials/cookie-consent.php'; ?>
+<script>window.REDEX_CC={blocked:<?= json_encode(t('cookie.blocked_notice'), JSON_UNESCAPED_UNICODE) ?>,load:<?= json_encode(t('cookie.load_video'), JSON_UNESCAPED_UNICODE) ?>};</script>
 <script src="<?= e(asset('js/main.js')) ?>" defer></script>
 </body>
 </html>

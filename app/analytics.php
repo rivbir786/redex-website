@@ -3,6 +3,11 @@
 
 function log_visit(string $path, string $lang): void
 {
+    // Çerez onayı: ziyaretçi "Statistics" kategorisini kabul etmediyse kayıt tutulmaz (GDPR/ePrivacy).
+    $consent = json_decode($_COOKIE['redex_consent'] ?? '', true);
+    if (!is_array($consent) || empty($consent['statistics'])) {
+        return;
+    }
     try {
         $ua = substr($_SERVER['HTTP_USER_AGENT'] ?? '', 0, 300);
         $isBot = preg_match('/bot|crawl|spider|slurp|bingpreview|facebookexternalhit|crawler|wget|curl|python-requests/i', $ua) ? 1 : 0;
