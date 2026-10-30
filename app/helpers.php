@@ -50,7 +50,14 @@ function url(string $path = '', ?string $forLang = null): string
 /** Statik varlık URL'si */
 function asset(string $path): string
 {
-    return base_url() . '/assets/' . ltrim($path, '/');
+    $rel = ltrim($path, '/');
+    $url = base_url() . '/assets/' . $rel;
+    // Onbellek kirma: dosya her degistiginde ?v degisir, tarayici yeni surumu ceker
+    $local = dirname(__DIR__) . '/assets/' . $rel;
+    if (is_file($local)) {
+        $url .= '?v=' . filemtime($local);
+    }
+    return $url;
 }
 
 /** Aktif menü için yardımcı */
