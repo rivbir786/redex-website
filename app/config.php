@@ -27,16 +27,13 @@ return [
     'brand_color_dark' => '#13343a',
     'accent'           => '#0e6f74',
 
-    // Medya (şimdilik mevcut siteden; yeni hostinge geçişte /assets/ içine taşınacak)
+    // Hero (üst) videosu — mevcut sunucuda; tarayıcı doğrudan oynatır (hızlı yükleme)
     'hero_video'   => 'https://redexglass.com/wp-content/uploads/2026/01/video.mp4',
-    'youtube_id'   => 'lSn_ngEGOWI',
     'catalog_pdf'  => '/assets/catalog/Redex_Catalog_v3.1.pdf', // pakete dahil; katalog butonu bunu açar
 
-    // Kalite bölümü videosu (şişe kontrol videosu). MP4 gelince: '/assets/video/bottle-inspection.mp4'
-    // Boşsa quality_image gösterilir.
-    'quality_video'  => '/assets/video/bottle-inspection.mp4',
-    'quality_poster' => '/assets/video/bottle-inspection-poster.jpg',
-    'quality_image'  => 'https://redexglass.com/wp-content/uploads/2026/01/Ekran-Resmi-2026-01-06-14.02.56-scaled.png',
+    // Ana sayfa YouTube videoları — Stoelzle tarzı kutuda, ziyaretçi YouTube üzerinden izler
+    'youtube_id'         => 'lSn_ngEGOWI', // intro: "Reliable glass packaging..." yanındaki tanıtım videosu
+    'quality_youtube_id' => 'oHo_Id4RhoM', // kalite bölümü: şişe kontrol videosu (https://youtu.be/oHo_Id4RhoM)
 
     // İletişim
     'email'        => 'info@redexglass.com',

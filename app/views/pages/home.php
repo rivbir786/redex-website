@@ -6,9 +6,7 @@ $os = $home['onestop'];
 $q = $home['quality'];
 ?>
 <section class="hero">
-  <video class="hero-video" autoplay muted loop playsinline>
-    <source src="<?= e(cfg('hero_video')) ?>" type="video/mp4">
-  </video>
+  <video class="hero-video" src="<?= e(cfg('hero_video')) ?>" autoplay muted loop playsinline preload="auto" aria-hidden="true"></video>
   <div class="container">
     <h1><?= e(loc($home['hero']['title'])) ?><span><?= e(loc($home['hero']['accent'])) ?></span></h1>
     <p><?= e(loc($home['hero']['sub'])) ?></p>
@@ -28,7 +26,8 @@ $q = $home['quality'];
       <p style="margin-top:26px"><a class="btn btn-ghost" href="<?= e(url('about')) ?>"><?= e(t('common.learn_more')) ?></a></p>
     </div>
     <div class="video-box" data-yt="<?= e(cfg('youtube_id')) ?>" role="button" tabindex="0" aria-label="Play video">
-      <img class="video-thumb" src="https://i.ytimg.com/vi/<?= e(cfg('youtube_id')) ?>/maxresdefault.jpg" alt="Redex Glass video" loading="lazy">
+      <img class="video-thumb" src="https://i.ytimg.com/vi/<?= e(cfg('youtube_id')) ?>/hqdefault.jpg" alt="Redex Glass video" loading="lazy"
+           onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/<?= e(cfg('youtube_id')) ?>/mqdefault.jpg'">
       <span class="video-play" aria-hidden="true"></span>
     </div>
   </div>
@@ -48,7 +47,7 @@ $q = $home['quality'];
       </ul>
       <p style="margin-top:26px"><a class="btn btn-ghost" href="<?= e(url('services')) ?>"><?= e(t('common.our_services')) ?></a></p>
     </div>
-    <img src="https://redexglass.com/wp-content/uploads/2026/01/Mockup-1--scaled.jpg" alt="<?= e(loc($os['title'])) ?>" loading="lazy">
+    <img src="<?= e(asset('img/onestop.jpg')) ?>" alt="<?= e(loc($os['title'])) ?>" loading="lazy">
   </div>
 </section>
 
@@ -75,14 +74,10 @@ $q = $home['quality'];
 <!-- Quality + inspection video -->
 <section class="section section-soft">
   <div class="container split">
-    <div class="quality-media">
-      <?php if (cfg('quality_video')): ?>
-        <video controls playsinline preload="metadata" poster="<?= e(cfg('quality_poster')) ?>">
-          <source src="<?= e(cfg('quality_video')) ?>" type="video/mp4">
-        </video>
-      <?php else: ?>
-        <img src="<?= e(cfg('quality_image')) ?>" alt="<?= e(loc($q['title'])) ?>" loading="lazy">
-      <?php endif; ?>
+    <div class="video-box" data-yt="<?= e(cfg('quality_youtube_id')) ?>" role="button" tabindex="0" aria-label="Play inspection video">
+      <img class="video-thumb" src="https://i.ytimg.com/vi/<?= e(cfg('quality_youtube_id')) ?>/hqdefault.jpg" alt="<?= e(loc($q['title'])) ?>" loading="lazy"
+           onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/<?= e(cfg('quality_youtube_id')) ?>/mqdefault.jpg'">
+      <span class="video-play" aria-hidden="true"></span>
     </div>
     <div>
       <p class="eyebrow"><?= e(loc($q['eyebrow'])) ?></p>
