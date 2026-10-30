@@ -26,6 +26,36 @@ $related = array_slice($related, 0, 3);
   </div>
 </section>
 
+<?php $specTables = content_specs($product['slug']); if ($specTables): ?>
+<section class="section">
+  <div class="container">
+    <h2 class="section-title" style="font-size:1.6rem"><?= e(t('products.range_title')) ?></h2>
+    <p class="prose" style="margin-top:8px"><?= e(t('products.range_intro')) ?></p>
+    <div class="spec-tables">
+      <?php foreach ($specTables as $tbl): ?>
+        <div class="spec-scroll">
+          <table class="spec-list">
+            <thead><tr>
+              <?php foreach ($tbl['headers'] as $h): ?><th><?= e($h) ?></th><?php endforeach; ?>
+            </tr></thead>
+            <tbody>
+              <?php foreach ($tbl['rows'] as $row): ?>
+                <tr>
+                  <?php foreach ($row as $cell): ?>
+                    <td><?php if ($cell === '' ) { echo ''; } elseif (strtoupper($cell) === 'N/A') { echo '<span class="na">—</span>'; } else { echo e($cell); } ?></td>
+                  <?php endforeach; ?>
+                </tr>
+              <?php endforeach; ?>
+            </tbody>
+          </table>
+        </div>
+      <?php endforeach; ?>
+    </div>
+    <p style="margin-top:22px"><a class="btn btn-ghost" href="<?= e(cfg('catalog_pdf')) ?>" target="_blank" rel="noopener"><?= e(t('nav.catalog')) ?> (PDF)</a></p>
+  </div>
+</section>
+<?php endif; ?>
+
 <section class="section section-soft">
   <div class="container">
     <div class="center"><p class="eyebrow"><?= e(t('common.our_capabilities')) ?></p><h2 class="section-title"><?= e(t('products.title')) ?></h2></div>

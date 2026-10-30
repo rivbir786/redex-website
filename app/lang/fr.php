@@ -65,6 +65,8 @@ return [
         'request_title' => 'Ce produit vous intéresse ?',
         'request_text' => 'Contactez notre équipe pour obtenir les spécifications, des échantillons et un devis personnalisé.',
         'specs_title' => 'Spécifications',
+        'range_title' => 'Gamme de produits et codes',
+        'range_intro' => 'Liste complète des volumes, dimensions et codes produit.',
         'spec_sizes' => 'Tailles', 'spec_colors' => 'Couleurs', 'spec_neck' => 'Bague / Col', 'spec_code' => 'Code produit',
     ],
     'services' => [

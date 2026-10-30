@@ -536,6 +536,17 @@ function find_product(string $slug): ?array
     return null;
 }
 
+/** Ürün teknik özellik tabloları (app/products-specs.php). Kodlar ve ölçüler orada düzenlenir. */
+function content_specs(string $slug): array
+{
+    static $all = null;
+    if ($all === null) {
+        $file = __DIR__ . '/products-specs.php';
+        $all = is_file($file) ? (require $file) : [];
+    }
+    return $all[$slug] ?? [];
+}
+
 /**
  * Açık pozisyonlar. Pozisyon bilgileri verilince buraya eklenecek.
  */

@@ -65,6 +65,8 @@ return [
         'request_title' => 'Zainteresowany tym produktem?',
         'request_text' => 'Skontaktuj się z naszym zespołem, aby otrzymać specyfikacje, próbki i indywidualną ofertę.',
         'specs_title' => 'Specyfikacja',
+        'range_title' => 'Asortyment i kody produktów',
+        'range_intro' => 'Pełna lista pojemności, wymiarów i kodów produktów.',
         'spec_sizes' => 'Pojemności', 'spec_colors' => 'Kolory', 'spec_neck' => 'Rodzaj szyjki', 'spec_code' => 'Kod produktu',
     ],
     'services' => [

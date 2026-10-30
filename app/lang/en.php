@@ -79,6 +79,8 @@ return [
         'request_title' => 'Interested in this product?',
         'request_text' => 'Contact our team for specifications, samples, and a tailored quotation.',
         'specs_title' => 'Specifications',
+        'range_title' => 'Product range & codes',
+        'range_intro' => 'Full list of sizes, dimensions and product codes.',
         'spec_sizes' => 'Sizes', 'spec_colors' => 'Colors', 'spec_neck' => 'Neck Finish', 'spec_code' => 'Product Code',
     ],
     'services' => [
