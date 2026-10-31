@@ -193,6 +193,8 @@ section{scroll-margin-top:var(--head-h)}
 .spec-note a{color:var(--brand);font-weight:600}
 /* Detaylı ürün listesi tabloları (kod + ölçü) */
 .spec-tables{margin-top:28px}
+.spec-caption{font-family:var(--head);font-size:1.05rem;color:var(--brand-dark);margin:28px 0 10px;font-weight:600}
+.spec-caption:first-child{margin-top:0}
 .spec-scroll{overflow-x:auto;max-width:100%;min-width:0;margin-bottom:22px;border:1px solid var(--line);border-radius:10px;-webkit-overflow-scrolling:touch}
 .spec-list{width:100%;border-collapse:collapse;font-size:13px;min-width:560px}
 .spec-list th{background:var(--brand-dark);color:#fff;font-weight:600;text-align:start;padding:10px 12px;white-space:nowrap;font-size:12px;letter-spacing:.2px}

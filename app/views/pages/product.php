@@ -33,6 +33,7 @@ $related = array_slice($related, 0, 3);
     <p class="prose" style="margin-top:8px"><?= e(t('products.range_intro')) ?></p>
     <div class="spec-tables">
       <?php foreach ($specTables as $tbl): ?>
+        <?php if (!empty($tbl['label'])): ?><h3 class="spec-caption"><?= e($tbl['label']) ?></h3><?php endif; ?>
         <div class="spec-scroll">
           <table class="spec-list">
             <thead><tr>
