@@ -8,7 +8,7 @@ return [
     // Site kimliği
     'site_name'   => 'Redex Glass',
     'company'     => 'Redex Glass',
-    'version'     => '1.2',          // footer'da gosterilir; her degisiklikte guncellenir
+    'version'     => '1.3',          // footer'da gosterilir; her degisiklikte guncellenir
     'updated'     => '2026-10-31',   // footer "son guncelleme" tarihi (YYYY-MM-DD)
     'base_url'    => rtrim(getenv('REDEX_BASE_URL') ?: '', '/'), // boş = otomatik algıla
     'default_lang'=> 'en',

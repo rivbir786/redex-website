@@ -33,17 +33,17 @@ $related = array_slice($related, 0, 3);
     <p class="prose" style="margin-top:8px"><?= e(t('products.range_intro')) ?></p>
     <div class="spec-tables">
       <?php foreach ($specTables as $tbl): ?>
-        <?php if (!empty($tbl['label'])): ?><h3 class="spec-caption"><?= e($tbl['label']) ?></h3><?php endif; ?>
+        <?php if (!empty($tbl['label'])): ?><h3 class="spec-caption"><?= e(spec_t($tbl['label'])) ?></h3><?php endif; ?>
         <div class="spec-scroll">
           <table class="spec-list">
             <thead><tr>
-              <?php foreach ($tbl['headers'] as $h): ?><th><?= e($h) ?></th><?php endforeach; ?>
+              <?php foreach ($tbl['headers'] as $h): ?><th><?= e(spec_t($h)) ?></th><?php endforeach; ?>
             </tr></thead>
             <tbody>
               <?php foreach ($tbl['rows'] as $row): ?>
                 <tr>
                   <?php foreach ($row as $cell): ?>
-                    <td><?php if ($cell === '' ) { echo ''; } elseif (strtoupper($cell) === 'N/A') { echo '<span class="na">—</span>'; } else { echo e($cell); } ?></td>
+                    <td><?php if ($cell === '' ) { echo ''; } elseif (strtoupper($cell) === 'N/A') { echo '<span class="na">—</span>'; } else { echo e(spec_t($cell)); } ?></td>
                   <?php endforeach; ?>
                 </tr>
               <?php endforeach; ?>

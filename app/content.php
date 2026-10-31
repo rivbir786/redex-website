@@ -547,6 +547,19 @@ function content_specs(string $slug): array
     return $all[$slug] ?? [];
 }
 
+/** Spec tablosu terimlerini (başlık/renk/caps etiket/açıklama) aktif dile çevirir; bilinmeyen terim/kod/sayı aynen döner. */
+function spec_t(string $term): string
+{
+    static $map = null;
+    if ($map === null) {
+        $file = __DIR__ . '/spec-i18n.php';
+        $map = is_file($file) ? (require $file) : [];
+    }
+    $l = lang();
+    if ($l === 'en') return $term;
+    return $map[$term][$l] ?? $term;
+}
+
 /**
  * Açık pozisyonlar. Pozisyon bilgileri verilince buraya eklenecek.
  */
