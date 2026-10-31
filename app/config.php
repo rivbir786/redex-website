@@ -8,8 +8,8 @@ return [
     // Site kimliği
     'site_name'   => 'Redex Glass',
     'company'     => 'Redex Glass',
-    'version'     => '1.3',          // footer'da gosterilir; her degisiklikte guncellenir
-    'updated'     => '2026-10-31',   // footer "son guncelleme" tarihi (YYYY-MM-DD)
+    'version'     => '1.4',          // footer'da gosterilir; her degisiklikte guncellenir
+    'updated'     => '2026-11-01',   // footer "son guncelleme" tarihi (YYYY-MM-DD)
     'base_url'    => rtrim(getenv('REDEX_BASE_URL') ?: '', '/'), // boş = otomatik algıla
     'default_lang'=> 'en',
     // Sıra: İngilizce, Çince, İspanyolca, Rusça, Fransızca, Lehçe, Almanca, İbranice
@@ -31,7 +31,7 @@ return [
 
     // Hero (üst) videosu — mevcut sunucuda; tarayıcı doğrudan oynatır (hızlı yükleme)
     'hero_video'   => 'https://redexglass.com/wp-content/uploads/2026/01/video.mp4',
-    'catalog_pdf'  => '/assets/catalog/Redex_Catalog_v3.1.pdf', // pakete dahil; katalog butonu bunu açar
+    'catalog_pdf'  => '/assets/catalog/Redex_Catalog_v3.3.pdf', // pakete dahil; katalog butonu bunu açar
 
     // Ana sayfa YouTube videoları — Stoelzle tarzı kutuda, ziyaretçi YouTube üzerinden izler
     'youtube_id'         => 'lSn_ngEGOWI', // intro: "Reliable glass packaging..." yanındaki tanıtım videosu

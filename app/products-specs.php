@@ -1,6 +1,6 @@
 <?php
 /**
- * Redex Glass — urun teknik ozellik tablolari. Kaynak: Redex Catalog v3.2 (29 Ekim 2026).
+ * Redex Glass — urun teknik ozellik tablolari. Kaynak: Redex Catalog v3.3 (31 Ekim 2026).
  * 'slug' => [tablo,...]; tablo = ['label'=>'', 'headers'=>[...], 'rows'=>[[...],...]].
  * Renk kodu: 1=Amber 2=Clear 3=Clear Frosted 4=Black 5=Blue 6=Green. Kodlar/olculer buradan duzenlenir.
  */
