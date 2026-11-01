@@ -48,6 +48,12 @@ array_shift($segments);
 $route = implode('/', $segments);
 $GLOBALS['__route'] = $route;
 
+// --- Kaldırılan servis sayfaları → /services (kalıcı 301 yönlendirme, SEO) ---
+if ($route === 'services/fast-delivery' || $route === 'services/quality-assurance') {
+    header('Location: ' . url('services'), true, 301);
+    exit;
+}
+
 // --- POST işleyicileri ---
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     handle_post($route);
