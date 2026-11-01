@@ -4,7 +4,7 @@
 <!-- One-Stop: kapaklar ve kapama ürünleri (geniş görsel + kategori listesi) -->
 <section class="section">
   <div class="container">
-    <img class="process-img" src="<?= e($service['wide_img']) ?>" alt="<?= e(loc($service['title'])) ?>" loading="lazy">
+    <img class="process-img" src="<?= e($service['wide_img']) ?>" alt="<?= e(loc($service['title'])) ?>" loading="lazy" style="box-shadow:none;border-radius:0;background:#fff">
     <div class="process-copy">
       <p class="lead"><?= e(loc($service['excerpt'])) ?></p>
       <p class="prose" style="max-width:820px;margin:18px auto 0;text-align:center"><?= e(loc($service['body'])) ?></p>
