@@ -130,6 +130,18 @@ function render_layout(string $viewFile, array $data): void
     require __DIR__ . '/app/views/layout.php';
 }
 
+// Meta description'i kelime sinirinda kirpar (SEO: Google ~160 karakter gosterir;
+// kelime ortasindan kesmez, kesilirse "…" ekler). Bosluksuz diller (zh vb.) icin sert kirpar.
+function seo_clip(string $s, int $max = 160): string
+{
+    $s = trim(preg_replace('/\s+/', ' ', $s));
+    if (mb_strlen($s) <= $max) return $s;
+    $cut = mb_substr($s, 0, $max);
+    $sp = mb_strrpos($cut, ' ');
+    if ($sp !== false && $sp >= $max * 0.6) $cut = mb_substr($cut, 0, $sp);
+    return rtrim($cut, " ,.;:—-") . '…';
+}
+
 function build_seo(string $page, string $route, array $data): array
 {
     $site = cfg('site_name');
@@ -155,7 +167,7 @@ function build_seo(string $page, string $route, array $data): array
         'sustainability' => t('meta.sustainability_desc'), 'quality' => t('meta.quality_desc'),
         'careers' => t('meta.careers_desc'),
         'distributors' => t('distributors.lead'),
-        'mission' => t('mission.mission_body'), 'certificates' => t('certificates.lead'),
+        'mission' => t('mission.meta_desc'), 'certificates' => t('certificates.lead'),
         'services' => t('services.lead'), 'news' => t('news.lead'),
     ];
 
@@ -190,7 +202,7 @@ function build_seo(string $page, string $route, array $data): array
 
     return [
         'title' => $title,
-        'description' => mb_substr(trim(preg_replace('/\s+/', ' ', $desc)), 0, 180),
+        'description' => seo_clip($desc),
         'canonical' => url($route),
         'alternates' => $alts,
         'og_image' => $ogImage,

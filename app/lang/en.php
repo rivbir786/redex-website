@@ -72,6 +72,7 @@ return [
         'v4_t' => 'Responsible by nature',
         'v4_d' => 'Glass can be recycled endlessly, and we build our process to honour that — cutting waste today so the material can be reborn tomorrow.',
         'closing' => 'From our own furnaces to warehouses close to your market, we have kept this promise since 2001.',
+        'meta_desc' => 'Redex Glass engineers amber and flint glass packaging that keeps pharmaceutical and cosmetic products pure, stable and safe — your design, since 2001.',
     ],
     'sustainability' => [
         'title' => 'Sustainability',
