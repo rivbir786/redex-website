@@ -90,6 +90,7 @@ return [
         'offices_title' => 'Unsere Standorte', 'form_title' => 'Schreiben Sie uns',
     ],
     'form' => [
+        'captcha' => 'Sicherheitsabfrage', 'captcha_error' => 'Sicherheitsabfrage fehlgeschlagen. Bitte erneut versuchen.',
         'name' => 'Vollständiger Name', 'email' => 'E-Mail', 'phone' => 'Telefon',
         'company' => 'Unternehmen', 'message' => 'Ihre Nachricht',
         'position' => 'Position', 'gender' => 'Geschlecht', 'male' => 'Männlich', 'female' => 'Weiblich',

@@ -211,6 +211,10 @@ function handle_post(string $route): void
     if (!empty($_POST['website'])) {
         flash_redirect($route, 'success', t('form.success'));
     }
+    // CAPTCHA (basit matematik) — spam koruması
+    if (!captcha_check()) {
+        flash_redirect($route, 'error', t('form.captcha_error'));
+    }
 
     if ($route === 'contact') {
         $name = trim($_POST['name'] ?? '');

@@ -84,6 +84,22 @@ function csrf_check(): bool
     return isset($_POST['_csrf']) && hash_equals($_SESSION['csrf'] ?? '', $_POST['_csrf']);
 }
 
+/** CAPTCHA — basit matematik sorusu (harici anahtar gerektirmez; honeypot+CSRF üstüne spam koruması) */
+function captcha_field(): string
+{
+    $a = random_int(1, 9);
+    $b = random_int(1, 9);
+    $_SESSION['captcha_sum'] = $a + $b;
+    return '<div class="field"><label>' . e(t('form.captcha')) . ' — ' . $a . ' + ' . $b . ' = ? *</label>'
+         . '<input type="text" name="captcha" inputmode="numeric" autocomplete="off" required></div>';
+}
+function captcha_check(): bool
+{
+    $sum = $_SESSION['captcha_sum'] ?? null;
+    unset($_SESSION['captcha_sum']);
+    return $sum !== null && trim((string)($_POST['captcha'] ?? '')) === (string) $sum;
+}
+
 /** Basit slug */
 function slugify(string $s): string
 {

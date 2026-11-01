@@ -90,6 +90,7 @@ return [
         'offices_title' => 'Nos sites', 'form_title' => 'Envoyez-nous un message',
     ],
     'form' => [
+        'captcha' => 'Vérification de sécurité', 'captcha_error' => 'Échec de la vérification de sécurité. Veuillez réessayer.',
         'name' => 'Nom complet', 'email' => 'E-mail', 'phone' => 'Téléphone',
         'company' => 'Société', 'message' => 'Votre message',
         'position' => 'Poste', 'gender' => 'Genre', 'male' => 'Homme', 'female' => 'Femme',

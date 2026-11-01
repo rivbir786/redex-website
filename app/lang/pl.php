@@ -90,6 +90,7 @@ return [
         'offices_title' => 'Nasze biura', 'form_title' => 'Napisz do nas',
     ],
     'form' => [
+        'captcha' => 'Weryfikacja bezpieczeństwa', 'captcha_error' => 'Weryfikacja bezpieczeństwa nie powiodła się. Spróbuj ponownie.',
         'name' => 'Imię i nazwisko', 'email' => 'E-mail', 'phone' => 'Telefon',
         'company' => 'Firma', 'message' => 'Twoja wiadomość',
         'position' => 'Stanowisko', 'gender' => 'Płeć', 'male' => 'Mężczyzna', 'female' => 'Kobieta',

@@ -5,7 +5,7 @@
     <h2 class="section-title"><?= e(t('careers.lead')) ?></h2>
     <p class="prose" style="max-width:760px"><?= e(t('careers.intro')) ?></p>
 
-    <h3 style="margin-top:50px;color:var(--brand-dark);font-family:var(--serif);font-size:1.5rem"><?= e(t('careers.open_positions')) ?></h3>
+    <h3 style="margin-top:50px;color:var(--brand-dark);font-family:var(--head);font-size:1.5rem"><?= e(t('careers.open_positions')) ?></h3>
     <?php if (empty($positions)): ?>
       <p class="prose"><?= e(t('careers.no_positions')) ?></p>
     <?php else: ?>
@@ -46,6 +46,7 @@
       <div class="field"><label><?= e(t('form.message')) ?></label><textarea name="message"></textarea></div>
       <div class="field"><label><?= e(t('form.cv')) ?> <small style="color:var(--muted)">(<?= e(t('form.cv_hint')) ?>)</small></label>
         <input type="file" name="cv" accept=".pdf,.jpg,.jpeg,.png"></div>
+      <?= captcha_field() ?>
       <label class="check"><input type="checkbox" required> <span><?= e(t('form.privacy_agree')) ?></span></label>
       <p style="margin-top:22px"><button class="btn btn-primary" type="submit"><?= e(t('careers.apply')) ?></button></p>
     </form>

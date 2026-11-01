@@ -90,6 +90,7 @@ return [
         'offices_title' => 'המשרדים שלנו', 'form_title' => 'שלחו לנו הודעה',
     ],
     'form' => [
+        'captcha' => 'בדיקת אבטחה', 'captcha_error' => 'בדיקת האבטחה נכשלה. נסו שוב.',
         'name' => 'שם מלא', 'email' => 'דוא״ל', 'phone' => 'טלפון',
         'company' => 'חברה', 'message' => 'ההודעה שלך',
         'position' => 'משרה', 'gender' => 'מגדר', 'male' => 'זכר', 'female' => 'נקבה',

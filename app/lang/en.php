@@ -104,6 +104,7 @@ return [
         'offices_title' => 'Our Offices', 'form_title' => 'Send Us a Message',
     ],
     'form' => [
+        'captcha' => 'Security check', 'captcha_error' => 'Security check failed. Please try again.',
         'name' => 'Full Name', 'email' => 'Email', 'phone' => 'Phone',
         'company' => 'Company', 'message' => 'Your Message',
         'position' => 'Position', 'gender' => 'Gender', 'male' => 'Male', 'female' => 'Female',

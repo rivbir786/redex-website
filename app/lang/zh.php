@@ -90,6 +90,7 @@ return [
         'offices_title' => '我们的办事处', 'form_title' => '给我们留言',
     ],
     'form' => [
+        'captcha' => '安全验证', 'captcha_error' => '安全验证未通过，请重试。',
         'name' => '姓名', 'email' => '电子邮箱', 'phone' => '电话',
         'company' => '公司', 'message' => '您的留言',
         'position' => '职位', 'gender' => '性别', 'male' => '男', 'female' => '女',

@@ -46,6 +46,7 @@
           </div>
         </div>
         <div class="field"><label><?= e(t('form.message')) ?> *</label><textarea name="message" required></textarea></div>
+        <?= captcha_field() ?>
         <label class="check"><input type="checkbox" required> <span><?= e(t('form.privacy_agree')) ?></span></label>
         <p style="margin-top:22px"><button class="btn btn-primary" type="submit"><?= e(t('form.send')) ?></button></p>
       </form>
