@@ -1,6 +1,7 @@
 <?php
 return [
     'nav' => [
+        'distributors' => '成为经销商',
         'home' => '首页', 'corporate' => '公司', 'about' => '关于我们',
         'mission' => '使命与愿景', 'sustainability' => '可持续发展',
         'quality' => '质量', 'certificates' => '证书',
@@ -73,6 +74,10 @@ return [
         'title' => '服务',
         'lead' => '可靠的玻璃包装服务——从概念到交付。',
     ],
+    'distributors' => [
+        'title' => '成为经销商',
+        'lead' => 'Redex Glass 正在全球招募经销商。与我们携手，在您的市场供应制药与化妆品玻璃包装。',
+    ],
     'careers' => [
         'title' => '招贤纳士',
         'lead' => '与 Redex Glass 共创未来。',
@@ -90,6 +95,7 @@ return [
         'offices_title' => '我们的办事处', 'form_title' => '给我们留言',
     ],
     'form' => [
+        'contact_name' => '联系人', 'website' => '网站', 'annual_volume' => '预计年采购量', 'address' => '地址', 'city' => '城市',
         'captcha' => '安全验证', 'captcha_error' => '安全验证未通过，请重试。',
         'name' => '姓名', 'email' => '电子邮箱', 'phone' => '电话',
         'company' => '公司', 'message' => '您的留言',

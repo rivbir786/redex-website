@@ -77,6 +77,7 @@ elseif (preg_match('#^services/([a-z0-9\-]+)$#', $route, $m)) {
     if (isset($svcs[$m[1]])) { $page = 'service'; $data['service'] = $svcs[$m[1]]; $data['service_key'] = $m[1]; }
 }
 elseif ($route === 'careers') { $page = 'careers'; }
+elseif ($route === 'distributors') { $page = 'distributors'; }
 elseif ($route === 'news') { $page = 'news'; }
 elseif ($route === 'contact') { $page = 'contact'; }
 elseif ($route === 'privacy-policy') { $page = 'privacy'; }
@@ -127,6 +128,7 @@ function build_seo(string $page, string $route, array $data): array
         'products' => t('products.title') . ' | ' . $site,
         'services' => t('services.title') . ' | ' . $site,
         'careers' => t('careers.title') . ' | ' . $site,
+        'distributors' => t('distributors.title') . ' | ' . $site,
         'news' => t('news.title') . ' | ' . $site,
         'contact' => t('contact.title') . ' | ' . $site,
         'privacy' => t('privacy.title') . ' | ' . $site,
@@ -137,6 +139,7 @@ function build_seo(string $page, string $route, array $data): array
         'products' => t('meta.products_desc'), 'contact' => t('meta.contact_desc'),
         'sustainability' => t('meta.sustainability_desc'), 'quality' => t('meta.quality_desc'),
         'careers' => t('meta.careers_desc'),
+        'distributors' => t('distributors.lead'),
         'mission' => t('mission.mission_body'), 'certificates' => t('certificates.lead'),
         'services' => t('services.lead'), 'news' => t('news.lead'),
     ];
@@ -182,7 +185,7 @@ function render_sitemap(): void
 {
     header('Content-Type: application/xml; charset=utf-8');
     $routes = ['', 'about', 'mission-vision', 'sustainability', 'quality', 'certificates',
-               'products', 'services', 'careers', 'news', 'contact', 'privacy-policy'];
+               'products', 'services', 'careers', 'distributors', 'news', 'contact', 'privacy-policy'];
     foreach (content_products() as $p) $routes[] = 'products/' . $p['slug'];
     foreach (array_keys(content_services()) as $k) $routes[] = 'services/' . $k;
 
@@ -261,6 +264,42 @@ function handle_post(string $route): void
                       trim($_POST['message'] ?? ''), $cvFile, lang(), $_SERVER['REMOTE_ADDR'] ?? '', date('c')]);
         notify_email('New job application from ' . $name, "Name: $name\nEmail: $email\nPosition: " . ($_POST['position'] ?? ''));
         flash_redirect($route, 'success', t('form.app_success'));
+    }
+
+    if ($route === 'distributors') {
+        $company = trim($_POST['company'] ?? '');
+        $contact = trim($_POST['contact_name'] ?? '');
+        $email = trim($_POST['email'] ?? '');
+        if ($company === '' || $contact === '' || $email === '') {
+            flash_redirect($route, 'error', t('form.required'));
+        }
+        $phone = trim($_POST['phone'] ?? '');
+        $website = trim($_POST['website_url'] ?? '');
+        $country = trim($_POST['country'] ?? '');
+        $city = trim($_POST['city'] ?? '');
+        $address = trim($_POST['address'] ?? '');
+        $volume = trim($_POST['annual_volume'] ?? '');
+        $msg = trim($_POST['message'] ?? '');
+        $st = db()->prepare("INSERT INTO distributors (company,contact_name,email,phone,website,country,city,address,annual_volume,message,lang,ip,created_at)
+                             VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)");
+        $st->execute([$company, $contact, $email, $phone, $website, $country, $city, $address,
+                      $volume, $msg, lang(), $_SERVER['REMOTE_ADDR'] ?? '', date('c')]);
+        $body = "New distributorship application from the website\n"
+              . "----------------------------------------\n"
+              . "Company:       $company\n"
+              . "Contact:       $contact\n"
+              . "Email:         $email\n"
+              . "Phone:         $phone\n"
+              . "Website:       $website\n"
+              . "Country:       $country\n"
+              . "City:          $city\n"
+              . "Address:       $address\n"
+              . "Annual volume: $volume\n"
+              . "Language:      " . strtoupper(lang()) . "\n"
+              . "----------------------------------------\n"
+              . "Message:\n$msg\n";
+        notify_email('[Distributor] ' . $company . ' — ' . $country, $body, $email, $contact);
+        flash_redirect($route, 'success', t('form.success'));
     }
 
     flash_redirect($route, 'error', t('form.error'));

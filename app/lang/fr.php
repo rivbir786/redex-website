@@ -1,6 +1,7 @@
 <?php
 return [
     'nav' => [
+        'distributors' => 'Devenir distributeur',
         'home' => 'Accueil', 'corporate' => 'Entreprise', 'about' => 'À propos',
         'mission' => 'Mission et Vision', 'sustainability' => 'Durabilité',
         'quality' => 'Qualité', 'certificates' => 'Certificats',
@@ -73,6 +74,10 @@ return [
         'title' => 'Services',
         'lead' => 'Des services d’emballage en verre fiables, du concept à la livraison.',
     ],
+    'distributors' => [
+        'title' => 'Devenir distributeur',
+        'lead' => 'Redex Glass recherche des distributeurs dans le monde entier. Devenez notre partenaire pour fournir des emballages en verre pharmaceutiques et cosmétiques sur votre marché.',
+    ],
     'careers' => [
         'title' => 'Carrières',
         'lead' => 'Construisez votre avenir avec Redex Glass.',
@@ -90,6 +95,7 @@ return [
         'offices_title' => 'Nos sites', 'form_title' => 'Envoyez-nous un message',
     ],
     'form' => [
+        'contact_name' => 'Personne à contacter', 'website' => 'Site web', 'annual_volume' => 'Volume annuel estimé', 'address' => 'Adresse', 'city' => 'Ville',
         'captcha' => 'Vérification de sécurité', 'captcha_error' => 'Échec de la vérification de sécurité. Veuillez réessayer.',
         'name' => 'Nom complet', 'email' => 'E-mail', 'phone' => 'Téléphone',
         'company' => 'Société', 'message' => 'Votre message',

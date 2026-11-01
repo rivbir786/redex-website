@@ -1,6 +1,7 @@
 <?php
 return [
     'nav' => [
+        'distributors' => 'להיות מפיץ',
         'home' => 'בית', 'corporate' => 'החברה', 'about' => 'אודותינו',
         'mission' => 'ייעוד וחזון', 'sustainability' => 'קיימות',
         'quality' => 'איכות', 'certificates' => 'תעודות',
@@ -73,6 +74,10 @@ return [
         'title' => 'שירותים',
         'lead' => 'שירותי אריזת זכוכית אמינים, מהרעיון ועד האספקה.',
     ],
+    'distributors' => [
+        'title' => 'להיות מפיץ',
+        'lead' => '‏Redex Glass מחפשת מפיצים ברחבי העולם. היו לשותפים שלנו לאספקת אריזות זכוכית לתרופות וקוסמטיקה בשוק שלכם.',
+    ],
     'careers' => [
         'title' => 'קריירה',
         'lead' => 'בנו את עתידכם עם Redex Glass.',
@@ -90,6 +95,7 @@ return [
         'offices_title' => 'המשרדים שלנו', 'form_title' => 'שלחו לנו הודעה',
     ],
     'form' => [
+        'contact_name' => 'איש קשר', 'website' => 'אתר אינטרנט', 'annual_volume' => 'היקף שנתי משוער', 'address' => 'כתובת', 'city' => 'עיר',
         'captcha' => 'בדיקת אבטחה', 'captcha_error' => 'בדיקת האבטחה נכשלה. נסו שוב.',
         'name' => 'שם מלא', 'email' => 'דוא״ל', 'phone' => 'טלפון',
         'company' => 'חברה', 'message' => 'ההודעה שלך',

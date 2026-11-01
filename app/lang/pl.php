@@ -1,6 +1,7 @@
 <?php
 return [
     'nav' => [
+        'distributors' => 'Zostań dystrybutorem',
         'home' => 'Strona główna', 'corporate' => 'Firma', 'about' => 'O nas',
         'mission' => 'Misja i wizja', 'sustainability' => 'Zrównoważony rozwój',
         'quality' => 'Jakość', 'certificates' => 'Certyfikaty',
@@ -73,6 +74,10 @@ return [
         'title' => 'Usługi',
         'lead' => 'Niezawodne usługi w zakresie opakowań szklanych — od koncepcji po dostawę.',
     ],
+    'distributors' => [
+        'title' => 'Zostań dystrybutorem',
+        'lead' => 'Redex Glass poszukuje dystrybutorów na całym świecie. Zostań naszym partnerem w dostawach farmaceutycznych i kosmetycznych opakowań szklanych na swoim rynku.',
+    ],
     'careers' => [
         'title' => 'Kariera',
         'lead' => 'Zbuduj swoją przyszłość z Redex Glass.',
@@ -90,6 +95,7 @@ return [
         'offices_title' => 'Nasze biura', 'form_title' => 'Napisz do nas',
     ],
     'form' => [
+        'contact_name' => 'Osoba kontaktowa', 'website' => 'Strona internetowa', 'annual_volume' => 'Szacowany roczny wolumen', 'address' => 'Adres', 'city' => 'Miasto',
         'captcha' => 'Weryfikacja bezpieczeństwa', 'captcha_error' => 'Weryfikacja bezpieczeństwa nie powiodła się. Spróbuj ponownie.',
         'name' => 'Imię i nazwisko', 'email' => 'E-mail', 'phone' => 'Telefon',
         'company' => 'Firma', 'message' => 'Twoja wiadomość',

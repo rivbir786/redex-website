@@ -1,6 +1,7 @@
 <?php
 return [
     'nav' => [
+        'distributors' => 'Become a Distributor',
         'home' => 'Home', 'corporate' => 'Corporate', 'about' => 'About Us',
         'mission' => 'Mission & Vision', 'sustainability' => 'Sustainability',
         'quality' => 'Quality', 'certificates' => 'Certificates',
@@ -17,6 +18,7 @@ return [
         'd_sustainability' => 'Responsible glassmaking',
         'd_quality' => 'Standards & inspection',
         'd_certificates' => 'ISO, GMP & more',
+        'd_careers' => 'Open positions & applications',
         'promo_corp_title' => 'One partner, end-to-end glass packaging',
         'promo_corp_text' => 'From design to delivery — pharma, cosmetics and food & beverage.',
         'promo_svc_title' => 'Need something custom?',
@@ -87,6 +89,10 @@ return [
         'title' => 'Services',
         'lead' => 'Reliable glass packaging services from concept to delivery.',
     ],
+    'distributors' => [
+        'title' => 'Become a Distributor',
+        'lead' => 'Redex Glass is looking for distributors worldwide. Partner with us to supply pharmaceutical and cosmetic glass packaging in your market.',
+    ],
     'careers' => [
         'title' => 'Careers',
         'lead' => 'Build your future with Redex Glass.',
@@ -104,6 +110,7 @@ return [
         'offices_title' => 'Our Offices', 'form_title' => 'Send Us a Message',
     ],
     'form' => [
+        'contact_name' => 'Contact Person', 'website' => 'Website', 'annual_volume' => 'Estimated Annual Volume', 'address' => 'Address', 'city' => 'City',
         'captcha' => 'Security check', 'captcha_error' => 'Security check failed. Please try again.',
         'name' => 'Full Name', 'email' => 'Email', 'phone' => 'Phone',
         'company' => 'Company', 'message' => 'Your Message',

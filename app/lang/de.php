@@ -1,6 +1,7 @@
 <?php
 return [
     'nav' => [
+        'distributors' => 'Händler werden',
         'home' => 'Startseite', 'corporate' => 'Unternehmen', 'about' => 'Über uns',
         'mission' => 'Mission & Vision', 'sustainability' => 'Nachhaltigkeit',
         'quality' => 'Qualität', 'certificates' => 'Zertifikate',
@@ -73,6 +74,10 @@ return [
         'title' => 'Leistungen',
         'lead' => 'Zuverlässige Glasverpackungsleistungen – vom Konzept bis zur Auslieferung.',
     ],
+    'distributors' => [
+        'title' => 'Händler werden',
+        'lead' => 'Redex Glass sucht weltweit Vertriebspartner. Werden Sie unser Partner für pharmazeutische und kosmetische Glasverpackungen in Ihrem Markt.',
+    ],
     'careers' => [
         'title' => 'Karriere',
         'lead' => 'Gestalten Sie Ihre Zukunft mit Redex Glass.',
@@ -90,6 +95,7 @@ return [
         'offices_title' => 'Unsere Standorte', 'form_title' => 'Schreiben Sie uns',
     ],
     'form' => [
+        'contact_name' => 'Ansprechpartner', 'website' => 'Website', 'annual_volume' => 'Geschätztes Jahresvolumen', 'address' => 'Adresse', 'city' => 'Stadt',
         'captcha' => 'Sicherheitsabfrage', 'captcha_error' => 'Sicherheitsabfrage fehlgeschlagen. Bitte erneut versuchen.',
         'name' => 'Vollständiger Name', 'email' => 'E-Mail', 'phone' => 'Telefon',
         'company' => 'Unternehmen', 'message' => 'Ihre Nachricht',

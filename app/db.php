@@ -58,6 +58,13 @@ function db_migrate(PDO $pdo): void
         is_read INTEGER DEFAULT 0, created_at TEXT
     )");
 
+    $pdo->exec("CREATE TABLE IF NOT EXISTS distributors (
+        id $autoInc,
+        company TEXT, contact_name TEXT, email TEXT, phone TEXT, website TEXT,
+        country TEXT, city TEXT, address TEXT, annual_volume TEXT, message TEXT,
+        lang TEXT, ip TEXT, is_read INTEGER DEFAULT 0, created_at TEXT
+    )");
+
     $pdo->exec("CREATE TABLE IF NOT EXISTS visits (
         id $autoInc,
         path TEXT, lang TEXT, referrer TEXT, ua TEXT, ip_hash TEXT,

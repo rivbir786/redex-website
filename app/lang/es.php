@@ -1,6 +1,7 @@
 <?php
 return [
     'nav' => [
+        'distributors' => 'Ser Distribuidor',
         'home' => 'Inicio', 'corporate' => 'Corporativo', 'about' => 'Sobre Nosotros',
         'mission' => 'Misión y Visión', 'sustainability' => 'Sostenibilidad',
         'quality' => 'Calidad', 'certificates' => 'Certificados',
@@ -73,6 +74,10 @@ return [
         'title' => 'Servicios',
         'lead' => 'Servicios fiables de envasado de vidrio, del concepto a la entrega.',
     ],
+    'distributors' => [
+        'title' => 'Ser Distribuidor',
+        'lead' => 'Redex Glass busca distribuidores en todo el mundo. Colabore con nosotros para suministrar envases de vidrio farmacéuticos y cosméticos en su mercado.',
+    ],
     'careers' => [
         'title' => 'Empleo',
         'lead' => 'Construya su futuro con Redex Glass.',
@@ -90,6 +95,7 @@ return [
         'offices_title' => 'Nuestras Oficinas', 'form_title' => 'Envíenos un Mensaje',
     ],
     'form' => [
+        'contact_name' => 'Persona de contacto', 'website' => 'Sitio web', 'annual_volume' => 'Volumen anual estimado', 'address' => 'Dirección', 'city' => 'Ciudad',
         'captcha' => 'Verificación de seguridad', 'captcha_error' => 'La verificación de seguridad falló. Inténtelo de nuevo.',
         'name' => 'Nombre Completo', 'email' => 'Correo Electrónico', 'phone' => 'Teléfono',
         'company' => 'Empresa', 'message' => 'Su Mensaje',

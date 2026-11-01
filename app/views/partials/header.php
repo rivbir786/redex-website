@@ -4,6 +4,7 @@ $corp_company = [
     'about'          => ['label' => t('nav.about'),          'desc' => t('menu.d_about')],
     'mission-vision' => ['label' => t('nav.mission'),         'desc' => t('menu.d_mission')],
     'sustainability' => ['label' => t('nav.sustainability'),  'desc' => t('menu.d_sustainability')],
+    'careers'        => ['label' => t('nav.careers'),         'desc' => t('menu.d_careers')],
 ];
 $corp_trust = [
     'quality'      => ['label' => t('nav.quality'),      'desc' => t('menu.d_quality')],
@@ -92,7 +93,7 @@ $corp_trust = [
             </div>
           </div>
         </li>
-        <li><a href="<?= e(url('careers')) ?>" <?= is_active('careers') ? 'class="active"' : '' ?>><?= e(t('nav.careers')) ?></a></li>
+        <li><a href="<?= e(url('distributors')) ?>" <?= is_active('distributors') ? 'class="active"' : '' ?>><?= e(t('nav.distributors')) ?></a></li>
         <li><a href="<?= e(url('news')) ?>" <?= is_active('news') ? 'class="active"' : '' ?>><?= e(t('nav.news')) ?></a></li>
         <li><a href="<?= e(url('contact')) ?>" <?= is_active('contact') ? 'class="active"' : '' ?>><?= e(t('nav.contact')) ?></a></li>
       </ul>
