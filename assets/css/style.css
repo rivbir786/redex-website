@@ -154,6 +154,19 @@ section{scroll-margin-top:var(--head-h)}
 .card-link::after{content:"→"}
 [dir=rtl] .card-link::after{content:"←"}
 
+/* mission & vision */
+.mv-statements{display:grid;grid-template-columns:1fr 1fr;gap:34px}
+.mv-stmt{background:#fff;border-radius:var(--radius);padding:38px;box-shadow:var(--shadow);border-inline-start:4px solid var(--brand)}
+.mv-stmt .eyebrow{color:var(--brand)}
+.mv-text{color:var(--ink);font-size:1.16rem;line-height:1.7;margin-top:12px;font-weight:500}
+.values-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:26px;margin-top:46px}
+.value-n{font-family:var(--head);font-size:1.25rem;font-weight:700;color:var(--brand);opacity:.55}
+.value h3{font-size:1.14rem;color:var(--brand-dark);margin:10px 0 8px}
+.value p{color:var(--muted);font-size:14.5px;line-height:1.65}
+.mv-closing{text-align:center;max-width:680px;margin:48px auto 0;font-style:italic;color:var(--muted);font-size:1.05rem}
+@media(max-width:860px){.mv-statements{grid-template-columns:1fr}.values-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:540px){.values-grid{grid-template-columns:1fr}}
+
 /* news / blog */
 .card-media.photo{aspect-ratio:16/10;padding:0;background:var(--bg-soft)}
 .card-media.photo img{width:100%;height:100%;object-fit:cover;max-height:none}
