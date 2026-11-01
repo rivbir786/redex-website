@@ -113,6 +113,36 @@ function db_seed(PDO $pdo): void
         }
     } catch (Throwable $e) {}
 
+    // 1b) Eksik dilleri JSON'dan mevcut haber satırlarına ekle (ör. sonradan eklenen Türkçe).
+    //     Yalnızca eksik dil anahtarını ekler; mevcut dilleri (admin düzenlemeleri dahil) ezmez.
+    try {
+        $json = __DIR__ . '/news-data.json';
+        if (is_file($json)) {
+            $items = json_decode(file_get_contents($json), true) ?: [];
+            $sel = $pdo->prepare("SELECT langs FROM news WHERE slug=?");
+            $upd = $pdo->prepare("UPDATE news SET langs=?, updated_at=? WHERE slug=?");
+            foreach ($items as $a) {
+                $slug = $a['slug'] ?? '';
+                if ($slug === '') continue;
+                $sel->execute([$slug]);
+                $row = $sel->fetch();
+                if (!$row) continue;
+                $dbLangs   = json_decode($row['langs'] ?: '{}', true) ?: [];
+                $jsonLangs = $a['langs'] ?? [];
+                $changed = false;
+                foreach ($jsonLangs as $lc => $content) {
+                    if (!isset($dbLangs[$lc]) && is_array($content)) {
+                        $dbLangs[$lc] = $content;
+                        $changed = true;
+                    }
+                }
+                if ($changed) {
+                    $upd->execute([json_encode($dbLangs, JSON_UNESCAPED_UNICODE), date('c'), $slug]);
+                }
+            }
+        }
+    } catch (Throwable $e) {}
+
     // 2) Kullanıcılar: tablo boşsa, eski tek-şifre kurulumunu 'admin' kullanıcısına taşı
     try {
         $ucount = (int) $pdo->query("SELECT COUNT(*) FROM users")->fetchColumn();
