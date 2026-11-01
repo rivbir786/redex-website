@@ -11,8 +11,7 @@
           <p><?= e(loc($o['address'])) ?></p>
           <?php if (!empty($o['contact'])): ?><p>👤 <?= e($o['contact']) ?></p><?php endif; ?>
           <?php if (!empty($o['phone'])): ?><p>📞 <a href="tel:<?= e(preg_replace('/\s+/', '', $o['phone'])) ?>"><?= e($o['phone']) ?></a></p><?php endif; ?>
-          <p>✉ <a href="mailto:<?= e($o['email']) ?>"><?= e($o['email']) ?></a></p>
-          <?php if (!empty($o['map'])): ?><p><a class="card-link" href="<?= e($o['map']) ?>" target="_blank" rel="noopener"><?= e(t('common.get_directions')) ?></a></p><?php endif; ?>
+          <p>✉ <?= email_link($o['email']) ?></p>
         </div>
       <?php endforeach; ?>
     </div>

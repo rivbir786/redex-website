@@ -5,7 +5,7 @@
       <p>This Privacy Policy explains how <?= e(cfg('company')) ?> (“we”, “us”, “our”) collects, uses, and protects personal data when you visit this website, in accordance with applicable data protection regulations, including the EU General Data Protection Regulation (GDPR) and the ePrivacy Directive.</p>
 
       <h3 style="margin-top:34px;color:var(--brand-dark)">1. Data Controller</h3>
-      <p>The controller responsible for data processing on this website is <?= e(cfg('company')) ?>. For any privacy-related request, you can contact us at <a href="mailto:<?= e(cfg('email')) ?>" style="color:var(--brand)"><?= e(cfg('email')) ?></a>.</p>
+      <p>The controller responsible for data processing on this website is <?= e(cfg('company')) ?>. For any privacy-related request, you can contact us at <?= email_link(cfg('email'), ["style" => "color:var(--brand)"]) ?>.</p>
 
       <h3 style="margin-top:34px;color:var(--brand-dark)">2. Information We Collect</h3>
       <p>We collect information that you provide directly through our contact and application forms — such as your name, email address, phone number, company, country, subject, message content, and any documents you choose to upload (e.g. a CV). When you submit a form, we also store the time of submission and technical information needed to process your request.</p>
@@ -34,14 +34,14 @@
       <p>We keep contact messages and job applications only as long as necessary to handle your request and to comply with legal obligations, after which they are deleted or anonymized.</p>
 
       <h3 style="margin-top:34px;color:var(--brand-dark)">9. Your Rights</h3>
-      <p>Subject to applicable law, you have the right to access, rectify, or erase your personal data, to restrict or object to processing, and to data portability. You may also withdraw consent at any time without affecting prior processing, and lodge a complaint with a supervisory authority. To exercise these rights, contact us at <a href="mailto:<?= e(cfg('email')) ?>" style="color:var(--brand)"><?= e(cfg('email')) ?></a>.</p>
+      <p>Subject to applicable law, you have the right to access, rectify, or erase your personal data, to restrict or object to processing, and to data portability. You may also withdraw consent at any time without affecting prior processing, and lodge a complaint with a supervisory authority. To exercise these rights, contact us at <?= email_link(cfg('email'), ["style" => "color:var(--brand)"]) ?>.</p>
 
       <h3 style="margin-top:34px;color:var(--brand-dark)">10. Changes to This Policy</h3>
       <p>We may update this Privacy Policy from time to time. The latest version is always available on this page.</p>
 
       <h3 style="margin-top:40px;color:var(--brand-dark)"><?= e(t('privacy.imprint_title')) ?></h3>
       <p><strong><?= e(cfg('company')) ?></strong><br>
-         Email: <a href="mailto:<?= e(cfg('email')) ?>" style="color:var(--brand)"><?= e(cfg('email')) ?></a></p>
+         Email: <?= email_link(cfg('email'), ["style" => "color:var(--brand)"]) ?></p>
 
       <p style="margin-top:34px;color:var(--muted);font-size:14px"><em>Bu metin profesyonel bir taslaktır. Yayına almadan önce şirketin yasal bilgilerini (ticari unvan, adres, ticaret sicil/vergi no, sorumlu kişi) tamamlamanız ve bir hukuk danışmanına gözden geçirtmeniz önerilir.</em></p>
     </div>

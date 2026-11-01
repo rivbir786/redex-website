@@ -137,3 +137,16 @@
     refreshYT();
   })();
 })();
+
+/* E-posta adreslerini spam botlarından koruma: kaynak HTML'de "@" yok;
+   kullanıcı+alan ayrı data özniteliklerinden birleştirilip tıklanabilir mailto'ya çevrilir. */
+(function(){
+  var links = document.querySelectorAll('a.eml');
+  for (var i = 0; i < links.length; i++) {
+    var a = links[i], u = a.getAttribute('data-u'), d = a.getAttribute('data-d');
+    if (!u || !d) continue;
+    var addr = u + String.fromCharCode(64) + d;
+    a.setAttribute('href', 'mailto:' + addr);
+    a.textContent = addr;
+  }
+})();

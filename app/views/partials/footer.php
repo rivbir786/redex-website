@@ -37,7 +37,7 @@ $socialIcons = [
         <?php foreach ($quick as $slug => $label): ?>
           <li><a href="<?= e(url($slug)) ?>"><?= e($label) ?></a></li>
         <?php endforeach; ?>
-        <li><a href="mailto:<?= e(cfg('email')) ?>"><?= e(cfg('email')) ?></a></li>
+        <li><?= email_link(cfg('email')) ?></li>
       </ul>
     </div>
   </div>

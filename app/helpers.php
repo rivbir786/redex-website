@@ -100,6 +100,28 @@ function captcha_check(): bool
     return $sum !== null && trim((string)($_POST['captcha'] ?? '')) === (string) $sum;
 }
 
+/**
+ * Spam botlarına karşı korumalı e-posta bağlantısı.
+ * HTML kaynağında "kullanıcı@alan" biçimi GEÇMEZ (kullanıcı ve alan ayrı data
+ * özniteliklerinde, '@' yok) — böylece e-posta regex'i tarayan botlar yakalayamaz.
+ * JS kapalıyken "kullanici [at] alan.com" olarak okunur; JS açıkken tıklanabilir
+ * mailto bağlantısına ve temiz metne dönüşür (app/views/layout.php içindeki script).
+ */
+function email_link(string $email, array $attrs = []): string
+{
+    $at = strpos($email, '@');
+    if ($at === false) return e($email);
+    $u = substr($email, 0, $at);
+    $d = substr($email, $at + 1);
+    $extra = '';
+    foreach ($attrs as $k => $v) {
+        $extra .= ' ' . $k . '="' . e((string) $v) . '"';
+    }
+    return '<a class="eml" href="#" rel="nofollow" data-u="' . e($u) . '" data-d="' . e($d) . '"' . $extra . '>'
+         . e($u) . '<span class="eml-at"> [at] </span>' . e($d)
+         . '</a>';
+}
+
 /** Basit slug */
 function slugify(string $s): string
 {
