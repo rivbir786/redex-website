@@ -156,19 +156,25 @@ function build_seo(string $page, string $route, array $data): array
 
     $title = $titles[$page] ?? $site;
     $desc  = $descs[$page] ?? t('meta.home_desc');
+    $ogImage = asset('img/og-default.jpg');
+    $ogType  = 'website';
 
     if ($page === 'product' && !empty($data['product'])) {
         $title = loc($data['product']['name']) . ' | ' . $site;
         $desc  = loc($data['product']['excerpt']);
+        if (!empty($data['product']['img'])) $ogImage = $data['product']['img'];
     }
     if ($page === 'service' && !empty($data['service'])) {
         $title = loc($data['service']['title']) . ' | ' . $site;
         $desc  = loc($data['service']['excerpt']);
+        if (!empty($data['service']['img'])) $ogImage = $data['service']['img'];
     }
     if ($page === 'news-article' && !empty($data['article'])) {
         $tr = news_tr($data['article']);
         $title = $tr['title'] . ' | ' . $site;
         $desc  = $tr['excerpt'];
+        $ogType = 'article';
+        if (!empty($data['article']['image'])) $ogImage = asset($data['article']['image']);
     }
 
     // hreflang alternatifleri
@@ -182,13 +188,20 @@ function build_seo(string $page, string $route, array $data): array
         'description' => mb_substr(trim(preg_replace('/\s+/', ' ', $desc)), 0, 180),
         'canonical' => url($route),
         'alternates' => $alts,
-        'og_image' => asset('img/og-default.jpg'),
+        'og_image' => $ogImage,
+        'og_type' => $ogType,
     ];
 }
 
 function render_robots(): void
 {
     header('Content-Type: text/plain; charset=utf-8');
+    if (cfg('noindex')) {
+        // Staging/deneme: tüm arama botlarını engelle (site yayına hazır olunca config'de noindex=false yapın)
+        echo "User-agent: *\n";
+        echo "Disallow: /\n";
+        return;
+    }
     echo "User-agent: *\n";
     echo "Allow: /\n";
     echo "Disallow: /admin/\n";

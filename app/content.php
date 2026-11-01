@@ -237,7 +237,7 @@ function content_services(): array
             'title' => ['en' => 'Decoration', 'zh' => '表面装饰', 'es' => 'Decoración',
                         'ru' => 'Декорирование', 'fr' => 'Décoration', 'pl' => 'Zdobienie',
                         'de' => 'Veredelung', 'he' => 'עיטור והדפסה'],
-            'img' => asset('img/wp/camkremkavonozlari.png'),
+            'img' => asset('img/wp/camkremkavonozlari.jpg'),
             'excerpt' => ['en' => 'Screen printing, hot stamping, frosting, coloring, and labeling to bring your brand to the bottle.',
                           'zh' => '丝网印刷、烫金、蒙砂、喷色与贴标，让您的品牌呈现在瓶身上。',
                           'es' => 'Serigrafía, estampado en caliente, esmerilado, coloración y etiquetado para llevar su marca a la botella.',

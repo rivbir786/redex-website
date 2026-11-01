@@ -6,6 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?= e($seo['title']) ?></title>
     <meta name="description" content="<?= e($seo['description']) ?>">
+<?php if (cfg('noindex')): ?>
+    <meta name="robots" content="noindex, nofollow">
+<?php else: ?>
+    <meta name="robots" content="index, follow, max-image-preview:large">
+<?php endif; ?>
+    <meta name="theme-color" content="<?= e(cfg('brand_color')) ?>">
     <link rel="canonical" href="<?= e($seo['canonical']) ?>">
     <?php foreach ($seo['alternates'] as $l => $href): ?>
     <link rel="alternate" hreflang="<?= e($l) ?>" href="<?= e($href) ?>">
@@ -13,13 +19,20 @@
     <link rel="alternate" hreflang="x-default" href="<?= e($seo['alternates'][cfg('default_lang')]) ?>">
 
     <!-- Open Graph / Twitter -->
-    <meta property="og:type" content="website">
+    <meta property="og:type" content="<?= e($seo['og_type'] ?? 'website') ?>">
     <meta property="og:site_name" content="<?= e(cfg('site_name')) ?>">
     <meta property="og:title" content="<?= e($seo['title']) ?>">
     <meta property="og:description" content="<?= e($seo['description']) ?>">
     <meta property="og:url" content="<?= e($seo['canonical']) ?>">
     <meta property="og:locale" content="<?= e(cfg('languages')[lang()]['locale']) ?>">
+<?php foreach ($seo['alternates'] as $l => $href): if ($l === lang()) continue; ?>
+    <meta property="og:locale:alternate" content="<?= e(cfg('languages')[$l]['locale']) ?>">
+<?php endforeach; ?>
+    <meta property="og:image" content="<?= e($seo['og_image']) ?>">
     <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="<?= e($seo['title']) ?>">
+    <meta name="twitter:description" content="<?= e($seo['description']) ?>">
+    <meta name="twitter:image" content="<?= e($seo['og_image']) ?>">
 
     <link rel="icon" href="<?= e(asset('img/wp/favicon.png')) ?>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
