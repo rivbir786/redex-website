@@ -8,14 +8,14 @@ return [
     // Site kimliği
     'site_name'   => 'Redex Glass',
     'company'     => 'Redex Glass',
-    'version'     => '3.2',          // footer'da gosterilir; her degisiklikte guncellenir
+    'version'     => '3.3',          // footer'da gosterilir; her degisiklikte guncellenir
     'updated'     => '2026-11-01',   // footer "son guncelleme" tarihi (YYYY-MM-DD)
     // Arama motoru indekslemesi: deneme/staging asamasinda TRUE (botlar engellenir).
     // Site yayina hazir olunca FALSE yapin -> robots.txt acilir, meta noindex kalkar, sitemap sunulur.
     'noindex'     => true,
     'base_url'    => rtrim(getenv('REDEX_BASE_URL') ?: '', '/'), // boş = otomatik algıla
     'default_lang'=> 'en',
-    // Sıra: İngilizce, Çince, İspanyolca, Rusça, Fransızca, Lehçe, Almanca, İbranice
+    // Sıra: İngilizce, Çince, İspanyolca, Rusça, Fransızca, Lehçe, Türkçe, Almanca, İbranice
     'languages'   => [
         'en' => ['label' => 'English',  'native' => 'English',  'dir' => 'ltr', 'locale' => 'en_US', 'flag' => '🇬🇧'],
         'zh' => ['label' => 'Chinese',  'native' => '中文',      'dir' => 'ltr', 'locale' => 'zh_CN', 'flag' => '🇨🇳'],
@@ -23,6 +23,7 @@ return [
         'ru' => ['label' => 'Russian',  'native' => 'Русский',  'dir' => 'ltr', 'locale' => 'ru_RU', 'flag' => '🇷🇺'],
         'fr' => ['label' => 'French',   'native' => 'Français', 'dir' => 'ltr', 'locale' => 'fr_FR', 'flag' => '🇫🇷'],
         'pl' => ['label' => 'Polish',   'native' => 'Polski',   'dir' => 'ltr', 'locale' => 'pl_PL', 'flag' => '🇵🇱'],
+        'tr' => ['label' => 'Turkish',  'native' => 'Türkçe',   'dir' => 'ltr', 'locale' => 'tr_TR', 'flag' => '🇹🇷'],
         'de' => ['label' => 'German',   'native' => 'Deutsch',  'dir' => 'ltr', 'locale' => 'de_DE', 'flag' => '🇩🇪'],
         'he' => ['label' => 'Hebrew',   'native' => 'עברית',    'dir' => 'rtl', 'locale' => 'he_IL', 'flag' => '🇮🇱'],
     ],
