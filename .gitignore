@@ -9,3 +9,7 @@ storage/uploads/*
 # Yerel/OS dosyaları
 .DS_Store
 *.log
+
+# Yuklenen haber gorselleri — sunucuda olusur
+assets/uploads/news/*
+!assets/uploads/news/.gitkeep

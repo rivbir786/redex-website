@@ -588,11 +588,24 @@ function content_positions(): array
     return [];
 }
 
-/** Haberler/Blog — WordPress'ten aktarıldı (app/news-data.json). Tarihe göre yeniden->eskiye. */
+/** Haberler/Blog — veritabanından (backend'den yönetilir). Tarihe göre yeniden->eskiye. İlk kurulumda JSON'dan tohumlanır. */
 function content_news(): array
 {
     static $cache = null;
-    if ($cache === null) {
+    if ($cache !== null) return $cache;
+    $cache = [];
+    try {
+        $rows = db()->query("SELECT slug,image,published_at,langs FROM news WHERE is_published=1 ORDER BY published_at DESC, id DESC")->fetchAll();
+        foreach ($rows as $r) {
+            $cache[] = [
+                'slug'  => $r['slug'],
+                'date'  => $r['published_at'],
+                'image' => $r['image'],
+                'langs' => json_decode($r['langs'] ?: '{}', true) ?: [],
+            ];
+        }
+    } catch (Throwable $e) {
+        // Veritabanı yoksa JSON yedeğine düş
         $file = __DIR__ . '/news-data.json';
         $cache = is_file($file) ? (json_decode(file_get_contents($file), true) ?: []) : [];
     }

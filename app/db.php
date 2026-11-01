@@ -70,4 +70,61 @@ function db_migrate(PDO $pdo): void
         path TEXT, lang TEXT, referrer TEXT, ua TEXT, ip_hash TEXT,
         is_bot INTEGER DEFAULT 0, day TEXT, created_at TEXT
     )");
+    // Analitik: ülke + sayfada geçirilen süre (sonradan eklenen sütunlar)
+    foreach (['country' => 'TEXT', 'duration' => 'INTEGER DEFAULT 0', 'vtoken' => 'TEXT'] as $col => $type) {
+        try { $pdo->exec("ALTER TABLE visits ADD COLUMN $col $type"); } catch (Throwable $e) {}
+    }
+
+    // Yönetici kullanıcılar (rol tabanlı: admin / editor)
+    $pdo->exec("CREATE TABLE IF NOT EXISTS users (
+        id $autoInc,
+        username TEXT UNIQUE, password_hash TEXT, role TEXT DEFAULT 'editor',
+        created_at TEXT, last_login TEXT
+    )");
+
+    // Haberler (çok dilli; backend'den yönetilir)
+    $pdo->exec("CREATE TABLE IF NOT EXISTS news (
+        id $autoInc,
+        slug TEXT UNIQUE, image TEXT, published_at TEXT, langs TEXT,
+        is_published INTEGER DEFAULT 1, created_at TEXT, updated_at TEXT
+    )");
+
+    db_seed($pdo);
+}
+
+/** İlk kurulum tohumlaması: haberleri JSON'dan DB'ye, eski tek şifreyi users'a taşı. */
+function db_seed(PDO $pdo): void
+{
+    // 1) Haberler: tablo boşsa app/news-data.json'dan içe aktar
+    try {
+        $count = (int) $pdo->query("SELECT COUNT(*) FROM news")->fetchColumn();
+        if ($count === 0) {
+            $json = __DIR__ . '/news-data.json';
+            if (is_file($json)) {
+                $items = json_decode(file_get_contents($json), true) ?: [];
+                $st = $pdo->prepare("INSERT OR IGNORE INTO news (slug,image,published_at,langs,is_published,created_at,updated_at)
+                                     VALUES (?,?,?,?,1,?,?)");
+                foreach ($items as $a) {
+                    $now = date('c');
+                    $st->execute([$a['slug'] ?? '', $a['image'] ?? '', $a['date'] ?? date('Y-m-d'),
+                                  json_encode($a['langs'] ?? [], JSON_UNESCAPED_UNICODE), $now, $now]);
+                }
+            }
+        }
+    } catch (Throwable $e) {}
+
+    // 2) Kullanıcılar: tablo boşsa, eski tek-şifre kurulumunu 'admin' kullanıcısına taşı
+    try {
+        $ucount = (int) $pdo->query("SELECT COUNT(*) FROM users")->fetchColumn();
+        if ($ucount === 0) {
+            $hashFile = cfg('admin_hash_file');
+            if (is_file($hashFile)) {
+                $hash = require $hashFile;
+                if (is_string($hash) && $hash !== '') {
+                    $st = $pdo->prepare("INSERT OR IGNORE INTO users (username,password_hash,role,created_at) VALUES (?,?,?,?)");
+                    $st->execute(['admin', $hash, 'admin', date('c')]);
+                }
+            }
+        }
+    } catch (Throwable $e) {}
 }

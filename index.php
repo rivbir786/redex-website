@@ -29,6 +29,11 @@ $uri = '/' . ltrim($uri, '/');
 // --- Dilden bağımsız özel rotalar ---
 if ($uri === '/robots.txt') { render_robots(); exit; }
 if ($uri === '/sitemap.xml') { render_sitemap(); exit; }
+// Sayfada geçirilen süre beacon'ı (JS sendBeacon) — dil ön ekinden önce yakala
+if ($uri === '/_track' && $_SERVER['REQUEST_METHOD'] === 'POST') {
+    record_visit_time((string)($_POST['t'] ?? ''), (int)($_POST['s'] ?? 0));
+    http_response_code(204); exit;
+}
 
 // --- Dil önekini ayır ---
 $segments = array_values(array_filter(explode('/', trim($uri, '/')), fn($s) => $s !== ''));
@@ -61,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // --- Ziyaretçi kaydı (botları işaretleyerek) ---
-log_visit('/' . $route, lang());
+$GLOBALS['__vtoken'] = log_visit('/' . $route, lang());
 
 // --- Yönlendirme tablosu ---
 $page = null; $data = [];
