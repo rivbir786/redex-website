@@ -63,12 +63,17 @@ $q = $home['quality'];
 <!-- Services -->
 <section class="section section-soft">
   <div class="container">
-    <div class="center">
-      <p class="eyebrow"><?= e(t('home.services_title')) ?></p>
-      <h2 class="section-title"><?= e(t('common.our_services')) ?></h2>
-      <p class="lead"><?= e(t('home.services_intro')) ?></p>
+    <div class="services-head">
+      <div>
+        <p class="eyebrow"><?= e(t('home.services_title')) ?></p>
+        <h2 class="section-title"><?= e(t('common.our_services')) ?></h2>
+        <p class="lead"><?= e(t('home.services_intro')) ?></p>
+      </div>
+      <div class="services-head-media">
+        <img src="<?= e(asset('img/brand.png')) ?>" alt="<?= e(t('common.our_services')) ?> — Redex Glass" loading="lazy" width="496" height="454">
+      </div>
     </div>
-    <div class="svc-list" style="margin-top:46px">
+    <div class="svc-list" style="margin-top:40px">
       <?php $i=1; foreach ($services as $k => $s): ?>
         <a class="svc reveal" href="<?= e(url('services/' . $k)) ?>">
           <span class="n"><?= $i++ ?></span>

@@ -154,8 +154,19 @@ section{scroll-margin-top:var(--head-h)}
 .card-link::after{content:"→"}
 [dir=rtl] .card-link::after{content:"←"}
 
+/* services section header: text + brand image */
+.services-head{display:grid;grid-template-columns:1.15fr .85fr;gap:50px;align-items:center;margin-bottom:8px}
+.services-head .lead{margin-top:16px;max-width:560px}
+.services-head-media{display:flex;justify-content:center}
+.services-head-media img{width:100%;max-width:360px;height:auto;display:block}
+@media (max-width:860px){
+  .services-head{grid-template-columns:1fr;gap:26px;text-align:center}
+  .services-head .lead{margin-inline:auto}
+  .services-head-media img{max-width:300px;margin-inline:auto}
+}
+
 /* service rows */
-.svc-list{display:grid;grid-template-columns:repeat(2,1fr);gap:26px}
+.svc-list{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
 .svc{display:flex;gap:18px;padding:26px;background:#fff;border:1px solid var(--line);border-radius:var(--radius)}
 .svc .n{font-family:var(--head);font-size:1.6rem;color:var(--brand);line-height:1;min-width:42px}
 .svc h3{font-size:1.15rem;color:var(--brand-dark)}
