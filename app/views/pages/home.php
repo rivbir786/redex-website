@@ -6,7 +6,7 @@ $os = $home['onestop'];
 $q = $home['quality'];
 ?>
 <section class="hero">
-  <video class="hero-video" src="<?= e(cfg('hero_video')) ?>" autoplay muted loop playsinline preload="auto" aria-hidden="true"></video>
+  <video class="hero-video" src="<?= e(asset(cfg('hero_video'))) ?>" autoplay muted loop playsinline preload="auto" aria-hidden="true"></video>
   <div class="container">
     <h1><?= e(loc($home['hero']['title'])) ?><span><?= e(loc($home['hero']['accent'])) ?></span></h1>
     <p><?= e(loc($home['hero']['sub'])) ?></p>

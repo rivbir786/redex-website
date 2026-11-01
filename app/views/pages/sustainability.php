@@ -5,6 +5,6 @@
       <h2 class="section-title"><?= e(t('sustainability.lead')) ?></h2>
       <p class="prose"><?= e(t('sustainability.body')) ?></p>
     </div>
-    <img src="https://redexglass.com/wp-content/uploads/2026/01/Mockup-1--scaled.jpg" alt="Sustainability" loading="lazy">
+    <img src="<?= e(asset('img/wp/sustainability.jpg')) ?>" alt="Sustainability" loading="lazy">
   </div>
 </section>

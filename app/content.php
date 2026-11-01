@@ -217,7 +217,7 @@ function content_services(): array
                         'ru' => 'Индивидуальный дизайн флаконов', 'fr' => 'Conception de flacons sur mesure',
                         'pl' => 'Indywidualny projekt butelek', 'de' => 'Individuelle Flaschengestaltung',
                         'he' => 'עיצוב בקבוקים בהתאמה אישית'],
-            'img' => 'https://redexglass.com/wp-content/uploads/2025/12/leftproduction.png',
+            'img' => asset('img/wp/leftproduction.png'),
             'wide_img' => asset('img/custom-bottle-design-process.jpg'),
             'excerpt' => ['en' => 'From your sample or drawing to series production — custom glass bottles and any plastic component, in one coordinated, approval-driven process.', 'zh' => '从您的样品或图纸到量产——定制玻璃瓶与所需的任何塑料部件，在一个每步确认、协同一致的流程中完成。', 'es' => 'De su muestra o plano a la producción en serie: botellas de vidrio a medida y cualquier componente plástico, en un proceso coordinado y aprobado paso a paso.', 'ru' => 'От вашего образца или чертежа до серийного производства — флаконы под заказ и любые пластиковые компоненты в едином согласованном процессе с утверждением на каждом шаге.', 'fr' => 'De votre échantillon ou plan à la production en série — flacons sur mesure et tout composant plastique, dans un processus coordonné validé à chaque étape.', 'pl' => 'Od Twojej próbki lub rysunku do produkcji seryjnej — butelki na zamówienie i dowolny komponent z tworzywa, w jednym spójnym procesie z akceptacją każdego etapu.', 'de' => 'Von Ihrem Muster oder Ihrer Zeichnung bis zur Serienproduktion – maßgefertigte Flaschen und jede Kunststoffkomponente, in einem koordinierten, schrittweise freigegebenen Prozess.', 'he' => 'מהדוגמה או השרטוט שלכם ועד לייצור סדרתי — בקבוקים בהתאמה אישית וכל רכיב פלסטיק, בתהליך מתואם אחד עם אישור בכל שלב.'],
             'glass_h' => ['en' => 'Glass bottle', 'zh' => '玻璃瓶', 'es' => 'Botella de vidrio', 'ru' => 'Стеклянный флакон', 'fr' => 'Flacon en verre', 'pl' => 'Szklana butelka', 'de' => 'Glasflasche', 'he' => 'בקבוק זכוכית'],
@@ -237,7 +237,7 @@ function content_services(): array
             'title' => ['en' => 'Decoration', 'zh' => '表面装饰', 'es' => 'Decoración',
                         'ru' => 'Декорирование', 'fr' => 'Décoration', 'pl' => 'Zdobienie',
                         'de' => 'Veredelung', 'he' => 'עיטור והדפסה'],
-            'img' => 'https://redexglass.com/wp-content/uploads/2025/12/camkremkavonozlari.png',
+            'img' => asset('img/wp/camkremkavonozlari.png'),
             'excerpt' => ['en' => 'Screen printing, hot stamping, frosting, coloring, and labeling to bring your brand to the bottle.',
                           'zh' => '丝网印刷、烫金、蒙砂、喷色与贴标，让您的品牌呈现在瓶身上。',
                           'es' => 'Serigrafía, estampado en caliente, esmerilado, coloración y etiquetado para llevar su marca a la botella.',
@@ -258,6 +258,7 @@ function content_services(): array
         'caps-and-closures' => [
             'title' => ['en' => 'One-Stop for All Your Needs', 'zh' => '一站式满足您的所有需求', 'es' => 'Todo lo que necesita, en un solo lugar', 'ru' => 'Всё необходимое в одном месте', 'fr' => 'Tout ce qu’il vous faut, en un seul endroit', 'pl' => 'Wszystko w jednym miejscu', 'de' => 'Alles aus einer Hand', 'he' => 'הכול במקום אחד'],
             'wide_img' => asset('img/caps-closures.png'),
+            'img' => asset('img/caps-closures.png'),
             'excerpt' => ['en' => 'Caps, droppers, pumps and sprays — every closure your glass bottle needs, matched and supplied from a single source.', 'zh' => '瓶盖、滴管、乳液泵与喷头——玻璃瓶所需的每一种封口，均由一处配套供应。', 'es' => 'Tapas, cuentagotas, dosificadores y pulverizadores: cada cierre que necesita su botella de vidrio, conjuntado y suministrado desde un único proveedor.', 'ru' => 'Крышки, капельницы, помпы и распылители — любой укупорочный элемент для вашего флакона, подобранный и поставляемый из одного источника.', 'fr' => 'Bouchons, compte-gouttes, pompes et sprays — chaque fermeture dont votre flacon a besoin, assortie et fournie par un seul interlocuteur.', 'pl' => 'Zakrętki, kroplomierze, pompki i spraye — każde zamknięcie, którego potrzebuje Twoja szklana butelka, dobrane i dostarczane z jednego źródła.', 'de' => 'Verschlüsse, Tropfer, Pumpen und Sprüher — jeder Verschluss für Ihre Glasflasche, abgestimmt und aus einer Hand geliefert.', 'he' => 'פקקים, טפטפות, משאבות ותרסיסים — כל סגירה שהבקבוק הזכוכית שלכם צריך, מותאמת ומסופקת ממקור אחד.'],
             'body' => ['en' => 'Beyond the bottle, we supply the full range of closures and accessories that complete your packaging — matched to the right neck finish and chosen for safety, usability and shelf appeal. Order the glass and its closure together, from one supplier, with consistent quality and a single point of contact. From a tamper-evident first opening to easy, trouble-free reclosing, we help you find the closure that fits your product and your market.', 'zh' => '在瓶子之外，我们还提供完善您包装所需的全系列封口与配件——与合适的瓶口匹配，并兼顾安全性、易用性与货架吸引力。玻璃瓶与封口一并订购，来自同一供应商，品质稳定一致，且只需对接一个窗口。从具防拆启封到轻松顺畅的重复开合，我们帮助您找到契合产品与市场的封口方案。', 'es' => 'Más allá de la botella, suministramos toda la gama de cierres y accesorios que completan su envase, conjuntados con la boca adecuada y elegidos por seguridad, usabilidad y atractivo en el lineal. Pida el vidrio y su cierre juntos, de un único proveedor, con calidad constante y un solo interlocutor. Desde una primera apertura con precinto de seguridad hasta un recierre fácil y sin problemas, le ayudamos a encontrar el cierre que encaja con su producto y su mercado.', 'ru' => 'Помимо флакона, мы поставляем полный спектр укупорки и аксессуаров, завершающих вашу упаковку, — подобранных под нужную горловину и выбранных с учётом безопасности, удобства и привлекательности на полке. Заказывайте стекло и укупорку вместе, у одного поставщика, со стабильным качеством и единым контактным лицом. От защитного первого вскрытия до лёгкого и беспроблемного повторного закрывания — мы поможем подобрать укупорку под ваш продукт и рынок.', 'fr' => 'Au-delà du flacon, nous fournissons toute la gamme de fermetures et accessoires qui complètent votre emballage — assortis à la bonne bague et choisis pour la sécurité, l’usage et l’attrait en rayon. Commandez le verre et sa fermeture ensemble, auprès d’un seul fournisseur, avec une qualité constante et un interlocuteur unique. De la première ouverture inviolable à un rebouchage simple et sans souci, nous vous aidons à trouver la fermeture adaptée à votre produit et à votre marché.', 'pl' => 'Poza butelką dostarczamy pełną gamę zamknięć i akcesoriów, które dopełniają Twoje opakowanie — dopasowanych do właściwej szyjki i dobranych pod kątem bezpieczeństwa, wygody i atrakcyjności na półce. Zamów szkło i zamknięcie razem, u jednego dostawcy, ze stałą jakością i jednym punktem kontaktu. Od plomby przy pierwszym otwarciu po łatwe i bezproblemowe ponowne zamykanie — pomagamy dobrać zamknięcie do Twojego produktu i rynku.', 'de' => 'Über die Flasche hinaus liefern wir das komplette Programm an Verschlüssen und Zubehör, das Ihre Verpackung vervollständigt — abgestimmt auf die richtige Mündung und ausgewählt nach Sicherheit, Handhabung und Regalwirkung. Bestellen Sie Glas und Verschluss zusammen, von einem Lieferanten, mit gleichbleibender Qualität und einem Ansprechpartner. Vom garantiebrechenden Erstöffnen bis zum leichten, problemlosen Wiederverschließen helfen wir Ihnen, den passenden Verschluss für Produkt und Markt zu finden.', 'he' => 'מעבר לבקבוק, אנו מספקים את מגוון הסגירות והאביזרים המלא שמשלים את האריזה שלכם — מותאמים לצוואר הנכון ונבחרים מתוך שיקולי בטיחות, נוחות שימוש ומשיכה על המדף. הזמינו את הזכוכית והסגירה יחד, מספק אחד, באיכות עקבית ובאיש קשר יחיד. מאיטום ראשוני עם חיווי פתיחה ועד סגירה חוזרת קלה ונוחה, אנו עוזרים לכם למצוא את הסגירה המתאימה למוצר ולשוק שלכם.'],
             'closures' => [
@@ -280,11 +281,10 @@ function content_services(): array
 
 function content_products(): array
 {
-    $u = 'https://redexglass.com/wp-content/uploads/2025/12/';
     return [
         [
             'slug' => 'injection-vials-borosilicate-tubing',
-            'img'  => $u . 'p1.png',
+            'img'  => asset('img/wp/p1.png'),
             'name' => ['en' => 'Injection Vials Made of Borosilicate Glass Tubing', 'zh' => '硼硅玻璃管制西林瓶',
                        'es' => 'Viales de Inyección de Tubo de Vidrio Borosilicato', 'ru' => 'Флаконы для инъекций из боросиликатного трубчатого стекла',
                        'fr' => 'Flacons injectables en verre tubulaire borosilicate', 'pl' => 'Fiolki iniekcyjne ze szkła borokrzemowego rurowego',
@@ -309,7 +309,7 @@ function content_products(): array
         ],
         [
             'slug' => 'boston-round-bottles',
-            'img'  => $u . 'p3.png',
+            'img'  => asset('img/wp/p3.png'),
             'name' => ['en' => 'Boston Round Bottle', 'zh' => '波士顿圆瓶', 'es' => 'Botella Boston Round',
                        'ru' => 'Бутылка Boston Round', 'fr' => 'Flacon Boston Round', 'pl' => 'Butelka Boston Round',
                        'de' => 'Boston-Round-Flasche', 'he' => 'בקבוק בוסטון עגול'],
@@ -333,7 +333,7 @@ function content_products(): array
         ],
         [
             'slug' => 'glass-cream-jars',
-            'img'  => $u . 'p4.png',
+            'img'  => asset('img/wp/p4.png'),
             'name' => ['en' => 'Glass Cream Jars', 'zh' => '玻璃膏霜瓶', 'es' => 'Tarros de Crema de Vidrio',
                        'ru' => 'Косметические банки из стекла', 'fr' => 'Pots cosmétiques en verre', 'pl' => 'Słoiki kosmetyczne szklane',
                        'de' => 'Glas-Cremetiegel', 'he' => 'צנצנות קרם מזכוכית'],
@@ -357,7 +357,7 @@ function content_products(): array
         ],
         [
             'slug' => 'dropper-dispensing-bottles',
-            'img'  => $u . 'Dropper-Dispensing-Bottles_-removebg-preview.png',
+            'img'  => asset('img/wp/Dropper-Dispensing-Bottles_-removebg-preview.png'),
             'name' => ['en' => 'Dropper Dispensing Bottles', 'zh' => '滴管瓶', 'es' => 'Botellas Cuentagotas',
                        'ru' => 'Флаконы-капельницы', 'fr' => 'Flacons compte-gouttes', 'pl' => 'Butelki z kroplomierzem',
                        'de' => 'Tropfflaschen', 'he' => 'בקבוקי טפטפת'],
@@ -381,7 +381,7 @@ function content_products(): array
         ],
         [
             'slug' => 'glass-infusion-bottles',
-            'img'  => $u . 'gorsel1.png',
+            'img'  => asset('img/wp/gorsel1.png'),
             'name' => ['en' => 'Clear Infusion Bottles', 'zh' => '透明输液瓶', 'es' => 'Botellas de Infusión Transparentes',
                        'ru' => 'Прозрачные инфузионные флаконы', 'fr' => 'Flacons de perfusion transparents', 'pl' => 'Przezroczyste butelki infuzyjne',
                        'de' => 'Transparente Infusionsflaschen', 'he' => 'בקבוקי עירוי שקופים'],
@@ -429,7 +429,7 @@ function content_products(): array
         ],
         [
             'slug' => 'glass-bottles-syrup',
-            'img'  => $u . 'gorsel3.png',
+            'img'  => asset('img/wp/gorsel3.png'),
             'name' => ['en' => 'Glass Bottles for Syrup', 'zh' => '糖浆瓶', 'es' => 'Botellas de Vidrio para Jarabe',
                        'ru' => 'Флаконы для сиропа', 'fr' => 'Flacons pour sirop', 'pl' => 'Butelki na syrop',
                        'de' => 'Sirupflaschen', 'he' => 'בקבוקים לסירופ'],
@@ -453,7 +453,7 @@ function content_products(): array
         ],
         [
             'slug' => 'glass-bottles-tablets',
-            'img'  => $u . 'gorsel4.png',
+            'img'  => asset('img/wp/gorsel4.png'),
             'name' => ['en' => 'Glass Bottles for Tablets', 'zh' => '片剂瓶', 'es' => 'Botellas de Vidrio para Comprimidos',
                        'ru' => 'Флаконы для таблеток', 'fr' => 'Flacons pour comprimés (piluliers)', 'pl' => 'Butelki na tabletki',
                        'de' => 'Tablettenflaschen', 'he' => 'בקבוקים לטבליות'],
@@ -477,7 +477,7 @@ function content_products(): array
         ],
         [
             'slug' => 'caps-and-accessories',
-            'img'  => $u . 'gorsel5.png',
+            'img'  => asset('img/wp/gorsel5.png'),
             'name' => ['en' => 'Caps and Accessories', 'zh' => '瓶盖与配件', 'es' => 'Tapas y Accesorios',
                        'ru' => 'Крышки и аксессуары', 'fr' => 'Bouchons et accessoires', 'pl' => 'Zakrętki i akcesoria',
                        'de' => 'Verschlüsse und Zubehör', 'he' => 'פקקים ואביזרים'],
@@ -586,4 +586,30 @@ function content_distributors(): array
 function content_positions(): array
 {
     return [];
+}
+
+/** Haberler/Blog — WordPress'ten aktarıldı (app/news-data.json). Tarihe göre yeniden->eskiye. */
+function content_news(): array
+{
+    static $cache = null;
+    if ($cache === null) {
+        $file = __DIR__ . '/news-data.json';
+        $cache = is_file($file) ? (json_decode(file_get_contents($file), true) ?: []) : [];
+    }
+    return $cache;
+}
+
+function find_news(string $slug): ?array
+{
+    foreach (content_news() as $a) {
+        if (($a['slug'] ?? '') === $slug) return $a;
+    }
+    return null;
+}
+
+/** Makalenin aktif dildeki içeriği; yoksa İngilizce'ye düşer */
+function news_tr(array $article): array
+{
+    $langs = $article['langs'] ?? [];
+    return $langs[lang()] ?? $langs['en'] ?? ['title' => '', 'excerpt' => '', 'body' => ''];
 }

@@ -21,7 +21,7 @@
     <meta property="og:locale" content="<?= e(cfg('languages')[lang()]['locale']) ?>">
     <meta name="twitter:card" content="summary_large_image">
 
-    <link rel="icon" href="https://redexglass.com/wp-content/uploads/2026/01/favicon.png">
+    <link rel="icon" href="<?= e(asset('img/wp/favicon.png')) ?>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -34,7 +34,7 @@
         '@type' => 'Organization',
         'name' => 'Redex Glass',
         'url' => base_url(),
-        'logo' => 'https://redexglass.com/wp-content/uploads/2026/01/favicon.png',
+        'logo' => asset('img/wp/favicon.png'),
         'sameAs' => array_values(cfg('socials')),
         'email' => cfg('email'),
     ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?>

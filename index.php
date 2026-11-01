@@ -85,6 +85,10 @@ elseif (preg_match('#^services/([a-z0-9\-]+)$#', $route, $m)) {
 elseif ($route === 'careers') { $page = 'careers'; }
 elseif ($route === 'distributors') { $page = 'distributors'; }
 elseif ($route === 'news') { $page = 'news'; }
+elseif (preg_match('#^news/([a-z0-9\-]+)$#', $route, $m)) {
+    $art = find_news($m[1]);
+    if ($art) { $page = 'news-article'; $data['article'] = $art; }
+}
 elseif ($route === 'contact') { $page = 'contact'; }
 elseif ($route === 'privacy-policy') { $page = 'privacy'; }
 
@@ -161,6 +165,11 @@ function build_seo(string $page, string $route, array $data): array
         $title = loc($data['service']['title']) . ' | ' . $site;
         $desc  = loc($data['service']['excerpt']);
     }
+    if ($page === 'news-article' && !empty($data['article'])) {
+        $tr = news_tr($data['article']);
+        $title = $tr['title'] . ' | ' . $site;
+        $desc  = $tr['excerpt'];
+    }
 
     // hreflang alternatifleri
     $alts = [];
@@ -194,6 +203,7 @@ function render_sitemap(): void
                'products', 'services', 'careers', 'distributors', 'news', 'contact', 'privacy-policy'];
     foreach (content_products() as $p) $routes[] = 'products/' . $p['slug'];
     foreach (array_keys(content_services()) as $k) $routes[] = 'services/' . $k;
+    foreach (content_news() as $a) $routes[] = 'news/' . $a['slug'];
 
     $langs = array_keys(cfg('languages'));
     echo '<?xml version="1.0" encoding="UTF-8"?>' . "\n";

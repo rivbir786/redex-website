@@ -87,6 +87,7 @@ return [
         'apply' => '立即申请', 'apply_title' => '提交您的申请',
     ],
     'news' => [
+        'read_more' => '阅读更多', 'back' => '← 返回新闻',
         'title' => '新闻', 'lead' => '来自 Redex Glass 的动态、见解与故事。',
         'empty' => '新文章即将发布。',
     ],

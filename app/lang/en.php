@@ -102,6 +102,7 @@ return [
         'apply' => 'Apply Now', 'apply_title' => 'Submit Your Application',
     ],
     'news' => [
+        'read_more' => 'Read more', 'back' => '← Back to News',
         'title' => 'News', 'lead' => 'Updates, insights, and stories from Redex Glass.',
         'empty' => 'New articles are coming soon.',
     ],

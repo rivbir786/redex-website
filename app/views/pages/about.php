@@ -6,7 +6,7 @@
       <h2 class="section-title"><?= e(t('about.lead')) ?></h2>
       <p class="prose"><?= e(t('about.body')) ?></p>
     </div>
-    <img src="https://redexglass.com/wp-content/uploads/2026/01/Ekran-Resmi-2026-01-06-14.02.56-scaled.png" alt="Redex Glass" loading="lazy">
+    <img src="<?= e(asset('img/wp/about.jpg')) ?>" alt="Redex Glass" loading="lazy">
   </div>
 </section>
 <section class="section section-soft">

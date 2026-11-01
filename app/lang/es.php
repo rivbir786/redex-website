@@ -87,6 +87,7 @@ return [
         'apply' => 'Postular', 'apply_title' => 'Envíe su Candidatura',
     ],
     'news' => [
+        'read_more' => 'Leer más', 'back' => '← Volver a Noticias',
         'title' => 'Noticias', 'lead' => 'Novedades, perspectivas e historias de Redex Glass.',
         'empty' => 'Pronto habrá nuevos artículos.',
     ],

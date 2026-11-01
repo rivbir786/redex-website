@@ -87,6 +87,7 @@ return [
         'apply' => 'Aplikuj', 'apply_title' => 'Prześlij aplikację',
     ],
     'news' => [
+        'read_more' => 'Czytaj więcej', 'back' => '← Powrót do aktualności',
         'title' => 'Aktualności', 'lead' => 'Nowości, analizy i historie Redex Glass.',
         'empty' => 'Nowe artykuły już wkrótce.',
     ],
