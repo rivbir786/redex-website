@@ -164,7 +164,7 @@ function build_seo(string $page, string $route, array $data): array
     $descs = [
         'home' => t('meta.home_desc'), 'about' => t('meta.about_desc'),
         'products' => t('meta.products_desc'), 'contact' => t('meta.contact_desc'),
-        'sustainability' => t('meta.sustainability_desc'), 'quality' => t('meta.quality_desc'),
+        'sustainability' => t('sustainability.meta_desc'), 'quality' => t('meta.quality_desc'),
         'careers' => t('meta.careers_desc'),
         'distributors' => t('distributors.lead'),
         'mission' => t('mission.meta_desc'), 'certificates' => t('certificates.lead'),
