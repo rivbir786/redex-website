@@ -21,7 +21,7 @@ function content_stats(): array
             'en' => 'Bottles per day', 'tr' => 'Günlük şişe', 'zh' => '产能（瓶/天）', 'es' => 'Botellas por día',
             'ru' => 'Бутылок в день', 'fr' => 'Flacons par jour', 'pl' => 'Butelek dziennie',
             'de' => 'Flaschen pro Tag', 'he' => 'בקבוקים ביום']],
-        ['value' => '9', 'label' => [
+        ['value' => '10', 'label' => [
             'en' => 'Production lines', 'tr' => 'Üretim hattı', 'zh' => '生产线', 'es' => 'Líneas de producción',
             'ru' => 'Производственных линий', 'fr' => 'Lignes de production', 'pl' => 'Linii produkcyjnych',
             'de' => 'Produktionslinien', 'he' => 'קווי ייצור']],

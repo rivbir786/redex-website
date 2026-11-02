@@ -8,8 +8,8 @@ return [
     // Site kimliği
     'site_name'   => 'Redex Glass',
     'company'     => 'Redex Glass',
-    'version'     => '3.5',          // footer'da gosterilir; her degisiklikte guncellenir
-    'updated'     => '2026-11-01',   // footer "son guncelleme" tarihi (YYYY-MM-DD)
+    'version'     => '3.6',          // footer'da gosterilir; her degisiklikte guncellenir
+    'updated'     => '2026-11-02',   // footer "son guncelleme" tarihi (YYYY-MM-DD)
     // Arama motoru indekslemesi: deneme/staging asamasinda TRUE (botlar engellenir).
     // Site yayina hazir olunca FALSE yapin -> robots.txt acilir, meta noindex kalkar, sitemap sunulur.
     'noindex'     => true,
