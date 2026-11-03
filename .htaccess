@@ -2,6 +2,24 @@
 Options -Indexes
 DirectoryIndex index.php
 AddDefaultCharset UTF-8
+ServerSignature Off
+
+# --- Istek boyutu siniri: 12 MB (CV 5 MB, haber gorseli 6 MB yeter; buyuk gonderileri reddet) ---
+LimitRequestBody 12582912
+
+# --- Gizli/dahili dosyalara erisim yok: .git, .htaccess, .env, .user.ini, yedekler, betikler ---
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteRule ^\.(?!well-known/) - [F,L]
+  RewriteRule (^|/)\.(git|svn|hg|env|htaccess|htpasswd|user\.ini|gitignore|DS_Store)(/|$) - [F,L]
+  RewriteRule ^(README[^/]*|deploy\.sh|setup-ftp\.sh|composer\.(json|lock)|package(-lock)?\.json)$ - [F,L]
+</IfModule>
+<FilesMatch "\.(sqlite|sqlite3|db|sql|log|bak|old|orig|swp|sh|ini|md|lock|json)$">
+  Require all denied
+</FilesMatch>
+<FilesMatch "^(\.|composer|package)">
+  Require all denied
+</FilesMatch>
 
 <IfModule mod_rewrite.c>
   RewriteEngine On
@@ -18,6 +36,8 @@ AddDefaultCharset UTF-8
 
   # Hassas klasörlere doğrudan erişimi engelle
   RewriteRule ^(app|storage)/ - [F,L]
+  # Yüklenen dosya klasörlerinde PHP çalıştırılamaz (çift uzantı dahil)
+  RewriteRule ^assets/.*\.(php|phtml|phar|php[0-9])(\.|$) - [F,L]
 
   # --- WebP: tarayıcı destekliyorsa ve .webp kardeşi varsa onu sun (HTML değişmeden) ---
   RewriteCond %{HTTP_ACCEPT} image/webp
@@ -60,9 +80,11 @@ AddDefaultCharset UTF-8
 </IfModule>
 
 <IfModule mod_headers.c>
-  # Güvenlik
+  # Güvenlik (HTML yanıtları için CSP/HSTS vb. PHP tarafında app/security.php; burası statikler için)
+  Header unset X-Powered-By
+  Header unset Server
   Header set X-Content-Type-Options "nosniff"
-  Header set X-Frame-Options "SAMEORIGIN"
+  Header set X-Frame-Options "DENY"
   Header set Referrer-Policy "strict-origin-when-cross-origin"
   Header set Permissions-Policy "camera=(), microphone=(), geolocation=()"
   # HSTS yalnızca HTTPS üzerinde

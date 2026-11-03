@@ -22,10 +22,8 @@ function base_url(): string
 {
     $set = cfg('base_url');
     if ($set) return $set;
-    $https = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || (($_SERVER['SERVER_PORT'] ?? '') == 443);
-    $scheme = $https ? 'https' : 'http';
-    $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
-    return $scheme . '://' . $host;
+    $scheme = is_https() ? 'https' : 'http';
+    return $scheme . '://' . request_host(); // yalnizca config'deki allowed_hosts kabul edilir
 }
 
 /** Aktif dil */

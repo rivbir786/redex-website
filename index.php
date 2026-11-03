@@ -4,9 +4,8 @@
  * Tüm istekler .htaccess ile buraya yönlenir. URL yapısı: /{dil}/{rota}
  */
 
-session_start();
-
 require __DIR__ . '/app/helpers.php';
+require __DIR__ . '/app/security.php';
 require __DIR__ . '/app/i18n.php';
 require __DIR__ . '/app/db.php';
 require __DIR__ . '/app/analytics.php';
@@ -15,6 +14,13 @@ require __DIR__ . '/app/redirects.php';
 
 date_default_timezone_set(cfg('timezone'));
 mb_internal_encoding('UTF-8');
+secure_session_start();
+security_headers();
+
+// Yalnizca GET/HEAD/POST kabul edilir
+if (!in_array($_SERVER['REQUEST_METHOD'] ?? 'GET', ['GET', 'HEAD', 'POST'], true)) {
+    http_response_code(405); header('Allow: GET, HEAD, POST'); exit;
+}
 
 // --- URL'yi çöz ---
 $uri  = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?? '/';
@@ -32,7 +38,9 @@ if ($uri === '/robots.txt') { render_robots(); exit; }
 if ($uri === '/sitemap.xml') { render_sitemap(); exit; }
 // Sayfada geçirilen süre beacon'ı (JS sendBeacon) — dil ön ekinden önce yakala
 if ($uri === '/_track' && $_SERVER['REQUEST_METHOD'] === 'POST') {
-    record_visit_time((string)($_POST['t'] ?? ''), (int)($_POST['s'] ?? 0));
+    if (throttle('track|' . client_ip(), 120, 600)) {
+        record_visit_time((string)($_POST['t'] ?? ''), (int)($_POST['s'] ?? 0));
+    }
     http_response_code(204); exit;
 }
 
@@ -359,6 +367,10 @@ function render_sitemap(): void
 
 function handle_post(string $route): void
 {
+    // Yalnizca form sayfalari POST kabul eder
+    if (!in_array($route, ['contact', 'careers', 'distributors'], true)) {
+        http_response_code(405); exit;
+    }
     if (!csrf_check()) {
         flash_redirect($route, 'error', t('form.error'));
     }
@@ -370,22 +382,27 @@ function handle_post(string $route): void
     if (!captcha_check()) {
         flash_redirect($route, 'error', t('form.captcha_error'));
     }
+    // Hiz siniri: ayni IP'den form basina 10 dakikada en fazla 5 gonderim
+    if (!throttle('form|' . $route . '|' . client_ip(), 5, 600)) {
+        flash_redirect($route, 'error', t('form.error'));
+    }
+    $ip = client_ip();
 
     if ($route === 'contact') {
-        $name = trim($_POST['name'] ?? '');
-        $email = trim($_POST['email'] ?? '');
-        $msg = trim($_POST['message'] ?? '');
-        if ($name === '' || $email === '' || $msg === '') {
+        $name = clean_text($_POST['name'] ?? '', 200);
+        $email = clean_text($_POST['email'] ?? '', 254);
+        $msg = clean_text($_POST['message'] ?? '', 5000, true);
+        if ($name === '' || $email === '' || $msg === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
             flash_redirect($route, 'error', t('form.required'));
         }
-        $phone = trim($_POST['phone'] ?? '');
-        $company = trim($_POST['company'] ?? '');
-        $country = trim($_POST['country'] ?? '');
-        $subject = trim($_POST['subject'] ?? '');
+        $phone = clean_text($_POST['phone'] ?? '', 60);
+        $company = clean_text($_POST['company'] ?? '', 200);
+        $country = clean_text($_POST['country'] ?? '', 100);
+        $subject = clean_text($_POST['subject'] ?? '', 200);
         $st = db()->prepare("INSERT INTO messages (name,email,phone,company,country,subject,message,lang,source,ip,created_at)
                              VALUES (?,?,?,?,?,?,?,?,?,?,?)");
         $st->execute([$name, $email, $phone, $company, $country, $subject,
-                      $msg, lang(), 'contact', $_SERVER['REMOTE_ADDR'] ?? '', date('c')]);
+                      $msg, lang(), 'contact', $ip, date('c')]);
         // info@redexglass.com adresine e-posta (müşteriye yanıt için Reply-To ayarlı)
         $body = "New contact message from the website\n"
               . "----------------------------------------\n"
@@ -403,39 +420,42 @@ function handle_post(string $route): void
     }
 
     if ($route === 'careers') {
-        $name = trim($_POST['name'] ?? '');
-        $email = trim($_POST['email'] ?? '');
-        if ($name === '' || $email === '') {
+        $name = clean_text($_POST['name'] ?? '', 200);
+        $email = clean_text($_POST['email'] ?? '', 254);
+        if ($name === '' || $email === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
             flash_redirect($route, 'error', t('form.required'));
         }
         $cvFile = handle_cv_upload();
+        $position = clean_text($_POST['position'] ?? '', 200);
         $st = db()->prepare("INSERT INTO applications (name,email,phone,position,gender,marital,message,cv_file,lang,ip,created_at)
                              VALUES (?,?,?,?,?,?,?,?,?,?,?)");
-        $st->execute([$name, $email, trim($_POST['phone'] ?? ''), trim($_POST['position'] ?? ''),
-                      trim($_POST['gender'] ?? ''), trim($_POST['marital'] ?? ''),
-                      trim($_POST['message'] ?? ''), $cvFile, lang(), $_SERVER['REMOTE_ADDR'] ?? '', date('c')]);
-        notify_email('New job application from ' . $name, "Name: $name\nEmail: $email\nPosition: " . ($_POST['position'] ?? ''));
+        $st->execute([$name, $email, clean_text($_POST['phone'] ?? '', 60), $position,
+                      clean_text($_POST['gender'] ?? '', 40), clean_text($_POST['marital'] ?? '', 40),
+                      clean_text($_POST['message'] ?? '', 5000, true), $cvFile, lang(), $ip, date('c')]);
+        notify_email('New job application from ' . $name, "Name: $name\nEmail: $email\nPosition: $position\nCV: " . ($cvFile ?: '-') . "\n(Admin panelinden indirilebilir)");
         flash_redirect($route, 'success', t('form.app_success'));
     }
 
     if ($route === 'distributors') {
-        $company = trim($_POST['company'] ?? '');
-        $contact = trim($_POST['contact_name'] ?? '');
-        $email = trim($_POST['email'] ?? '');
-        if ($company === '' || $contact === '' || $email === '') {
+        $company = clean_text($_POST['company'] ?? '', 200);
+        $contact = clean_text($_POST['contact_name'] ?? '', 200);
+        $email = clean_text($_POST['email'] ?? '', 254);
+        if ($company === '' || $contact === '' || $email === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
             flash_redirect($route, 'error', t('form.required'));
         }
-        $phone = trim($_POST['phone'] ?? '');
-        $website = trim($_POST['website_url'] ?? '');
-        $country = trim($_POST['country'] ?? '');
-        $city = trim($_POST['city'] ?? '');
-        $address = trim($_POST['address'] ?? '');
-        $volume = trim($_POST['annual_volume'] ?? '');
-        $msg = trim($_POST['message'] ?? '');
+        $phone = clean_text($_POST['phone'] ?? '', 60);
+        $website = clean_text($_POST['website_url'] ?? '', 300);
+        if ($website !== '' && !preg_match('#^https?://#i', $website)) $website = 'https://' . $website;
+        if ($website !== '' && !filter_var($website, FILTER_VALIDATE_URL)) $website = '';
+        $country = clean_text($_POST['country'] ?? '', 100);
+        $city = clean_text($_POST['city'] ?? '', 100);
+        $address = clean_text($_POST['address'] ?? '', 500, true);
+        $volume = clean_text($_POST['annual_volume'] ?? '', 100);
+        $msg = clean_text($_POST['message'] ?? '', 5000, true);
         $st = db()->prepare("INSERT INTO distributors (company,contact_name,email,phone,website,country,city,address,annual_volume,message,lang,ip,created_at)
                              VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)");
         $st->execute([$company, $contact, $email, $phone, $website, $country, $city, $address,
-                      $volume, $msg, lang(), $_SERVER['REMOTE_ADDR'] ?? '', date('c')]);
+                      $volume, $msg, lang(), $ip, date('c')]);
         $body = "New distributorship application from the website\n"
               . "----------------------------------------\n"
               . "Company:       $company\n"
@@ -459,15 +479,18 @@ function handle_post(string $route): void
 
 function handle_cv_upload(): string
 {
-    if (empty($_FILES['cv']['name']) || $_FILES['cv']['error'] !== UPLOAD_ERR_OK) return '';
+    if (empty($_FILES['cv']['name']) || ($_FILES['cv']['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_OK) return '';
     $f = $_FILES['cv'];
-    if ($f['size'] > 5 * 1024 * 1024) return '';
+    if ($f['size'] > 5 * 1024 * 1024 || !is_uploaded_file($f['tmp_name'])) return '';
+    // Uzanti + GERCEK icerik turu (finfo) birlikte dogrulanir; uzanti sunucuda sabitlenir
+    $allowed = ['pdf' => 'application/pdf', 'jpg' => 'image/jpeg', 'jpeg' => 'image/jpeg', 'png' => 'image/png'];
     $ext = strtolower(pathinfo($f['name'], PATHINFO_EXTENSION));
-    if (!in_array($ext, ['pdf', 'jpg', 'jpeg', 'png'], true)) return '';
-    $dir = __DIR__ . '/storage/uploads';
+    if (!isset($allowed[$ext]) || upload_mime($f['tmp_name']) !== $allowed[$ext]) return '';
+    if ($ext === 'jpeg') $ext = 'jpg';
+    $dir = __DIR__ . '/storage/uploads'; // web'den erisime kapali (storage/.htaccess + rewrite)
     if (!is_dir($dir)) @mkdir($dir, 0775, true);
-    $fname = date('Ymd_His') . '_' . bin2hex(random_bytes(4)) . '.' . $ext;
-    if (move_uploaded_file($f['tmp_name'], $dir . '/' . $fname)) return $fname;
+    $fname = date('Ymd_His') . '_' . bin2hex(random_bytes(6)) . '.' . $ext;
+    if (move_uploaded_file($f['tmp_name'], $dir . '/' . $fname)) { @chmod($dir . '/' . $fname, 0644); return $fname; }
     return '';
 }
 

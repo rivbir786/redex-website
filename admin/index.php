@@ -4,12 +4,17 @@
  * Rol tabanlı giriş (admin / editor), haber yönetimi, ziyaretçi istatistikleri
  * (ülke + süre dahil), iletişim/kariyer/distribütör kayıtları.
  */
-session_start();
 require __DIR__ . '/../app/helpers.php';
+require __DIR__ . '/../app/security.php';
 require __DIR__ . '/../app/db.php';
 require __DIR__ . '/../app/content.php';
 date_default_timezone_set(cfg('timezone'));
 mb_internal_encoding('UTF-8');
+secure_session_start();
+security_headers(true);
+
+/* ---------- IP kısıtı (config: admin_ip_allowlist) ---------- */
+if (!admin_ip_allowed(client_ip())) { http_response_code(403); exit('Forbidden'); }
 
 $pdo = db(); // şema + tohumlama burada çalışır
 
@@ -18,6 +23,24 @@ function admin_csrf_ok(): bool { return isset($_POST['_c']) && hash_equals($_SES
 function admin_base(): string { return rtrim(dirname($_SERVER['SCRIPT_NAME']), '/'); }
 function is_admin(): bool { return ($_SESSION['admin_role'] ?? '') === 'admin'; }
 function require_admin(): void { if (!is_admin()) { header('Location: ' . admin_base() . '/?view=news'); exit; } }
+function admin_ip_allowed(string $ip): bool {
+    $list = cfg('admin_ip_allowlist') ?: [];
+    if (!$list) return true;
+    foreach ($list as $rule) {
+        if (strpos($rule, '/') === false) { if ($rule === $ip) return true; continue; }
+        [$net, $bits] = explode('/', $rule, 2);
+        if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4) && filter_var($net, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
+            $mask = -1 << (32 - (int)$bits);
+            if ((ip2long($ip) & $mask) === (ip2long($net) & $mask)) return true;
+        }
+    }
+    return false;
+}
+function admin_logout(): void {
+    $_SESSION = [];
+    if (ini_get('session.use_cookies')) { $p = session_get_cookie_params(); setcookie(session_name(), '', time() - 42000, $p['path'], $p['domain'], $p['secure'], $p['httponly']); }
+    session_destroy();
+}
 
 $error = '';
 $userCount = (int) $pdo->query("SELECT COUNT(*) FROM users")->fetchColumn();
@@ -27,8 +50,8 @@ if ($userCount === 0) {
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && admin_csrf_ok()) {
         $u = trim($_POST['username'] ?? '');
         $p1 = $_POST['password'] ?? ''; $p2 = $_POST['password2'] ?? '';
-        if (strlen($u) < 3) $error = 'Kullanıcı adı en az 3 karakter olmalı.';
-        elseif (strlen($p1) < 8) $error = 'Şifre en az 8 karakter olmalı.';
+        if (strlen($u) < 3 || !preg_match('/^[A-Za-z0-9._-]{3,40}$/', $u)) $error = 'Kullanıcı adı 3–40 karakter; harf, rakam, nokta, tire olabilir.';
+        elseif (strlen($p1) < 12) $error = 'Şifre en az 12 karakter olmalı.';
         elseif ($p1 !== $p2) $error = 'Şifreler eşleşmiyor.';
         else {
             $st = $pdo->prepare("INSERT INTO users (username,password_hash,role,created_at) VALUES (?,?,?,?)");
@@ -44,28 +67,47 @@ if ($userCount === 0) {
 }
 
 /* ---------- Çıkış ---------- */
-if (isset($_GET['logout'])) { session_destroy(); header('Location: ' . admin_base() . '/'); exit; }
+if (isset($_GET['logout'])) {
+    if (hash_equals($_SESSION['acsrf'] ?? '', (string)$_GET['logout'])) admin_logout(); // CSRF korumalı çıkış
+    header('Location: ' . admin_base() . '/'); exit;
+}
 
 /* ---------- Giriş ---------- */
 if (empty($_SESSION['admin_uid'])) {
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && admin_csrf_ok()) {
         $u = trim($_POST['username'] ?? '');
-        $st = $pdo->prepare("SELECT * FROM users WHERE username=?"); $st->execute([$u]);
-        $row = $st->fetch();
-        if ($row && password_verify($_POST['password'] ?? '', $row['password_hash'])) {
-            session_regenerate_id(true);
-            $_SESSION['admin_uid'] = (int)$row['id'];
-            $_SESSION['admin_role'] = $row['role'];
-            $_SESSION['admin_user'] = $row['username'];
-            $pdo->prepare("UPDATE users SET last_login=? WHERE id=?")->execute([date('c'), $row['id']]);
-            header('Location: ' . admin_base() . '/'); exit;
+        $ipKey = 'login|ip|' . client_ip(); $userKey = 'login|user|' . strtolower($u);
+        // Kaba kuvvet koruması: IP başına 15 dk'da 10, kullanıcı adı başına 15 dk'da 5 başarısız deneme
+        if (!throttle($ipKey, 10, 900) || !throttle($userKey, 5, 900)) {
+            usleep(500000);
+            $error = 'Çok fazla deneme. Lütfen 15 dakika sonra tekrar deneyin.';
+        } else {
+            $st = $pdo->prepare("SELECT * FROM users WHERE username=?"); $st->execute([$u]);
+            $row = $st->fetch();
+            // Kullanıcı yoksa da sabit sürede doğrulama yap (zamanlama sızıntısını azaltır)
+            $hash = $row['password_hash'] ?? '$2y$10$M3Y/VLXLGg9ETIpc.Q0WHuBm8hc.76me80IltJUB7atEyJvES86uG';
+            if ($row && password_verify($_POST['password'] ?? '', $hash)) {
+                throttle_reset($ipKey); throttle_reset($userKey);
+                session_regenerate_id(true);
+                $_SESSION['admin_uid'] = (int)$row['id'];
+                $_SESSION['admin_role'] = $row['role'];
+                $_SESSION['admin_user'] = $row['username'];
+                $_SESSION['admin_last'] = time();
+                $pdo->prepare("UPDATE users SET last_login=? WHERE id=?")->execute([date('c'), $row['id']]);
+                header('Location: ' . admin_base() . '/'); exit;
+            }
+            usleep(300000);
+            $error = 'Hatalı kullanıcı adı veya şifre.';
         }
-        $error = 'Hatalı kullanıcı adı veya şifre.';
     }
     render_login($error); exit;
 }
 
 /* ================= Giriş yapıldı ================= */
+// Hareketsizlik zaman aşımı
+$idle = (int)(cfg('admin_idle_timeout') ?: 7200);
+if (time() - (int)($_SESSION['admin_last'] ?? 0) > $idle) { admin_logout(); header('Location: ' . admin_base() . '/?expired=1'); exit; }
+$_SESSION['admin_last'] = time();
 $msg = '';
 
 /* ---------- POST işlemleri ---------- */
@@ -79,14 +121,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && admin_csrf_ok()) {
             $ex = trim($_POST["excerpt_$lc"] ?? '');
             $bd = trim($_POST["body_$lc"] ?? '');
             if ($t !== '' || $ex !== '' || $bd !== '') {
-                $langs[$lc] = ['title' => $t, 'excerpt' => $ex, 'body' => news_bodyize($bd)];
+                $langs[$lc] = ['title' => mb_substr($t, 0, 300), 'excerpt' => mb_substr($ex, 0, 1000), 'body' => safe_html(news_bodyize($bd))];
             }
         }
         $id = (int)($_POST['id'] ?? 0);
-        $slug = trim($_POST['slug'] ?? '');
+        $slug = slugify(trim($_POST['slug'] ?? ''));
         if ($slug === '') $slug = slugify($langs['en']['title'] ?? ($langs[array_key_first($langs)]['title'] ?? 'haber'));
-        $date = trim($_POST['published_at'] ?? '') ?: date('Y-m-d');
+        $slug = preg_replace('/[^a-z0-9\-]/', '', $slug) ?: 'haber';
+        $date = trim($_POST['published_at'] ?? '');
+        if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $date)) $date = date('Y-m-d');
         $image = trim($_POST['current_image'] ?? '');
+        if (!preg_match('#^uploads/news/[A-Za-z0-9_\-]+\.(jpg|jpeg|png|webp)$#', $image) && !preg_match('#^img/[A-Za-z0-9_/\-]+\.(jpg|jpeg|png|webp)$#', $image)) $image = '';
         $up = news_handle_upload();
         if ($up) $image = $up;
 
@@ -115,7 +160,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && admin_csrf_ok()) {
 
     if ($action === 'user_add') { require_admin();
         $u = trim($_POST['username'] ?? ''); $p = $_POST['password'] ?? ''; $r = ($_POST['role'] ?? 'editor') === 'admin' ? 'admin' : 'editor';
-        if (strlen($u) < 3 || strlen($p) < 8) { $msg = 'Kullanıcı adı en az 3, şifre en az 8 karakter olmalı.'; }
+        if (!preg_match('/^[A-Za-z0-9._-]{3,40}$/', $u) || strlen($p) < 12) { $msg = 'Kullanıcı adı 3–40 karakter (harf/rakam/nokta/tire), şifre en az 12 karakter olmalı.'; }
         else {
             try {
                 $pdo->prepare("INSERT INTO users (username,password_hash,role,created_at) VALUES (?,?,?,?)")
@@ -136,7 +181,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && admin_csrf_ok()) {
 /* ---------- GET işlemleri ---------- */
 if (!empty($_GET['cv'])) { require_admin();
     $file = basename($_GET['cv']); $path = __DIR__ . '/../storage/uploads/' . $file;
-    if (is_file($path)) { header('Content-Type: application/octet-stream'); header('Content-Disposition: attachment; filename="' . $file . '"'); readfile($path); exit; }
+    if (preg_match('/^[A-Za-z0-9_]+\.(pdf|jpg|png)$/', $file) && is_file($path)) {
+        header('Content-Type: application/octet-stream'); header('X-Content-Type-Options: nosniff');
+        header('Content-Disposition: attachment; filename="' . $file . '"'); header('Content-Length: ' . filesize($path)); readfile($path); exit; }
     http_response_code(404); exit('Dosya bulunamadı.');
 }
 if (!empty($_GET['read']) && !empty($_GET['t'])) { require_admin();
@@ -220,8 +267,11 @@ function news_handle_upload(): string {
     if (empty($_FILES['image']['name']) || $_FILES['image']['error'] !== UPLOAD_ERR_OK) return '';
     $f = $_FILES['image'];
     if ($f['size'] > 6 * 1024 * 1024) return '';
+    $allowed = ['jpg' => 'image/jpeg', 'jpeg' => 'image/jpeg', 'png' => 'image/png', 'webp' => 'image/webp'];
     $ext = strtolower(pathinfo($f['name'], PATHINFO_EXTENSION));
-    if (!in_array($ext, ['jpg', 'jpeg', 'png', 'webp'], true)) return '';
+    if (!isset($allowed[$ext]) || !is_uploaded_file($f['tmp_name']) || upload_mime($f['tmp_name']) !== $allowed[$ext]) return '';
+    if (@getimagesize($f['tmp_name']) === false) return ''; // gerçekten görsel mi?
+    if ($ext === 'jpeg') $ext = 'jpg';
     $dir = __DIR__ . '/../assets/uploads/news';
     if (!is_dir($dir)) @mkdir($dir, 0775, true);
     $name = date('Ymd_His') . '_' . bin2hex(random_bytes(3)) . '.' . $ext;
@@ -292,16 +342,16 @@ function render_setup($error){ ?>
 <?php if($error) echo '<div class="err">'.e($error).'</div>'; ?>
 <form method="post"><input type="hidden" name="_c" value="<?= e(admin_csrf()) ?>">
 <label>Kullanıcı adı</label><input type="text" name="username" required>
-<label>Şifre (min 8)</label><input type="password" name="password" required>
+<label>Şifre (min 12)</label><input type="password" name="password" required autocomplete="new-password">
 <label>Şifre (tekrar)</label><input type="password" name="password2" required>
 <p style="margin-top:18px"><button class="btn" type="submit" style="width:100%">Hesabı Oluştur</button></p></form></div></body></html>
 <?php }
 function render_login($error){ ?>
 <!doctype html><html lang="tr"><head><meta charset="utf-8"><title>Admin Giriş</title><meta name="viewport" content="width=device-width,initial-scale=1"><?= admin_style() ?></head><body>
 <div class="login"><div class="logo">REDEX <span>GLASS</span></div><h1>Yönetici Girişi</h1><p>Panele erişmek için giriş yapın.</p>
-<?php if($error) echo '<div class="err">'.e($error).'</div>'; ?>
+<?php if($error) echo '<div class="err">'.e($error).'</div>'; elseif(isset($_GET['expired'])) echo '<div class="err">Oturum zaman aşımına uğradı; lütfen tekrar giriş yapın.</div>'; ?>
 <form method="post"><input type="hidden" name="_c" value="<?= e(admin_csrf()) ?>">
-<label>Kullanıcı adı</label><input type="text" name="username" autofocus required>
+<label>Kullanıcı adı</label><input type="text" name="username" autofocus required autocomplete="username">
 <label>Şifre</label><input type="password" name="password" required>
 <p style="margin-top:18px"><button class="btn" type="submit" style="width:100%">Giriş Yap</button></p></form></div></body></html>
 <?php }
@@ -319,7 +369,7 @@ function render_header($view, $counts){ $b = admin_base(); $admin = is_admin(); 
   <a href="<?= $b ?>/?view=users" class="<?= $view==='users'?'on':'' ?>"><span>⚙ Kullanıcılar</span></a>
   <?php endif; ?>
   <a href="<?= e(base_url()) ?>" target="_blank"><span>🌐 Siteyi Aç</span></a>
-  <a href="<?= $b ?>/?logout=1"><span>⎋ Çıkış</span></a>
+  <a href="<?= $b ?>/?logout=<?= e(admin_csrf()) ?>"><span>⎋ Çıkış</span></a>
 </aside><main class="main">
 <?php }
 function render_dashboard($d, $days, $byLang, $byCountry, $topPages){ $maxDay = max(1, max($days)); ?>
@@ -366,7 +416,7 @@ function render_news_list($list){ $b = admin_base(); ?>
       <td style="white-space:nowrap">
         <a class="btn sm gray" href="<?= $b ?>/?view=news_edit&id=<?= $n['id'] ?>">Düzenle</a>
         <?php if(is_admin()): ?>
-        <form method="post" style="display:inline" onsubmit="return confirm('Bu haber silinsin mi?')">
+        <form method="post" style="display:inline" data-confirm="Bu haber silinsin mi?">
           <input type="hidden" name="_c" value="<?= e(admin_csrf()) ?>"><input type="hidden" name="action" value="news_delete"><input type="hidden" name="id" value="<?= $n['id'] ?>">
           <button class="btn sm red" type="submit">Sil</button>
         </form>
@@ -412,7 +462,7 @@ function render_news_form($row){ $b = admin_base(); $L = $row ? (json_decode($ro
   <p style="margin-top:20px"><button class="btn" type="submit">Kaydet</button></p>
 </form>
 </div>
-<script>
+<script nonce="<?= e(csp_nonce()) ?>">
 document.querySelectorAll('.tabbtn').forEach(function(btn){btn.addEventListener('click',function(){
   var lc=btn.dataset.lc;
   document.querySelectorAll('.tabbtn').forEach(b=>b.classList.toggle('on',b===btn));
@@ -430,7 +480,7 @@ function render_users($list){ $b = admin_base(); ?>
       <td class="muted"><?= e(substr($u['created_at'],0,10)) ?></td>
       <td class="muted"><?= $u['last_login']?e(date('d.m.Y H:i',strtotime($u['last_login']))):'—' ?></td>
       <td><?php if($u['id']!=($_SESSION['admin_uid']??0)): ?>
-        <form method="post" style="display:inline" onsubmit="return confirm('Kullanıcı silinsin mi?')"><input type="hidden" name="_c" value="<?= e(admin_csrf()) ?>"><input type="hidden" name="action" value="user_delete"><input type="hidden" name="id" value="<?= $u['id'] ?>"><button class="btn sm red" type="submit">Sil</button></form>
+        <form method="post" style="display:inline" data-confirm="Kullanıcı silinsin mi?"><input type="hidden" name="_c" value="<?= e(admin_csrf()) ?>"><input type="hidden" name="action" value="user_delete"><input type="hidden" name="id" value="<?= $u['id'] ?>"><button class="btn sm red" type="submit">Sil</button></form>
       <?php else: ?><span class="muted">(siz)</span><?php endif; ?></td></tr>
   <?php endforeach; ?>
 </table></div>
@@ -438,7 +488,7 @@ function render_users($list){ $b = admin_base(); ?>
 <form method="post"><input type="hidden" name="_c" value="<?= e(admin_csrf()) ?>"><input type="hidden" name="action" value="user_add">
   <div class="row2"><div><label>Kullanıcı adı</label><input type="text" name="username" required></div>
   <div><label>Rol</label><select name="role"><option value="editor">Editör — yalnızca haber ekler/düzenler</option><option value="admin">Admin — her şey + silme</option></select></div></div>
-  <label>Şifre (min 8)</label><input type="password" name="password" required>
+  <label>Şifre (min 12)</label><input type="password" name="password" required autocomplete="new-password">
   <p style="margin-top:16px"><button class="btn" type="submit">Kullanıcı Ekle</button></p>
 </form></div>
 <?php }
@@ -497,7 +547,7 @@ function render_applications($list){ $b = admin_base(); ?>
   <?php if(!$list) echo '<tr><td colspan="7" class="muted">Henüz başvuru yok.</td></tr>'; ?>
 </table></div>
 <?php }
-function render_footer(){ echo '</main></div></body></html>'; }
+function render_footer(){ echo '<script nonce="' . e(csp_nonce()) . '">document.querySelectorAll("form[data-confirm]").forEach(function(f){f.addEventListener("submit",function(ev){if(!confirm(f.dataset.confirm))ev.preventDefault();});});</script></main></div></body></html>'; }
 
 /** ISO ülke kodu -> görünen ad (kısa liste; bilinmeyen kod olduğu gibi döner) */
 function country_name(string $code): string {

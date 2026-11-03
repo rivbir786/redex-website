@@ -52,10 +52,10 @@
 </main>
 <?php require __DIR__ . '/partials/footer.php'; ?>
 <?php require __DIR__ . '/partials/cookie-consent.php'; ?>
-<script>window.REDEX_CC={blocked:<?= json_encode(t('cookie.blocked_notice'), JSON_UNESCAPED_UNICODE) ?>,load:<?= json_encode(t('cookie.load_video'), JSON_UNESCAPED_UNICODE) ?>};</script>
+<script nonce="<?= e(csp_nonce()) ?>">window.REDEX_CC={blocked:<?= json_encode(t('cookie.blocked_notice'), JSON_UNESCAPED_UNICODE) ?>,load:<?= json_encode(t('cookie.load_video'), JSON_UNESCAPED_UNICODE) ?>};</script>
 <script src="<?= e(asset('js/main.js')) ?>" defer></script>
 <?php if (!empty($GLOBALS['__vtoken'])): ?>
-<script>(function(){var t=<?= json_encode($GLOBALS['__vtoken']) ?>,start=Date.now(),sent=false;
+<script nonce="<?= e(csp_nonce()) ?>">(function(){var t=<?= json_encode($GLOBALS['__vtoken']) ?>,start=Date.now(),sent=false;
 function send(){if(sent)return;var sec=Math.round((Date.now()-start)/1000);if(sec<2)return;sent=true;
 try{navigator.sendBeacon(<?= json_encode(base_url().'/_track') ?>,new URLSearchParams({t:t,s:sec}));}catch(e){}}
 document.addEventListener('visibilitychange',function(){if(document.visibilityState==='hidden')send();});

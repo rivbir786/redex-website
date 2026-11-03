@@ -6,7 +6,7 @@
     <?php if (!empty($article['image'])): ?>
       <img class="news-hero" src="<?= e(asset($article['image'])) ?>" alt="<?= e($tr['title']) ?>" loading="lazy">
     <?php endif; ?>
-    <div class="prose news-body"><?= $tr['body'] ?></div>
+    <div class="prose news-body"><?= safe_html($tr['body']) ?></div>
     <p style="margin-top:40px"><a class="btn btn-ghost" href="<?= e(url('news')) ?>"><?= e(t('news.back')) ?></a></p>
   </div>
 </section>

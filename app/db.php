@@ -89,6 +89,9 @@ function db_migrate(PDO $pdo): void
         is_published INTEGER DEFAULT 1, created_at TEXT, updated_at TEXT
     )");
 
+    // Hiz sinirlama (form spam / brute-force)
+    $pdo->exec("CREATE TABLE IF NOT EXISTS throttle (k TEXT PRIMARY KEY, n INTEGER DEFAULT 0, exp INTEGER DEFAULT 0)");
+
     db_seed($pdo);
 }
 

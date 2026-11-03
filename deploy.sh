@@ -28,12 +28,22 @@ set net:timeout 20
 set net:max-retries 2
 set cmd:fail-exit yes
 mirror -R --verbose --delete \
+  --exclude '^\.git/' \
+  --exclude '^\.gitignore$' \
+  --exclude '^README' \
+  --exclude '^deploy\.sh$' \
+  --exclude '^setup-ftp\.sh$' \
+  --exclude storage/php-error.log \
   --exclude storage/database.sqlite \
   --exclude storage/database.sqlite-wal \
   --exclude storage/database.sqlite-shm \
   --exclude storage/admin.php \
   --exclude storage/uploads/ \
   ./ "$REMOTE_DIR"
+# Onceki yuklemelerden sunucuda kalmis olabilecek dahili dosyalari temizle (yoksa hata vermez)
+set cmd:fail-exit no
+rm -rf .git
+rm -f .gitignore README.md README-DEPLOY.txt deploy.sh setup-ftp.sh
 bye
 EOF
 
