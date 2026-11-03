@@ -378,6 +378,13 @@ function handle_post(string $route): void
     if (!empty($_POST['website'])) {
         flash_redirect($route, 'success', t('form.success'));
     }
+    // Zaman tuzağı: formu render'dan <2 sn sonra gönderen bir bottur (insan dolduramaz).
+    // Honeypot gibi sessizce "başarı" döndür ki bot hatayı anlayıp uyum sağlamasın.
+    $formTs = (int)($_SESSION['form_ts'] ?? 0);
+    unset($_SESSION['form_ts']);
+    if ($formTs > 0 && (time() - $formTs) < 2) {
+        flash_redirect($route, 'success', t('form.success'));
+    }
     // CAPTCHA (basit matematik) — spam koruması
     if (!captcha_check()) {
         flash_redirect($route, 'error', t('form.captcha_error'));
@@ -498,7 +505,7 @@ function notify_email(string $subject, string $body, string $replyTo = '', strin
 {
     $to = cfg('notify_email');
     if (!$to) return;
-    $host = $_SERVER['HTTP_HOST'] ?? 'redexglass.com';
+    $host = request_host(); // allowed_hosts ile dogrulanmis kanonik host (Host-header injection'a karsi)
     $headers = "From: Redex Website <no-reply@" . preg_replace('/^www\./', '', $host) . ">\r\n";
     if ($replyTo && filter_var($replyTo, FILTER_VALIDATE_EMAIL)) {
         $rn = $replyName ? '=?UTF-8?B?' . base64_encode($replyName) . '?= ' : '';

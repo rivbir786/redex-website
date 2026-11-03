@@ -88,6 +88,7 @@ function captcha_field(): string
     $a = random_int(1, 9);
     $b = random_int(1, 9);
     $_SESSION['captcha_sum'] = $a + $b;
+    $_SESSION['form_ts'] = time(); // zaman tuzagi: formu render'dan hemen sonra gonderen = bot
     return '<div class="field"><label>' . e(t('form.captcha')) . ' — ' . $a . ' + ' . $b . ' = ? *</label>'
          . '<input type="text" name="captcha" inputmode="numeric" autocomplete="off" required></div>';
 }
