@@ -256,6 +256,8 @@ section{scroll-margin-top:var(--head-h)}
 .office p{color:var(--muted);font-size:14.5px;margin-bottom:6px}
 .office a{color:var(--brand)}
 form .row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+/* CAPTCHA denklemi: rakam ve soru işareti net okunsun diye monospace */
+.captcha-q{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;font-weight:600;letter-spacing:.04em}
 label{display:block;font-size:14px;font-weight:500;margin-bottom:6px;color:var(--ink)}
 .field{margin-bottom:16px}
 input,textarea,select{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:9px;font:inherit;font-size:15px;background:#fff;color:var(--ink)}

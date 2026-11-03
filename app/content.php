@@ -112,7 +112,7 @@ function content_offices(): array
 {
     // Sıra: Shandong fabrika, Yancheng Office, Shanghai Office, Israel Office.
     // (Italy ve Uzbekistan kapandığı için yok.)
-    return [
+    $offices = [
         [
             'name' => ['en' => 'Shandong Factory', 'tr' => 'Shandong Fabrikası', 'zh' => '山东工厂', 'es' => 'Fábrica de Shandong',
                        'ru' => 'Завод в Шаньдуне', 'fr' => 'Usine du Shandong', 'pl' => 'Fabryka Shandong',
@@ -141,7 +141,10 @@ function content_offices(): array
             'address' => ['en' => 'Room 1106, No. 288 Changyang Road, Hongkou District, Shanghai, China',
                           'zh' => '上海市虹口区长阳路288号1106室'],
         ],
-        [
+    ];
+    // İsrail ofisi yalnızca İbranice ve Rusça sitelerde görünür (diğer dillerde gizli).
+    if (in_array(lang(), ['he', 'ru'], true)) {
+        $offices[] = [
             'name' => ['en' => 'Israel Office', 'tr' => 'İsrail Ofisi', 'zh' => '以色列办事处', 'es' => 'Oficina de Israel',
                        'ru' => 'Офис в Израиле', 'fr' => 'Bureau d’Israël', 'pl' => 'Biuro Izrael',
                        'de' => 'Büro Israel', 'he' => 'משרד ישראל'],
@@ -149,8 +152,9 @@ function content_offices(): array
             'email' => 'yaniv@redexglass.com',
             'contact' => 'Yaniv Levi',
             'address' => ['en' => 'Eshbol 22, Israel'],
-        ],
-    ];
+        ];
+    }
+    return $offices;
 }
 
 function content_certificates(): array

@@ -223,7 +223,7 @@ return [
         'home_desc' => 'Redex Glass fertigt Braunglas-, Weißglas- und Schwarzglasflaschen für Pharma und Kosmetik. Großhandel, eigene Glasformen und weltweiter Export ab Werk.',
         'about_desc' => 'Redex Glass fertigt Braun- und Weißglasverpackungen für Pharma und Kosmetik — eigene Formen, eigene Qualitätskontrolle, weltweite Lieferung seit 2001.',
         'products_desc' => 'Unser Sortiment an Pharma- und Kosmetikglas: Tropfflaschen, Tabletten- und Sirupflaschen, Injektions- und Infusionsflaschen, Tiegel sowie Verschlüsse.',
-        'contact_desc' => 'Kontaktieren Sie Redex Glass – Standorte in Shandong, Yancheng, Shanghai und Israel. Fragen Sie Spezifikationen, Muster und Angebote an.',
+        'contact_desc' => 'Kontaktieren Sie Redex Glass – Standorte in Shandong, Yancheng und Shanghai. Fragen Sie Spezifikationen, Muster und Angebote an.',
         'sustainability_desc' => 'Nachhaltigkeit bei Redex Glass: verantwortungsvolle Fertigung, recycelbare Materialien und ein Kreislaufansatz für Glasverpackungen.',
         'quality_desc' => 'Qualität bei Redex Glass: definierte Standards, moderne Technologie und kontrollierte Prozesse für Glasverpackungen in Pharmaqualität.',
         'careers_desc' => 'Karriere bei Redex Glass. Entdecken Sie offene Stellen und senden Sie Ihre Bewerbung.',

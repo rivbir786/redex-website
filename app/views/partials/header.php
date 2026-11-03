@@ -77,7 +77,7 @@ $corp_trust = [
             <div class="mega-wrap">
               <div class="mega-col">
                 <span class="mega-label"><?= e(t('menu.what_we_do')) ?></span>
-                <div class="mega-items cols2">
+                <div class="mega-items">
                   <?php foreach ($svcs as $k => $s): ?>
                     <a class="mega-item" href="<?= e(url('services/' . $k)) ?>"><span class="t"><?= e(loc($s['title'])) ?></span><span class="d"><?= e(mb_strimwidth(loc($s['excerpt']), 0, 46, '…')) ?></span></a>
                   <?php endforeach; ?>
