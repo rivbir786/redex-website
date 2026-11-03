@@ -8,7 +8,7 @@
       <h2 class="section-title" style="font-size:2.15rem;line-height:1.2;max-width:16ch"><?= e(t('about.lead')) ?></h2>
       <p class="prose" style="font-size:1.08rem"><?= e(t('about.intro')) ?></p>
     </div>
-    <img src="<?= e(asset('img/wp/about.jpg')) ?>" alt="<?= e(cfg('company')) ?>" loading="lazy">
+    <img src="<?= e(asset('img/wp/about.jpg')) ?>" alt="<?= e(t('about.img_alt')) ?>" loading="lazy">
   </div>
 </section>
 

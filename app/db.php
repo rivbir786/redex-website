@@ -143,6 +143,27 @@ function db_seed(PDO $pdo): void
         }
     } catch (Throwable $e) {}
 
+    // 1c) Bilinen bozuk haber basliklarini duzelt (yalnizca eski degerle birebir eslesirse; idempotent)
+    try {
+        $fixFile = __DIR__ . '/news-fixes.php';
+        if (is_file($fixFile)) {
+            $fixes = require $fixFile;
+            $sel = $pdo->prepare("SELECT langs FROM news WHERE slug=?");
+            $upd = $pdo->prepare("UPDATE news SET langs=?, updated_at=? WHERE slug=?");
+            $bySlug = [];
+            foreach ($fixes as [$slug, $lc, $olds, $new]) $bySlug[$slug][] = [$lc, $olds, $new];
+            foreach ($bySlug as $slug => $list) {
+                $sel->execute([$slug]); $row = $sel->fetch(); if (!$row) continue;
+                $langs = json_decode($row['langs'] ?: '{}', true) ?: []; $changed = false;
+                foreach ($list as [$lc, $olds, $new]) {
+                    $cur = $langs[$lc]['title'] ?? null;
+                    if ($cur !== null && $cur !== $new && in_array($cur, $olds, true)) { $langs[$lc]['title'] = $new; $changed = true; }
+                }
+                if ($changed) $upd->execute([json_encode($langs, JSON_UNESCAPED_UNICODE), date('c'), $slug]);
+            }
+        }
+    } catch (Throwable $e) {}
+
     // 2) Kullanıcılar: tablo boşsa, eski tek-şifre kurulumunu 'admin' kullanıcısına taşı
     try {
         $ucount = (int) $pdo->query("SELECT COUNT(*) FROM users")->fetchColumn();

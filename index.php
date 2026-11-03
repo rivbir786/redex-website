@@ -11,6 +11,7 @@ require __DIR__ . '/app/i18n.php';
 require __DIR__ . '/app/db.php';
 require __DIR__ . '/app/analytics.php';
 require __DIR__ . '/app/content.php';
+require __DIR__ . '/app/redirects.php';
 
 date_default_timezone_set(cfg('timezone'));
 mb_internal_encoding('UTF-8');
@@ -35,6 +36,19 @@ if ($uri === '/_track' && $_SERVER['REQUEST_METHOD'] === 'POST') {
     http_response_code(204); exit;
 }
 
+// --- Eski WordPress URL'leri -> yeni yapı (kalıcı 301; SEO değerini korur) ---
+if (($legacy = legacy_redirect($uri)) !== null) {
+    header('Location: ' . $legacy, true, 301);
+    exit;
+}
+
+// --- Sondaki eğik çizgiyi normalize et (/en/about/ -> /en/about; yinelenen URL'leri önler) ---
+if ($uri !== '/' && str_ends_with($uri, '/')) {
+    $qs = !empty($_SERVER['QUERY_STRING']) ? '?' . $_SERVER['QUERY_STRING'] : '';
+    header('Location: ' . base_url() . rtrim($uri, '/') . $qs, true, 301);
+    exit;
+}
+
 // --- Dil önekini ayır ---
 $segments = array_values(array_filter(explode('/', trim($uri, '/')), fn($s) => $s !== ''));
 $langs = array_keys(cfg('languages'));
@@ -44,7 +58,7 @@ if (!in_array($uriLang, $langs, true)) {
     // Dil yok → tercih edilen/varsayılan dile yönlendir
     $target = detect_preferred_lang();
     $rest = trim($uri, '/');
-    header('Location: ' . base_url() . '/' . $target . ($rest ? '/' . $rest : '/'), true, 302);
+    header('Location: ' . base_url() . '/' . $target . ($rest ? '/' . $rest : ''), true, 302);
     exit;
 }
 
@@ -142,6 +156,28 @@ function seo_clip(string $s, int $max = 160): string
     return rtrim($cut, " ,.;:—-") . '…';
 }
 
+// <title> 60 karakteri asarsa marka ekini dusur (marka og:site_name ile zaten tasinir).
+function seo_title(string $t, int $max = 60): string
+{
+    $suffix = ' | ' . cfg('site_name');
+    if (mb_strlen($t) <= $max || !str_ends_with($t, $suffix)) return $t;
+    return mb_substr($t, 0, mb_strlen($t) - mb_strlen($suffix));
+}
+
+// Istege bagli ceviri anahtari: yoksa null (t() anahtarin kendisini dondurur, bu yuzden ayri).
+function t_opt(string $key): ?string
+{
+    $v = lang_get(load_lang(lang()), $key);
+    if ($v === null && lang() !== cfg('default_lang')) $v = lang_get(load_lang(cfg('default_lang')), $key);
+    return ($v === null || $v === '') ? null : $v;
+}
+
+// hreflang kodu: config'de 'hreflang' tanimliysa onu kullan (or. zh -> zh-Hans), yoksa dil kodu.
+function hreflang_code(string $l): string
+{
+    return cfg('languages')[$l]['hreflang'] ?? $l;
+}
+
 function build_seo(string $page, string $route, array $data): array
 {
     $site = cfg('site_name');
@@ -173,12 +209,19 @@ function build_seo(string $page, string $route, array $data): array
 
     $title = $titles[$page] ?? $site;
     $desc  = $descs[$page] ?? t('meta.home_desc');
+    // Sayfa basina anahtar kelimeli SEO basligi/aciklamasi tanimliysa (meta.{sayfa}_title / _desc) onu kullan
+    if (($o = t_opt("meta.{$page}_title")) !== null) $title = $o . ' | ' . $site;
+    if (($o = t_opt("meta.{$page}_desc"))  !== null) $desc  = $o;
+    if ($page === 'privacy') $desc = t_opt('meta.privacy_desc') ?? (t('privacy.title') . ' — ' . $site);
     $ogImage = asset('img/og-default.jpg');
     $ogType  = 'website';
 
     if ($page === 'product' && !empty($data['product'])) {
         $title = loc($data['product']['name']) . ' | ' . $site;
         $desc  = loc($data['product']['excerpt']);
+        // Urune ozel SEO basligi/aciklamasi (content.php: seo_title / seo_desc loc dizileri) varsa onu kullan
+        if (!empty($data['product']['seo_title'])) $title = loc($data['product']['seo_title']) . ' | ' . $site;
+        if (!empty($data['product']['seo_desc']))  $desc  = loc($data['product']['seo_desc']);
         if (!empty($data['product']['img'])) $ogImage = $data['product']['img'];
     }
     if ($page === 'service' && !empty($data['service'])) {
@@ -200,9 +243,66 @@ function build_seo(string $page, string $route, array $data): array
         $alts[$l] = url($route, $l);
     }
 
+    // --- Yapisal veri (JSON-LD) ---
+    $orgId = base_url() . '/#organization';
+    $org = [
+        '@type' => 'Organization', '@id' => $orgId,
+        'name' => $site, 'alternateName' => 'Redex',
+        'url' => base_url() . '/' . lang(),
+        'logo' => ['@type' => 'ImageObject', 'url' => asset('img/logo.png'), 'width' => 1200, 'height' => 420],
+        'image' => asset('img/og-default.jpg'),
+        'description' => t('footer.tagline'),
+        'foundingDate' => '2001',
+        'email' => cfg('email'),
+        'sameAs' => array_values(cfg('socials')),
+    ];
+    $contacts = []; $addr = null;
+    foreach (content_offices() as $o) {
+        $cp = ['@type' => 'ContactPoint', 'contactType' => 'sales', 'email' => $o['email'], 'areaServed' => 'Worldwide',
+               'availableLanguage' => ['English', 'Chinese', 'Turkish', 'Spanish', 'Russian', 'French', 'Polish', 'German', 'Hebrew']];
+        if (!empty($o['phone'])) $cp['telephone'] = $o['phone'];
+        $contacts[] = $cp;
+        if ($addr === null && str_contains(strtolower($o['name']['en'] ?? ''), 'shanghai')) {
+            $addr = ['@type' => 'PostalAddress', 'streetAddress' => $o['address']['en'] ?? '', 'addressLocality' => 'Shanghai', 'addressCountry' => 'CN'];
+        }
+    }
+    if ($contacts) $org['contactPoint'] = $contacts;
+    if ($addr) $org['address'] = $addr;
+    $ld = [$org, [
+        '@type' => 'WebSite', '@id' => base_url() . '/#website', 'url' => base_url() . '/' . lang(),
+        'name' => $site, 'inLanguage' => cfg('languages')[lang()]['hreflang'] ?? lang(),
+        'publisher' => ['@id' => $orgId],
+    ]];
+    // Breadcrumb
+    $crumbs = [[t('nav.home'), url('')]];
+    if ($page === 'product')      { $crumbs[] = [t('nav.products'), url('products')]; $crumbs[] = [loc($data['product']['name']), url($route)]; }
+    elseif ($page === 'service')  { $crumbs[] = [t('nav.services'), url('services')]; $crumbs[] = [loc($data['service']['title']), url($route)]; }
+    elseif ($page === 'news-article') { $crumbs[] = [t('news.title'), url('news')]; $crumbs[] = [news_tr($data['article'])['title'], url($route)]; }
+    elseif ($page !== 'home' && $page !== '404') { $crumbs[] = [preg_replace('/ \| .*$/', '', $title), url($route)]; }
+    if (count($crumbs) > 1) {
+        $items = [];
+        foreach ($crumbs as $i => [$name, $href]) $items[] = ['@type' => 'ListItem', 'position' => $i + 1, 'name' => $name, 'item' => $href];
+        $ld[] = ['@type' => 'BreadcrumbList', 'itemListElement' => $items];
+    }
+    if ($page === 'product' && !empty($data['product'])) {
+        $p = $data['product'];
+        $ld[] = ['@type' => 'Product', 'name' => loc($p['name']), 'description' => seo_clip(loc($p['body'] ?? $p['excerpt']), 300),
+                 'image' => $p['img'] ?? $ogImage, 'url' => url($route), 'brand' => ['@type' => 'Brand', 'name' => $site],
+                 'manufacturer' => ['@id' => $orgId], 'material' => 'Glass', 'category' => 'Glass packaging'];
+    }
+    if ($page === 'news-article' && !empty($data['article'])) {
+        $a = $data['article']; $tr = news_tr($a);
+        $ld[] = ['@type' => 'BlogPosting', 'headline' => $tr['title'], 'description' => seo_clip($tr['excerpt']),
+                 'image' => !empty($a['image']) ? asset($a['image']) : $ogImage, 'datePublished' => $a['date'] ?? '',
+                 'dateModified' => $a['date'] ?? '', 'inLanguage' => cfg('languages')[lang()]['hreflang'] ?? lang(),
+                 'author' => ['@id' => $orgId], 'publisher' => ['@id' => $orgId],
+                 'mainEntityOfPage' => ['@type' => 'WebPage', '@id' => url($route)]];
+    }
+
     return [
-        'title' => $title,
+        'title' => seo_title($title),
         'description' => seo_clip($desc),
+        'jsonld' => $ld,
         'canonical' => url($route),
         'alternates' => $alts,
         'og_image' => $ogImage,
@@ -233,16 +333,22 @@ function render_sitemap(): void
                'products', 'services', 'careers', 'distributors', 'news', 'contact', 'privacy-policy'];
     foreach (content_products() as $p) $routes[] = 'products/' . $p['slug'];
     foreach (array_keys(content_services()) as $k) $routes[] = 'services/' . $k;
-    foreach (content_news() as $a) $routes[] = 'news/' . $a['slug'];
+    $lastmod = [];
+    foreach (content_news() as $a) { $routes[] = 'news/' . $a['slug']; $lastmod['news/' . $a['slug']] = substr((string)($a['date'] ?? ''), 0, 10); }
+    $siteMod = cfg('updated');
+    // Gizlilik sayfasi dusuk SEO degerli: sitemap'ten cikar (indekslenebilir kalir)
+    $routes = array_values(array_filter($routes, fn($r) => $r !== 'privacy-policy'));
 
     $langs = array_keys(cfg('languages'));
     echo '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
     echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">' . "\n";
     foreach ($routes as $r) {
         foreach ($langs as $l) {
+            $lm = $lastmod[$r] ?? $siteMod;
             echo "  <url>\n    <loc>" . e(url($r, $l)) . "</loc>\n";
+            if ($lm) echo "    <lastmod>" . e($lm) . "</lastmod>\n";
             foreach ($langs as $alt) {
-                echo '    <xhtml:link rel="alternate" hreflang="' . $alt . '" href="' . e(url($r, $alt)) . "\"/>\n";
+                echo '    <xhtml:link rel="alternate" hreflang="' . hreflang_code($alt) . '" href="' . e(url($r, $alt)) . "\"/>\n";
             }
             echo '    <xhtml:link rel="alternate" hreflang="x-default" href="' . e(url($r, cfg('default_lang'))) . "\"/>\n";
             echo "  </url>\n";

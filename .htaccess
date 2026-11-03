@@ -1,12 +1,31 @@
-# Redex Glass — URL yönlendirme ve güvenlik
+# Redex Glass — URL yönlendirme, performans (SEO) ve güvenlik
 Options -Indexes
 DirectoryIndex index.php
+AddDefaultCharset UTF-8
 
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
+  # --- Kanonik host + HTTPS (yalnızca üretim alan adı; deneme.* etkilenmez) ---
+  # Eski WordPress sitesi non-www (redexglass.com) olarak indekslendi; SEO değerini korumak için www -> non-www.
+  RewriteCond %{HTTP_HOST} ^www\.redexglass\.com$ [NC]
+  RewriteRule ^ https://redexglass.com%{REQUEST_URI} [R=301,L]
+  # HTTP -> HTTPS (localhost hariç)
+  RewriteCond %{HTTPS} off
+  RewriteCond %{HTTP_HOST} !^(localhost|127\.0\.0\.1)(:|$) [NC]
+  RewriteCond %{HTTP:X-Forwarded-Proto} !https
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
   # Hassas klasörlere doğrudan erişimi engelle
   RewriteRule ^(app|storage)/ - [F,L]
+
+  # --- WebP: tarayıcı destekliyorsa ve .webp kardeşi varsa onu sun (HTML değişmeden) ---
+  RewriteCond %{HTTP_ACCEPT} image/webp
+  RewriteCond %{REQUEST_FILENAME} \.(jpe?g|png)$ [NC]
+  RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} -f
+  RewriteCond %{REQUEST_FILENAME} ^(.+)\.(jpe?g|png)$ [NC]
+  RewriteCond %1.webp -f
+  RewriteRule ^(.+)\.(jpe?g|png)$ $1.webp [T=image/webp,E=WEBP_SERVED:1,L]
 
   # Gerçek dosya/dizin değilse index.php'ye yönlendir
   RewriteCond %{REQUEST_FILENAME} !-f
@@ -14,18 +33,58 @@ DirectoryIndex index.php
   RewriteRule ^ index.php [L,QSA]
 </IfModule>
 
-# Güvenlik başlıkları
+# --- Sıkıştırma (Brotli varsa, yoksa gzip) ---
+<IfModule mod_brotli.c>
+  AddOutputFilterByType BROTLI_COMPRESS text/html text/plain text/css text/xml application/xml application/xhtml+xml application/rss+xml application/javascript application/x-javascript application/json image/svg+xml font/ttf font/otf application/vnd.ms-fontobject
+</IfModule>
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/css text/xml application/xml application/xhtml+xml application/rss+xml application/javascript application/x-javascript application/json image/svg+xml font/ttf font/otf application/vnd.ms-fontobject
+</IfModule>
+
+# --- Önbellek: sürüm damgalı (?v=) statik varlıklar için uzun süre ---
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresDefault "access plus 1 hour"
+  ExpiresByType text/html "access plus 0 seconds"
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 year"
+  ExpiresByType image/x-icon "access plus 1 year"
+  ExpiresByType video/mp4 "access plus 1 year"
+  ExpiresByType font/woff2 "access plus 1 year"
+  ExpiresByType font/woff "access plus 1 year"
+  ExpiresByType application/pdf "access plus 30 days"
+</IfModule>
+
 <IfModule mod_headers.c>
+  # Güvenlik
   Header set X-Content-Type-Options "nosniff"
   Header set X-Frame-Options "SAMEORIGIN"
   Header set Referrer-Policy "strict-origin-when-cross-origin"
+  Header set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+  # HSTS yalnızca HTTPS üzerinde
+  Header set Strict-Transport-Security "max-age=31536000; includeSubDomains" env=HTTPS
+  # jpg/png istekleri WebP'ye dönüşebildiği için önbellek anahtarı Accept'e göre değişsin
+  <FilesMatch "\.(jpe?g|png)$">
+    Header append Vary Accept
+  </FilesMatch>
+  # Statik varlıklar: immutable
+  <FilesMatch "\.(css|js|png|jpe?g|webp|svg|ico|woff2?|mp4)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  # HTML her zaman yeniden doğrulansın
+  <FilesMatch "\.(php|html)$">
+    Header set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
 </IfModule>
 
-# Statik varlıklar için önbellek
-<IfModule mod_expires.c>
-  ExpiresActive On
-  ExpiresByType text/css "access plus 7 days"
-  ExpiresByType application/javascript "access plus 7 days"
-  ExpiresByType image/png "access plus 30 days"
-  ExpiresByType image/jpeg "access plus 30 days"
+# MIME türleri (bazı sunucularda eksik)
+<IfModule mod_mime.c>
+  AddType image/webp .webp
+  AddType font/woff2 .woff2
+  AddType font/woff .woff
+  AddType image/svg+xml .svg
 </IfModule>

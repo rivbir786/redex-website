@@ -8,7 +8,7 @@ return [
     // Site kimliği
     'site_name'   => 'Redex Glass',
     'company'     => 'Redex Glass',
-    'version'     => '3.7',          // footer'da gosterilir; her degisiklikte guncellenir
+    'version'     => '3.8',          // footer'da gosterilir; her degisiklikte guncellenir
     'updated'     => '2026-11-03',   // footer "son guncelleme" tarihi (YYYY-MM-DD)
     // Arama motoru indekslemesi: deneme/staging asamasinda TRUE (botlar engellenir).
     // Site yayina hazir olunca FALSE yapin -> robots.txt acilir, meta noindex kalkar, sitemap sunulur.
@@ -18,7 +18,7 @@ return [
     // Sıra: İngilizce, Çince, İspanyolca, Rusça, Fransızca, Lehçe, Türkçe, Almanca, İbranice
     'languages'   => [
         'en' => ['label' => 'English',  'native' => 'English',  'dir' => 'ltr', 'locale' => 'en_US', 'flag' => '🇬🇧'],
-        'zh' => ['label' => 'Chinese',  'native' => '中文',      'dir' => 'ltr', 'locale' => 'zh_CN', 'flag' => '🇨🇳'],
+        'zh' => ['label' => 'Chinese',  'native' => '中文',      'dir' => 'ltr', 'locale' => 'zh_CN', 'hreflang' => 'zh-Hans', 'flag' => '🇨🇳'],
         'es' => ['label' => 'Spanish',  'native' => 'Español',  'dir' => 'ltr', 'locale' => 'es_ES', 'flag' => '🇪🇸'],
         'ru' => ['label' => 'Russian',  'native' => 'Русский',  'dir' => 'ltr', 'locale' => 'ru_RU', 'flag' => '🇷🇺'],
         'fr' => ['label' => 'French',   'native' => 'Français', 'dir' => 'ltr', 'locale' => 'fr_FR', 'flag' => '🇫🇷'],

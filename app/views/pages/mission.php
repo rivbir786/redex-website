@@ -7,7 +7,7 @@
       <h2 class="section-title" style="font-size:2.15rem;line-height:1.2;max-width:14ch"><?= e(t('mission.lead')) ?></h2>
       <p class="prose" style="font-size:1.08rem"><?= e(t('mission.intro')) ?></p>
     </div>
-    <img src="<?= e(asset('img/mission-hero.jpg')) ?>" alt="<?= e(cfg('company')) ?> — amber glass, lit from within" loading="lazy">
+    <img src="<?= e(asset('img/mission-hero.jpg')) ?>" alt="<?= e(t('mission.img_alt')) ?>" loading="lazy">
   </div>
 </section>
 

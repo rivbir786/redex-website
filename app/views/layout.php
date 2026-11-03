@@ -14,7 +14,7 @@
     <meta name="theme-color" content="<?= e(cfg('brand_color')) ?>">
     <link rel="canonical" href="<?= e($seo['canonical']) ?>">
     <?php foreach ($seo['alternates'] as $l => $href): ?>
-    <link rel="alternate" hreflang="<?= e($l) ?>" href="<?= e($href) ?>">
+    <link rel="alternate" hreflang="<?= e(hreflang_code($l)) ?>" href="<?= e($href) ?>">
     <?php endforeach; ?>
     <link rel="alternate" hreflang="x-default" href="<?= e($seo['alternates'][cfg('default_lang')]) ?>">
 
@@ -35,23 +35,15 @@
     <meta name="twitter:image" content="<?= e($seo['og_image']) ?>">
 
     <link rel="icon" href="<?= e(asset('img/wp/favicon.png')) ?>">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="apple-touch-icon" sizes="180x180" href="<?= e(asset('img/apple-touch-icon.png')) ?>">
+    <link rel="preload" href="<?= e(asset('fonts/jost-latin-400-normal.woff2')) ?>" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="<?= e(asset('css/fonts.css')) ?>">
     <link rel="stylesheet" href="<?= e(asset('css/style.css')) ?>">
 
     <!-- Organization schema (SEO) -->
-    <script type="application/ld+json">
-    <?= json_encode([
-        '@context' => 'https://schema.org',
-        '@type' => 'Organization',
-        'name' => 'Redex Glass',
-        'url' => base_url(),
-        'logo' => asset('img/wp/favicon.png'),
-        'sameAs' => array_values(cfg('socials')),
-        'email' => cfg('email'),
-    ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?>
-    </script>
+    <?php foreach ($seo['jsonld'] ?? [] as $__ld): ?>
+    <script type="application/ld+json"><?= json_encode(['@context' => 'https://schema.org'] + $__ld, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?></script>
+    <?php endforeach; ?>
 </head>
 <body class="lang-<?= e(lang()) ?>">
 <?php require __DIR__ . '/partials/header.php'; ?>

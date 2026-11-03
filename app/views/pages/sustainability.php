@@ -7,7 +7,7 @@
       <h2 class="section-title" style="font-size:2.15rem;line-height:1.2;max-width:15ch"><?= e(t('sustainability.lead')) ?></h2>
       <p class="prose" style="font-size:1.08rem"><?= e(t('sustainability.intro')) ?></p>
     </div>
-    <img src="<?= e(asset('img/sustainability-hero.jpg')) ?>" alt="<?= e(cfg('company')) ?> — amber and flint glass bottles with fresh botanicals" loading="lazy">
+    <img src="<?= e(asset('img/sustainability-hero.jpg')) ?>" alt="<?= e(t('sustainability.img_alt')) ?>" loading="lazy">
   </div>
 </section>
 
