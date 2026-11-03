@@ -8,16 +8,17 @@ return [
     // Site kimliği
     'site_name'   => 'Redex Glass',
     'company'     => 'Redex Glass',
-    'version'     => '3.9',          // footer'da gosterilir; her degisiklikte guncellenir
+    'version'     => '4.0',          // footer'da gosterilir; her degisiklikte guncellenir
     'updated'     => '2026-11-03',   // footer "son guncelleme" tarihi (YYYY-MM-DD)
     // Guvenlik: kabul edilen Host basliklari (Host header injection'a karsi). Ilk eleman kanonik alan adidir.
-    'allowed_hosts' => ['redexglass.com', 'www.redexglass.com', 'deneme.redexglass.com', 'localhost', '127.0.0.1'],
+    'allowed_hosts' => ['redexglass.com', 'www.redexglass.com', 'localhost', '127.0.0.1'],
     // Admin paneline erisebilecek IP'ler (bos = herkes). Ornek: ['1.2.3.4', '5.6.7.0/24']
     'admin_ip_allowlist' => [],
     'admin_idle_timeout' => 7200,    // admin oturumu: islem yapilmazsa X saniye sonra kapanir (2 saat)
     // Arama motoru indekslemesi: deneme/staging asamasinda TRUE (botlar engellenir).
     // Site yayina hazir olunca FALSE yapin -> robots.txt acilir, meta noindex kalkar, sitemap sunulur.
-    'noindex'     => true,
+    // 2026-11-03: CANLI yayin -> FALSE (botlar serbest, sitemap + hreflang aktif).
+    'noindex'     => false,
     'base_url'    => rtrim(getenv('REDEX_BASE_URL') ?: '', '/'), // boş = otomatik algıla
     'default_lang'=> 'en',
     // Sıra: İngilizce, Çince, İspanyolca, Rusça, Fransızca, Lehçe, Türkçe, Almanca, İbranice
