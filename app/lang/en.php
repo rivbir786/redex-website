@@ -166,7 +166,7 @@ return [
         'name' => 'Full Name', 'email' => 'Email', 'phone' => 'Phone',
         'company' => 'Company', 'message' => 'Your Message',
         'position' => 'Position', 'gender' => 'Gender', 'male' => 'Male', 'female' => 'Female',
-        'marital' => 'Marital Status', 'single' => 'Single', 'married' => 'Married',
+        'marital' => 'Marital Status', 'single' => 'Single', 'married' => 'Married', 'divorced' => 'Divorced', 'prefer_not_say' => 'Prefer not to say',
         'cv' => 'Upload Your CV', 'cv_hint' => 'Max 5 MB — PDF, JPG',
         'submit' => 'Submit', 'send' => 'Send Message',
         'country' => 'Country', 'subject' => 'Subject', 'choose' => 'Please select',

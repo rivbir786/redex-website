@@ -189,7 +189,7 @@ return [
         'name' => '姓名', 'email' => '电子邮箱', 'phone' => '电话',
         'company' => '公司', 'message' => '您的留言',
         'position' => '职位', 'gender' => '性别', 'male' => '男', 'female' => '女',
-        'marital' => '婚姻状况', 'single' => '单身', 'married' => '已婚',
+        'marital' => '婚姻状况', 'single' => '单身', 'married' => '已婚', 'divorced' => '离异', 'prefer_not_say' => '不愿透露',
         'cv' => '上传简历', 'cv_hint' => '最大 5 MB — PDF、JPG',
         'submit' => '提交', 'send' => '发送留言',
         'country' => '国家/地区', 'subject' => '主题', 'choose' => '请选择',

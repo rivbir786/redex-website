@@ -189,7 +189,7 @@ return [
         'name' => 'Nombre Completo', 'email' => 'Correo Electrónico', 'phone' => 'Teléfono',
         'company' => 'Empresa', 'message' => 'Su Mensaje',
         'position' => 'Puesto', 'gender' => 'Género', 'male' => 'Hombre', 'female' => 'Mujer',
-        'marital' => 'Estado Civil', 'single' => 'Soltero/a', 'married' => 'Casado/a',
+        'marital' => 'Estado Civil', 'single' => 'Soltero/a', 'married' => 'Casado/a', 'divorced' => 'Divorciado/a', 'prefer_not_say' => 'Prefiero no decirlo',
         'cv' => 'Suba su CV', 'cv_hint' => 'Máx. 5 MB — PDF, JPG',
         'submit' => 'Enviar', 'send' => 'Enviar Mensaje',
         'country' => 'País', 'subject' => 'Asunto', 'choose' => 'Seleccione',

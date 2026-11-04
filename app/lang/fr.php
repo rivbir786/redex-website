@@ -189,7 +189,7 @@ return [
         'name' => 'Nom complet', 'email' => 'E-mail', 'phone' => 'Téléphone',
         'company' => 'Société', 'message' => 'Votre message',
         'position' => 'Poste', 'gender' => 'Genre', 'male' => 'Homme', 'female' => 'Femme',
-        'marital' => 'État civil', 'single' => 'Célibataire', 'married' => 'Marié(e)',
+        'marital' => 'État civil', 'single' => 'Célibataire', 'married' => 'Marié(e)', 'divorced' => 'Divorcé(e)', 'prefer_not_say' => 'Je préfère ne pas répondre',
         'cv' => 'Téléverser votre CV', 'cv_hint' => 'Max. 5 Mo – PDF, JPG',
         'submit' => 'Envoyer', 'send' => 'Envoyer le message',
         'country' => 'Pays', 'subject' => 'Objet', 'choose' => 'Veuillez choisir',

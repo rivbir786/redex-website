@@ -166,7 +166,7 @@ return [
         'name' => 'Ad Soyad', 'email' => 'E-posta', 'phone' => 'Telefon',
         'company' => 'Firma', 'message' => 'Mesajınız',
         'position' => 'Pozisyon', 'gender' => 'Cinsiyet', 'male' => 'Erkek', 'female' => 'Kadın',
-        'marital' => 'Medeni Durum', 'single' => 'Bekâr', 'married' => 'Evli',
+        'marital' => 'Medeni Durum', 'single' => 'Bekâr', 'married' => 'Evli', 'divorced' => 'Boşanmış', 'prefer_not_say' => 'Belirtmek istemiyorum',
         'cv' => 'CV’nizi Yükleyin', 'cv_hint' => 'En fazla 5 MB — PDF, JPG',
         'submit' => 'Gönder', 'send' => 'Mesaj Gönder',
         'country' => 'Ülke', 'subject' => 'Konu', 'choose' => 'Lütfen seçin',

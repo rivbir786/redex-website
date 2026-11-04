@@ -189,7 +189,7 @@ return [
         'name' => 'שם מלא', 'email' => 'דוא״ל', 'phone' => 'טלפון',
         'company' => 'חברה', 'message' => 'ההודעה שלך',
         'position' => 'משרה', 'gender' => 'מגדר', 'male' => 'זכר', 'female' => 'נקבה',
-        'marital' => 'מצב משפחתי', 'single' => 'רווק/ה', 'married' => 'נשוי/אה',
+        'marital' => 'מצב משפחתי', 'single' => 'רווק/ה', 'married' => 'נשוי/אה', 'divorced' => 'גרוש/ה', 'prefer_not_say' => 'מעדיף/ה לא לציין',
         'cv' => 'העלאת קורות חיים', 'cv_hint' => 'עד 5 MB — PDF, JPG',
         'submit' => 'שליחה', 'send' => 'שליחת הודעה',
         'country' => 'מדינה', 'subject' => 'נושא', 'choose' => 'בחרו',

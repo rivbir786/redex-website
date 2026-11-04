@@ -41,7 +41,7 @@
         <div class="field"><label><?= e(t('form.gender')) ?></label>
           <select name="gender"><option value=""></option><option><?= e(t('form.male')) ?></option><option><?= e(t('form.female')) ?></option></select></div>
         <div class="field"><label><?= e(t('form.marital')) ?></label>
-          <select name="marital"><option value=""></option><option><?= e(t('form.single')) ?></option><option><?= e(t('form.married')) ?></option></select></div>
+          <select name="marital"><option value=""></option><option><?= e(t('form.single')) ?></option><option><?= e(t('form.married')) ?></option><option><?= e(t('form.divorced')) ?></option><option><?= e(t('form.prefer_not_say')) ?></option></select></div>
       </div>
       <div class="field"><label><?= e(t('form.message')) ?></label><textarea name="message"></textarea></div>
       <div class="field"><label><?= e(t('form.cv')) ?> <small style="color:var(--muted)">(<?= e(t('form.cv_hint')) ?>)</small></label>

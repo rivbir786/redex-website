@@ -189,7 +189,7 @@ return [
         'name' => 'Imię i nazwisko', 'email' => 'E-mail', 'phone' => 'Telefon',
         'company' => 'Firma', 'message' => 'Twoja wiadomość',
         'position' => 'Stanowisko', 'gender' => 'Płeć', 'male' => 'Mężczyzna', 'female' => 'Kobieta',
-        'marital' => 'Stan cywilny', 'single' => 'Kawaler/Panna', 'married' => 'Żonaty/Zamężna',
+        'marital' => 'Stan cywilny', 'single' => 'Kawaler/Panna', 'married' => 'Żonaty/Zamężna', 'divorced' => 'Rozwiedziony/a', 'prefer_not_say' => 'Wolę nie podawać',
         'cv' => 'Prześlij CV', 'cv_hint' => 'Maks. 5 MB – PDF, JPG',
         'submit' => 'Wyślij', 'send' => 'Wyślij wiadomość',
         'country' => 'Kraj', 'subject' => 'Temat', 'choose' => 'Wybierz',

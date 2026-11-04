@@ -189,7 +189,7 @@ return [
         'name' => 'Vollständiger Name', 'email' => 'E-Mail', 'phone' => 'Telefon',
         'company' => 'Unternehmen', 'message' => 'Ihre Nachricht',
         'position' => 'Position', 'gender' => 'Geschlecht', 'male' => 'Männlich', 'female' => 'Weiblich',
-        'marital' => 'Familienstand', 'single' => 'Ledig', 'married' => 'Verheiratet',
+        'marital' => 'Familienstand', 'single' => 'Ledig', 'married' => 'Verheiratet', 'divorced' => 'Geschieden', 'prefer_not_say' => 'Keine Angabe',
         'cv' => 'Lebenslauf hochladen', 'cv_hint' => 'Max. 5 MB – PDF, JPG',
         'submit' => 'Senden', 'send' => 'Nachricht senden',
         'country' => 'Land', 'subject' => 'Betreff', 'choose' => 'Bitte wählen',
