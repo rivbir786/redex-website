@@ -35,6 +35,30 @@ function db(): PDO
     return $pdo;
 }
 
+/** Panel ayari oku (settings tablosu; yoksa config 'defaults'). */
+function setting(string $key): string
+{
+    if (!isset($GLOBALS['__settings_cache'])) {
+        $GLOBALS['__settings_cache'] = [];
+        try {
+            foreach (db()->query("SELECT k, v FROM settings")->fetchAll() as $r) {
+                $GLOBALS['__settings_cache'][$r['k']] = (string) $r['v'];
+            }
+        } catch (Throwable $e) { /* DB yoksa varsayilanlar kullanilir */ }
+    }
+    return $GLOBALS['__settings_cache'][$key] ?? (string) (cfg('defaults')[$key] ?? '');
+}
+
+/** Panel ayarlarini yaz (anahtar => deger); cache'i de gunceller. */
+function set_settings(array $kv): void
+{
+    $st = db()->prepare("INSERT OR REPLACE INTO settings (k, v) VALUES (?, ?)");
+    foreach ($kv as $k => $v) {
+        $st->execute([(string) $k, (string) $v]);
+        if (isset($GLOBALS['__settings_cache'])) $GLOBALS['__settings_cache'][$k] = (string) $v;
+    }
+}
+
 function db_migrate(PDO $pdo): void
 {
     $isMysql = str_starts_with($pdo->getAttribute(PDO::ATTR_DRIVER_NAME), 'mysql');
@@ -91,6 +115,9 @@ function db_migrate(PDO $pdo): void
 
     // Hiz sinirlama (form spam / brute-force)
     $pdo->exec("CREATE TABLE IF NOT EXISTS throttle (k TEXT PRIMARY KEY, n INTEGER DEFAULT 0, exp INTEGER DEFAULT 0)");
+
+    // Panel ayarlari (E-posta/SMTP vb.) — anahtar/deger
+    $pdo->exec("CREATE TABLE IF NOT EXISTS settings (k TEXT PRIMARY KEY, v TEXT)");
 
     db_seed($pdo);
 }

@@ -7,6 +7,7 @@
 require __DIR__ . '/../app/helpers.php';
 require __DIR__ . '/../app/security.php';
 require __DIR__ . '/../app/db.php';
+require __DIR__ . '/../app/mailer.php';
 require __DIR__ . '/../app/content.php';
 date_default_timezone_set(cfg('timezone'));
 mb_internal_encoding('UTF-8');
@@ -176,6 +177,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && admin_csrf_ok()) {
         elseif ((int)$pdo->query("SELECT COUNT(*) FROM users WHERE role='admin'")->fetchColumn() <= 1 && (string)$pdo->query("SELECT role FROM users WHERE id=" . $id)->fetchColumn() === 'admin') { $msg = 'Son admin silinemez.'; }
         else { $pdo->prepare("DELETE FROM users WHERE id=?")->execute([$id]); header('Location: ' . admin_base() . '/?view=users&ok=1'); exit; }
     }
+
+    if ($action === 'settings_mail') { require_admin();
+        $vals = [
+            'notify_email'   => filter_var(trim($_POST['notify_email'] ?? ''), FILTER_VALIDATE_EMAIL) ?: setting('notify_email'),
+            'smtp_host'      => preg_replace('/[^A-Za-z0-9.\-]/', '', $_POST['smtp_host'] ?? ''),
+            'smtp_port'      => (string) max(1, min(65535, (int) ($_POST['smtp_port'] ?? 465))),
+            'smtp_secure'    => ($_POST['smtp_secure'] ?? 'ssl') === 'tls' ? 'tls' : 'ssl',
+            'smtp_user'      => clean_text($_POST['smtp_user'] ?? '', 200),
+            'smtp_from'      => filter_var(trim($_POST['smtp_from'] ?? ''), FILTER_VALIDATE_EMAIL) ?: '',
+            'smtp_from_name' => clean_text($_POST['smtp_from_name'] ?? '', 100),
+        ];
+        if (($_POST['smtp_pass'] ?? '') !== '') $vals['smtp_pass'] = (string) $_POST['smtp_pass']; // bos = degistirme
+        set_settings($vals);
+        header('Location: ' . admin_base() . '/?view=settings&ok=1'); exit;
+    }
+
+    if ($action === 'settings_test') { require_admin();
+        $to = setting('notify_email');
+        $ok = $to ? smtp_send($to, 'Redex Glass — test e-postasi', "Bu bir test e-postasidir.\nAdmin panelinden " . date('d.m.Y H:i') . " tarihinde gonderildi.") : false;
+        $_SESSION['admin_flash'] = ['ok' => $ok, 'msg' => $ok ? "Test e-postasi gonderildi: $to" : ('Gonderilemedi: ' . ($GLOBALS['__mail_error'] ?? 'bilinmeyen hata'))];
+        header('Location: ' . admin_base() . '/?view=settings'); exit;
+    }
 }
 
 /* ---------- GET işlemleri ---------- */
@@ -208,7 +231,9 @@ $counts = [
 ];
 
 render_header($view, $counts);
-echo $msg ? '<div class="flashmsg">' . e($msg) . '</div>' : (isset($_GET['ok']) ? '<div class="flashmsg ok">Kaydedildi.</div>' : '');
+if ($msg) echo '<div class="flashmsg">' . e($msg) . '</div>';
+elseif (!empty($_SESSION['admin_flash'])) { $f = $_SESSION['admin_flash']; unset($_SESSION['admin_flash']); echo '<div class="flashmsg' . (!empty($f['ok']) ? ' ok' : '') . '">' . e($f['msg']) . '</div>'; }
+elseif (isset($_GET['ok'])) echo '<div class="flashmsg ok">Kaydedildi.</div>';
 
 if ($view === 'dashboard') { require_admin_or_redirect();
     $d = [
@@ -248,6 +273,9 @@ elseif ($view === 'messages') { require_admin_or_redirect();
 }
 elseif ($view === 'applications') { require_admin_or_redirect();
     render_applications($pdo->query("SELECT * FROM applications ORDER BY id DESC LIMIT 300")->fetchAll());
+}
+elseif ($view === 'settings') { require_admin_or_redirect();
+    render_settings();
 }
 render_footer();
 
@@ -367,6 +395,7 @@ function render_header($view, $counts){ $b = admin_base(); $admin = is_admin(); 
   <a href="<?= $b ?>/?view=applications" class="<?= $view==='applications'?'on':'' ?>"><span>👤 Başvurular</span><?= $counts['app']?'<span class="badge">'.$counts['app'].'</span>':'' ?></a>
   <a href="<?= $b ?>/?view=distributors" class="<?= $view==='distributors'?'on':'' ?>"><span>🤝 Distribütörler</span><?= $counts['dist']?'<span class="badge">'.$counts['dist'].'</span>':'' ?></a>
   <a href="<?= $b ?>/?view=users" class="<?= $view==='users'?'on':'' ?>"><span>⚙ Kullanıcılar</span></a>
+  <a href="<?= $b ?>/?view=settings" class="<?= $view==='settings'?'on':'' ?>"><span>📧 E-posta Ayarları</span></a>
   <?php endif; ?>
   <a href="<?= e(base_url()) ?>" target="_blank"><span>🌐 Siteyi Aç</span></a>
   <a href="<?= $b ?>/?logout=<?= e(admin_csrf()) ?>"><span>⎋ Çıkış</span></a>
@@ -491,6 +520,30 @@ function render_users($list){ $b = admin_base(); ?>
   <label>Şifre (min 12)</label><input type="password" name="password" required autocomplete="new-password">
   <p style="margin-top:16px"><button class="btn" type="submit">Kullanıcı Ekle</button></p>
 </form></div>
+<?php }
+function render_settings(){ ?>
+<div class="topbar"><h1>E-posta Ayarları</h1></div>
+<div class="panel">
+<p class="muted" style="margin-bottom:16px">Sunucuda PHP <code>mail()</code> kapalı olduğu için e-postalar SMTP ile gönderilir. cPanel → <b>Email Accounts</b> bölümünde bir hesap açın (ör. <code>no-reply@redexglass.com</code>) ve bilgilerini buraya girin. E-posta gitmese bile mesajlar <b>Mesajlar</b> ve <b>Distribütörler</b> sayfalarında kayıtlı kalır.</p>
+<form method="post"><input type="hidden" name="_c" value="<?= e(admin_csrf()) ?>"><input type="hidden" name="action" value="settings_mail">
+  <label>Mesajların gideceği adres</label><input type="email" name="notify_email" value="<?= e(setting('notify_email')) ?>" required>
+  <div class="row2"><div><label>SMTP sunucusu</label><input name="smtp_host" value="<?= e(setting('smtp_host')) ?>" placeholder="mail.redexglass.com"></div>
+    <div><label>Port</label><input name="smtp_port" inputmode="numeric" value="<?= e(setting('smtp_port')) ?>"></div></div>
+  <div class="row2"><div><label>Güvenlik</label><select name="smtp_secure"><option value="ssl"<?= setting('smtp_secure')==='ssl'?' selected':'' ?>>SSL (465)</option><option value="tls"<?= setting('smtp_secure')==='tls'?' selected':'' ?>>STARTTLS (587)</option></select></div>
+    <div><label>SMTP kullanıcı adı</label><input name="smtp_user" value="<?= e(setting('smtp_user')) ?>" autocomplete="off" placeholder="no-reply@redexglass.com"></div></div>
+  <label>SMTP şifresi <?= setting('smtp_pass')!==''?'<span class="pill adm">kayıtlı</span>':'<span class="pill">girilmedi</span>' ?></label>
+  <input type="password" name="smtp_pass" placeholder="<?= setting('smtp_pass')!==''?'Değiştirmek için yeni şifre yazın':'no-reply hesabının şifresi' ?>" autocomplete="new-password">
+  <div class="row2"><div><label>Gönderen adres</label><input type="email" name="smtp_from" value="<?= e(setting('smtp_from')) ?>" placeholder="no-reply@redexglass.com"></div>
+    <div><label>Gönderen adı</label><input name="smtp_from_name" value="<?= e(setting('smtp_from_name')) ?>" placeholder="Redex Glass"></div></div>
+  <p style="margin-top:18px"><button class="btn" type="submit">Kaydet</button></p>
+</form>
+</div>
+<div class="panel">
+<p class="muted" style="margin-bottom:12px">Ayarları kaydettikten sonra bir test e-postası gönderip doğrulayın.</p>
+<form method="post"><input type="hidden" name="_c" value="<?= e(admin_csrf()) ?>"><input type="hidden" name="action" value="settings_test">
+  <button class="btn gray" type="submit">Test e-postası gönder → <?= e(setting('notify_email')) ?></button>
+</form>
+</div>
 <?php }
 function render_distributors($list){ $b = admin_base(); ?>
 <div class="topbar"><h1>Distribütörlük Başvuruları</h1><span class="muted"><?= count($list) ?> kayıt</span></div>

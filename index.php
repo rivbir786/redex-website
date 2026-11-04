@@ -8,6 +8,7 @@ require __DIR__ . '/app/helpers.php';
 require __DIR__ . '/app/security.php';
 require __DIR__ . '/app/i18n.php';
 require __DIR__ . '/app/db.php';
+require __DIR__ . '/app/mailer.php';
 require __DIR__ . '/app/analytics.php';
 require __DIR__ . '/app/content.php';
 require __DIR__ . '/app/redirects.php';
@@ -503,17 +504,12 @@ function handle_cv_upload(): string
 
 function notify_email(string $subject, string $body, string $replyTo = '', string $replyName = ''): void
 {
-    $to = cfg('notify_email');
+    // Alici admin "E-posta Ayarlari"ndan gelir (settings tablosu, yoksa config fallback).
+    // Sunucuda PHP mail() kapali oldugu icin gonderim SMTP ile yapilir (app/mailer.php).
+    // Gonderilemese de mesaj zaten DB'ye kaydedildi; hata mailer tarafindan loglanir, akis bozulmaz.
+    $to = setting('notify_email') ?: cfg('notify_email');
     if (!$to) return;
-    $host = request_host(); // allowed_hosts ile dogrulanmis kanonik host (Host-header injection'a karsi)
-    $headers = "From: Redex Website <no-reply@" . preg_replace('/^www\./', '', $host) . ">\r\n";
-    if ($replyTo && filter_var($replyTo, FILTER_VALIDATE_EMAIL)) {
-        $rn = $replyName ? '=?UTF-8?B?' . base64_encode($replyName) . '?= ' : '';
-        $headers .= "Reply-To: {$rn}<{$replyTo}>\r\n";
-    }
-    $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
-    $subjectEnc = '=?UTF-8?B?' . base64_encode($subject) . '?=';
-    @mail($to, $subjectEnc, $body, $headers);
+    smtp_send($to, $subject, $body, $replyTo, $replyName);
 }
 
 function flash_redirect(string $route, string $type, string $msg): void

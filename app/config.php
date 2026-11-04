@@ -8,7 +8,7 @@ return [
     // Site kimliği
     'site_name'   => 'Redex Glass',
     'company'     => 'Redex Glass',
-    'version'     => '4.2',          // footer'da gosterilir; her degisiklikte guncellenir
+    'version'     => '4.3',          // footer'da gosterilir; her degisiklikte guncellenir
     'updated'     => '2026-11-03',   // footer "son guncelleme" tarihi (YYYY-MM-DD)
     // Guvenlik: kabul edilen Host basliklari (Host header injection'a karsi). Ilk eleman kanonik alan adidir.
     'allowed_hosts' => ['redexglass.com', 'www.redexglass.com', 'localhost', '127.0.0.1'],
@@ -69,8 +69,21 @@ return [
     // Admin: şifre ilk girişte /admin üzerinden belirlenir, storage/admin.php içine hash olarak yazılır.
     'admin_hash_file' => __DIR__ . '/../storage/admin.php',
 
-    // Bildirim e-postası (mail() çalışırsa yeni mesaj/başvuru buraya gider; çalışmasa da DB'ye kaydedilir)
+    // Bildirim e-postası (eski config fallback'i; asil deger admin "E-posta Ayarlari"ndan setting('notify_email'))
     'notify_email' => 'info@redexglass.com',
+
+    // Admin "E-posta Ayarlari" varsayilanlari — settings tablosu bos oldugunda kullanilir.
+    // SMTP parolasi burada DEGIL; admin panelinden girilir ve settings tablosunda saklanir (git'e girmez).
+    'defaults' => [
+        'notify_email'   => 'birkan@redexglass.com',       // kontak + distributor mesajlari buraya
+        'smtp_host'      => 'mail.redexglass.com',
+        'smtp_port'      => '465',
+        'smtp_secure'    => 'ssl',                          // ssl (465) veya tls (587)
+        'smtp_user'      => 'no-reply@redexglass.com',
+        'smtp_from'      => 'no-reply@redexglass.com',
+        'smtp_from_name' => 'Redex Glass',
+        'smtp_pass'      => '',                             // panelden girilir
+    ],
 
     'timezone' => 'Asia/Shanghai',
 ];
