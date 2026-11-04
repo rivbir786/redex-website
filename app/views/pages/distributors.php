@@ -35,7 +35,7 @@
         <div class="field"><label><?= e(t('form.phone')) ?></label><input type="tel" name="phone"></div>
       </div>
       <div class="row">
-        <div class="field"><label><?= e(t('form.website')) ?></label><input type="url" name="website_url" placeholder="https://"></div>
+        <div class="field"><label><?= e(t('form.website')) ?></label><input type="text" name="website_url" inputmode="url" autocapitalize="off" autocorrect="off" placeholder="www.firmaniz.com"></div>
         <div class="field"><label><?= e(t('form.annual_volume')) ?></label><input type="text" name="annual_volume"></div>
       </div>
       <div class="row">
