@@ -9,7 +9,8 @@ $related = array_slice($related, 0, 3);
       <img src="<?= e($product['img']) ?>" alt="<?= e(loc($product['name'])) ?>">
     </div>
     <div>
-      <h2 class="section-title" style="font-size:1.9rem"><?= e(loc($product['name'])) ?></h2>
+      <?php $__sub = $product['subhead'][lang()] ?? ''; ?>
+      <h2 class="section-title" style="font-size:1.35rem;font-weight:600"><?= e($__sub !== '' ? $__sub : loc($product['name'])) ?></h2>
       <p class="prose"><?= e(loc($product['excerpt'])) ?></p>
       <p class="prose"><?= e(loc($product['body'])) ?></p>
       <?php if (!empty($product['specs'])): $sp = $product['specs']; ?>
