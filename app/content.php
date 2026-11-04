@@ -141,6 +141,16 @@ function content_offices(): array
             'address' => ['en' => 'Room 1106, No. 288 Changyang Road, Hongkou District, Shanghai, China',
                           'zh' => '上海市虹口区长阳路288号1106室'],
         ],
+        [
+            'name' => ['en' => 'Peru Office', 'tr' => 'Peru Ofisi', 'zh' => '秘鲁办事处', 'es' => 'Oficina de Perú',
+                       'ru' => 'Офис в Перу', 'fr' => 'Bureau du Pérou', 'pl' => 'Biuro Peru',
+                       'de' => 'Büro Peru', 'he' => 'משרד פרו'],
+            'phone' => '+51 970 809 216',
+            'email' => 'roberto@redexglass.com',
+            'contact' => 'Roberto Robles',
+            'address' => ['en' => 'Lima, Peru', 'es' => 'Lima, Perú', 'ru' => 'Лима, Перу',
+                          'fr' => 'Lima, Pérou', 'zh' => '秘鲁利马', 'he' => 'לימה, פרו'],
+        ],
     ];
     // İsrail ofisi yalnızca İbranice ve Rusça sitelerde görünür (diğer dillerde gizli).
     if (in_array(lang(), ['he', 'ru'], true)) {
