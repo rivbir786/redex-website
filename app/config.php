@@ -8,7 +8,7 @@ return [
     // Site kimliği
     'site_name'   => 'Redex Glass',
     'company'     => 'Redex Glass',
-    'version'     => '4.7',          // footer'da gosterilir; her degisiklikte guncellenir
+    'version'     => '4.8',          // footer'da gosterilir; her degisiklikte guncellenir
     'updated'     => '2026-11-04',   // footer "son guncelleme" tarihi (YYYY-MM-DD)
     // Guvenlik: kabul edilen Host basliklari (Host header injection'a karsi). Ilk eleman kanonik alan adidir.
     'allowed_hosts' => ['redexglass.com', 'www.redexglass.com', 'localhost', '127.0.0.1'],

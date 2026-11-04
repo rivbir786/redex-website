@@ -236,6 +236,8 @@ function build_seo(string $page, string $route, array $data): array
     if ($page === 'service' && !empty($data['service'])) {
         $title = loc($data['service']['title']) . ' | ' . $site;
         $desc  = loc($data['service']['excerpt']);
+        if (!empty($data['service']['seo_title'])) $title = loc($data['service']['seo_title']) . ' | ' . $site;
+        if (!empty($data['service']['seo_desc']))  $desc  = loc($data['service']['seo_desc']);
         if (!empty($data['service']['img'])) $ogImage = $data['service']['img'];
     }
     if ($page === 'news-article' && !empty($data['article'])) {

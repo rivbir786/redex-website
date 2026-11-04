@@ -16,6 +16,7 @@
     <?php foreach ($seo['alternates'] as $l => $href): ?>
     <link rel="alternate" hreflang="<?= e(hreflang_code($l)) ?>" href="<?= e($href) ?>">
     <?php endforeach; ?>
+    <link rel="alternate" hreflang="en-ZA" href="<?= e($seo['alternates'][cfg('default_lang')]) ?>">
     <link rel="alternate" hreflang="x-default" href="<?= e($seo['alternates'][cfg('default_lang')]) ?>">
 
     <!-- Open Graph / Twitter -->
