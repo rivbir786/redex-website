@@ -8,7 +8,7 @@ return [
     // Site kimliği
     'site_name'   => 'Redex Glass',
     'company'     => 'Redex Glass',
-    'version'     => '4.3',          // footer'da gosterilir; her degisiklikte guncellenir
+    'version'     => '4.4',          // footer'da gosterilir; her degisiklikte guncellenir
     'updated'     => '2026-11-03',   // footer "son guncelleme" tarihi (YYYY-MM-DD)
     // Guvenlik: kabul edilen Host basliklari (Host header injection'a karsi). Ilk eleman kanonik alan adidir.
     'allowed_hosts' => ['redexglass.com', 'www.redexglass.com', 'localhost', '127.0.0.1'],
@@ -76,7 +76,7 @@ return [
     // SMTP parolasi burada DEGIL; admin panelinden girilir ve settings tablosunda saklanir (git'e girmez).
     'defaults' => [
         'notify_email'   => 'birkan@redexglass.com',       // kontak + distributor mesajlari buraya
-        'smtp_host'      => 'mail.redexglass.com',
+        'smtp_host'      => 'localhost',                   // ayni sunucudaki cPanel/Exim mail; mail.redexglass.com DNS'te yok
         'smtp_port'      => '465',
         'smtp_secure'    => 'ssl',                          // ssl (465) veya tls (587)
         'smtp_user'      => 'no-reply@redexglass.com',

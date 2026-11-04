@@ -527,7 +527,7 @@ function render_settings(){ ?>
 <p class="muted" style="margin-bottom:16px">Sunucuda PHP <code>mail()</code> kapalı olduğu için e-postalar SMTP ile gönderilir. cPanel → <b>Email Accounts</b> bölümünde bir hesap açın (ör. <code>no-reply@redexglass.com</code>) ve bilgilerini buraya girin. E-posta gitmese bile mesajlar <b>Mesajlar</b> ve <b>Distribütörler</b> sayfalarında kayıtlı kalır.</p>
 <form method="post"><input type="hidden" name="_c" value="<?= e(admin_csrf()) ?>"><input type="hidden" name="action" value="settings_mail">
   <label>Mesajların gideceği adres</label><input type="email" name="notify_email" value="<?= e(setting('notify_email')) ?>" required>
-  <div class="row2"><div><label>SMTP sunucusu</label><input name="smtp_host" value="<?= e(setting('smtp_host')) ?>" placeholder="mail.redexglass.com"></div>
+  <div class="row2"><div><label>SMTP sunucusu</label><input name="smtp_host" value="<?= e(setting('smtp_host')) ?>" placeholder="localhost"></div>
     <div><label>Port</label><input name="smtp_port" inputmode="numeric" value="<?= e(setting('smtp_port')) ?>"></div></div>
   <div class="row2"><div><label>Güvenlik</label><select name="smtp_secure"><option value="ssl"<?= setting('smtp_secure')==='ssl'?' selected':'' ?>>SSL (465)</option><option value="tls"<?= setting('smtp_secure')==='tls'?' selected':'' ?>>STARTTLS (587)</option></select></div>
     <div><label>SMTP kullanıcı adı</label><input name="smtp_user" value="<?= e(setting('smtp_user')) ?>" autocomplete="off" placeholder="no-reply@redexglass.com"></div></div>
