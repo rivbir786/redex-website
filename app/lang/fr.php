@@ -53,7 +53,7 @@ return [
         'closing' => 'Deux décennies de verrerie, un seul standard — celui sur lequel nous apposons notre nom.',
     ],
     'mission' => [
-        'title' => 'Mission & Vision',
+        'title' => 'Mission et Vision',
         'img_alt' => 'Flacons en verre ambré éclairés de l’intérieur — emballage pharmaceutique Redex Glass',
         'lead' => 'Derrière chaque flacon se trouve quelque chose qui mérite d’être protégé.',
         'intro' => 'Médicaments, sérums, remèdes, les petits rituels quotidiens du soin — ce que nos clients placent dans le verre est ce que les gens confient à leur santé et à leur peau. Cette confiance, c’est ce que nous fabriquons vraiment. Le flacon n’est que la forme qu’elle prend.',

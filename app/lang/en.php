@@ -209,9 +209,9 @@ return [
         'settings' => 'Cookie Settings',
     ],
     'meta' => [
-        'home_title' => 'Amber & Flint Glass Bottle Manufacturer',
+        'home_title' => 'Glass Bottle Manufacturer & Supplier for Pharma & Cosmetics',
         'products_title' => 'Pharma & Cosmetic Glass Bottles Wholesale',
-        'services_title' => 'Custom Bottle Design, Decoration & Closures',
+        'services_title' => 'Custom Glass Bottle Design, Moulds & Decoration',
         'services_desc' => 'Custom glass bottle moulds from your drawing or sample, screen printing, hot stamping and frosting, plus caps, droppers, pumps and sprays — complete packaging services.',
         'news_title' => 'Glass Packaging News & Buyer Guides',
         'news_desc' => 'Guides and insights on amber vs flint glass, Type I–III glass, dropper bottles, vials and pharmaceutical packaging trends from Redex Glass.',
