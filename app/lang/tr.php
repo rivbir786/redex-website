@@ -132,6 +132,7 @@ return [
         'request_text' => 'Teknik özellikler, numune ve size özel teklif için ekibimizle iletişime geçin.',
         'specs_title' => 'Teknik Özellikler',
         'range_title' => 'Ürün yelpazesi ve kodları',
+        'faq_title' => 'Sıkça Sorulan Sorular',
         'range_intro' => 'Boyutların, ölçülerin ve ürün kodlarının tam listesi.',
         'spec_sizes' => 'Boyutlar', 'spec_colors' => 'Renkler', 'spec_neck' => 'Ağız Bitişi', 'spec_code' => 'Ürün Kodu',
     ],

@@ -117,6 +117,7 @@ return [
         'request_text' => 'Kontaktieren Sie unser Team für Spezifikationen, Muster und ein individuelles Angebot.',
         'specs_title' => 'Spezifikationen',
         'range_title' => 'Produktpalette & Codes',
+        'faq_title' => 'Häufig gestellte Fragen',
         'range_intro' => 'Vollständige Liste der Größen, Maße und Produktcodes.',
         'spec_sizes' => 'Größen', 'spec_colors' => 'Farben', 'spec_neck' => 'Halsausführung', 'spec_code' => 'Produktcode',
     ],

@@ -27,6 +27,20 @@ $related = array_slice($related, 0, 3);
   </div>
 </section>
 
+<?php $__faq = array_values(array_filter($product['faq'] ?? [], fn($x) => !empty($x['q'][lang()]) && !empty($x['a'][lang()]))); if ($__faq): ?>
+<section class="section section-soft">
+  <div class="container" style="max-width:820px">
+    <h2 class="section-title" style="font-size:1.6rem"><?= e(t('products.faq_title')) ?></h2>
+    <?php foreach ($__faq as $qa): ?>
+      <div style="margin-top:22px">
+        <h3 style="font-size:1.12rem;color:var(--brand-dark)"><?= e($qa['q'][lang()]) ?></h3>
+        <p class="prose" style="margin-top:6px"><?= e($qa['a'][lang()]) ?></p>
+      </div>
+    <?php endforeach; ?>
+  </div>
+</section>
+<?php endif; ?>
+
 <?php $specTables = content_specs($product['slug']); if ($specTables): ?>
 <section class="section">
   <div class="container">

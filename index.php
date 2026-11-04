@@ -300,6 +300,15 @@ function build_seo(string $page, string $route, array $data): array
         $ld[] = ['@type' => 'Product', 'name' => loc($p['name']), 'description' => seo_clip(loc($p['body'] ?? $p['excerpt']), 300),
                  'image' => $p['img'] ?? $ogImage, 'url' => url($route), 'brand' => ['@type' => 'Brand', 'name' => $site],
                  'manufacturer' => ['@id' => $orgId], 'material' => 'Glass', 'category' => 'Glass packaging'];
+        if (!empty($p['faq'])) {
+            $fq = [];
+            foreach ($p['faq'] as $qa) {
+                if (empty($qa['q'][lang()]) || empty($qa['a'][lang()])) continue;
+                $fq[] = ['@type' => 'Question', 'name' => $qa['q'][lang()],
+                         'acceptedAnswer' => ['@type' => 'Answer', 'text' => $qa['a'][lang()]]];
+            }
+            if ($fq) $ld[] = ['@type' => 'FAQPage', 'mainEntity' => $fq];
+        }
     }
     if ($page === 'news-article' && !empty($data['article'])) {
         $a = $data['article']; $tr = news_tr($a);

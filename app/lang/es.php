@@ -117,6 +117,7 @@ return [
         'request_text' => 'Contacte con nuestro equipo para especificaciones, muestras y un presupuesto a medida.',
         'specs_title' => 'Especificaciones',
         'range_title' => 'Gama de productos y códigos',
+        'faq_title' => 'Preguntas frecuentes',
         'range_intro' => 'Lista completa de tamaños, dimensiones y códigos de producto.',
         'spec_sizes' => 'Tamaños', 'spec_colors' => 'Colores', 'spec_neck' => 'Terminación del Cuello', 'spec_code' => 'Código de Producto',
     ],

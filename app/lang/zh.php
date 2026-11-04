@@ -117,6 +117,7 @@ return [
         'request_text' => '联系我们的团队，获取规格、样品及专属报价。',
         'specs_title' => '规格参数',
         'range_title' => '产品规格与编码',
+        'faq_title' => '常见问题',
         'range_intro' => '完整的规格、尺寸和产品编码列表。',
         'spec_sizes' => '规格', 'spec_colors' => '颜色', 'spec_neck' => '瓶口', 'spec_code' => '产品编号',
     ],

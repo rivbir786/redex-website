@@ -132,6 +132,7 @@ return [
         'request_text' => 'Contact our team for specifications, samples, and a tailored quotation.',
         'specs_title' => 'Specifications',
         'range_title' => 'Product range & codes',
+        'faq_title' => 'Frequently Asked Questions',
         'range_intro' => 'Full list of sizes, dimensions and product codes.',
         'spec_sizes' => 'Sizes', 'spec_colors' => 'Colors', 'spec_neck' => 'Neck Finish', 'spec_code' => 'Product Code',
     ],
